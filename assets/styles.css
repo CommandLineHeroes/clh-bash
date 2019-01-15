@@ -24,4 +24,5 @@ input {
     font-size: 64px;
     text-transform: uppercase;
     text-align: center;
+    /* opacity: 0; */
 }

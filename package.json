@@ -17,6 +17,7 @@
   "dependencies": {
     "lodash-es": "^4.17.11",
     "three": "^0.100.0",
-    "vue": "^2.5.22"
+    "vue": "^2.5.22",
+    "vue-autofocus-directive": "0.0.5"
   }
 }

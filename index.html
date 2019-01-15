@@ -8,8 +8,14 @@
     </head>
     <body>
         <div id="game">
-            {{ state }}
-            <input type="text" v-model="inputCommand" name="cmd-input" id="cmd-input"/>
+            <input
+                v-model="cmd"
+                v-on:keydown.enter="testInput"
+                ref="cmd"
+                spellcheck=false
+                type="text"
+                name="cmd"
+                id="cmd"/>
         </div>
         <script src="node_modules/three/build/three.min.js"></script>
         <script src="node_modules/vue/dist/vue.min.js"></script>

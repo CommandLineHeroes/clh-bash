@@ -14,7 +14,13 @@ async function start() {
 
     app.commands = commands;
 
-    console.log(commandNames);
+    app.onValidCmd = function(cmd) {
+        console.log(`woot, ${cmd.cmd} is valid!  update three.js!`);
+    };
+
+    app.onInvalidCmd = function(cmd) {
+        console.log(`bah, ${cmd} is invalid!  update three.js!`);
+    };
 }
 
 start();
