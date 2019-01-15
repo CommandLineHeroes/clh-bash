@@ -1,5 +1,6 @@
 import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/loaders/MTLLoader.js";
+import { map } from "../node_modules/lodash-es/lodash.js";
 import app from "./app.js";
 import STATES from "./states.js";
 
