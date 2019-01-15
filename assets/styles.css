@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #000;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+input {
+    background: #000;
+    color: #fff;
+    border: 1px solid white;
+    outline: none;
+    font-family: monospace;
+    padding: 8px;
+    font-size: 64px;
+    text-transform: uppercase;
+    text-align: center;
+}

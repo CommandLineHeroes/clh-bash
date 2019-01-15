@@ -4,9 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>The Command Line Heroes BASH!</title>
+        <link rel="stylesheet" href="assets/styles.css">
     </head>
     <body>
-        <script src="../node_modules/three/build/three.min.js"></script>
+        <div id="game">
+            {{ state }}
+            <input type="text" v-model="inputCommand" name="cmd-input" id="cmd-input"/>
+        </div>
+        <script src="node_modules/three/build/three.min.js"></script>
+        <script src="node_modules/vue/dist/vue.min.js"></script>
         <script type="module" src="src/main.js"></script>
     </body>
 </html>
