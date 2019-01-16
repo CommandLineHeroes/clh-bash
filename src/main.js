@@ -46,23 +46,26 @@ function init() {
 
     scene = new THREE.Scene();
 
-    var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+    let ambientLight = new THREE.AmbientLight(0x7537b4, 0.5);
     scene.add(ambientLight);
 
-    var pointLight = new THREE.PointLight(0xffffff, 0.8);
+    let pointLight = new THREE.PointLight(0xffffff, 0.3);
+    pointLight.position.x = -100;
+    pointLight.position.y = 100;
+    pointLight.position.z = 100;
     camera.add(pointLight);
     scene.add(camera);
 
     // model
 
-    var onProgress = function(xhr) {
+    let onProgress = function(xhr) {
         if (xhr.lengthComputable) {
-            var percentComplete = (xhr.loaded / xhr.total) * 100;
+            let percentComplete = (xhr.loaded / xhr.total) * 100;
             console.log(Math.round(percentComplete, 2) + "% downloaded");
         }
     };
 
-    var onError = function() {};
+    let onError = function() {};
 
     new THREE.MTLLoader()
         .setPath("../assets/models/")
@@ -76,7 +79,7 @@ function init() {
                     "CLH_Computer.obj",
                     function(object) {
                         object.position.y = -250;
-                        object.position.x -= 100;
+                        object.position.x = 0;
                         scene.add(object);
                     },
                     onProgress,
@@ -87,6 +90,7 @@ function init() {
     //
 
     renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector("#game-canvas"),
         antialias: true
     });
     renderer.setPixelRatio(window.devicePixelRatio);

@@ -15,7 +15,7 @@ body {
 }
 
 input {
-    background: #000;
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: 1px solid white;
     outline: none;
@@ -25,4 +25,13 @@ input {
     text-transform: uppercase;
     text-align: center;
     /* opacity: 0; */
+}
+
+#game-canvas {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
