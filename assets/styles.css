@@ -22,7 +22,7 @@ input {
     font-family: monospace;
     padding: 8px;
     font-size: 64px;
-    text-transform: uppercase;
+    text-transform: lowercase;
     text-align: center;
     /* opacity: 0; */
 }
