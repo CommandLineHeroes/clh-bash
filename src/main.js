@@ -6,7 +6,8 @@ import STATES from "./states.js";
 
 let container;
 let camera, scene, renderer;
-let mouseX = 0, mouseY = 0;
+let mouseX = 0,
+    mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 
@@ -15,24 +16,30 @@ async function start() {
     const rsp = await fetch("../assets/commands.json");
     const commands = await rsp.json();
 
-    // demo of using lodash on the command database
-    const commandNames = map(commands, "cmd");
-
     app.commands = commands;
 
-    console.log(commandNames);
+    app.onValidCmd = function(cmd) {
+        console.log(`woot, ${cmd.cmd} is valid!  update three.js!`);
+    };
+
+    app.onInvalidCmd = function(cmd) {
+        console.log(`bah, ${cmd} is invalid!  update three.js!`);
+    };
 
     init();
     animate();
 }
 
-
 function init() {
-
-    container = document.createElement('div');
+    container = document.createElement("div");
     document.body.appendChild(container);
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+    camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000
+    );
     camera.position.z = 250;
 
     // scene
@@ -48,38 +55,33 @@ function init() {
 
     // model
 
-    var onProgress = function (xhr) {
-
+    var onProgress = function(xhr) {
         if (xhr.lengthComputable) {
-
-            var percentComplete = xhr.loaded / xhr.total * 100;
-            console.log(Math.round(percentComplete, 2) + '% downloaded');
-
+            var percentComplete = (xhr.loaded / xhr.total) * 100;
+            console.log(Math.round(percentComplete, 2) + "% downloaded");
         }
-
     };
 
-    var onError = function () {
-    };
-
+    var onError = function() {};
 
     new THREE.MTLLoader()
-        .setPath('../assets/models/')
-        .load('CLH_Computer.mtl', function (materials) {
-
+        .setPath("../assets/models/")
+        .load("CLH_Computer.mtl", function(materials) {
             materials.preload();
 
             new THREE.OBJLoader()
                 .setMaterials(materials)
-                .setPath('../assets/models/')
-                .load('CLH_Computer.obj', function (object) {
-
-                    object.position.y = -250;
-                    object.position.x -= 100;
-                    scene.add(object);
-
-                }, onProgress, onError);
-
+                .setPath("../assets/models/")
+                .load(
+                    "CLH_Computer.obj",
+                    function(object) {
+                        object.position.y = -250;
+                        object.position.x -= 100;
+                        scene.add(object);
+                    },
+                    onProgress,
+                    onError
+                );
         });
 
     //
@@ -91,16 +93,14 @@ function init() {
 
     camera.position.z = 500;
 
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
+    document.addEventListener("mousemove", onDocumentMouseMove, false);
 
     //
 
-    window.addEventListener('resize', onWindowResize, false);
-
+    window.addEventListener("resize", onWindowResize, false);
 }
 
 function onWindowResize() {
-
     windowHalfX = window.innerWidth / 2;
     windowHalfY = window.innerHeight / 2;
 
@@ -108,33 +108,25 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-
 }
 
 function onDocumentMouseMove(event) {
-
     mouseX = (event.clientX - windowHalfX) / 2;
     mouseY = (event.clientY - windowHalfY) / 2;
-
 }
 
 function animate() {
-
     requestAnimationFrame(animate);
     render();
-
 }
 
 function render() {
-
-    camera.position.x += (mouseX - camera.position.x) * .05;
-    camera.position.y += (-mouseY - camera.position.y) * .05;
+    camera.position.x += (mouseX - camera.position.x) * 0.05;
+    camera.position.y += (-mouseY - camera.position.y) * 0.05;
 
     camera.lookAt(scene.position);
 
     renderer.render(scene, camera);
-
 }
-
 
 start();
