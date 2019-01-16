@@ -6,3 +6,6 @@ dist
 package-lock.json
 .DS_Store
 *~
+
+assets/models/*.mtl
+assets/models/*.obj
