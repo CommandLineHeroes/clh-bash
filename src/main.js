@@ -43,19 +43,30 @@ function init() {
         1,
         2000
     );
-    camera.position.z = 250;
+    camera.position.z = 350;
 
     // scene
 
     scene = new THREE.Scene();
+    const envMap = new THREE.CubeTextureLoader()
+        .setPath("../assets/textures/")
+        .load([
+            "wall.png",
+            "wall.png",
+            "wall.png",
+            "wall.png",
+            "wall.png",
+            "wall.png"
+        ]);
+    scene.background = envMap;
 
-    // let ambientLight = new THREE.AmbientLight(0x7537b4, 0.5);
-    // scene.add(ambientLight);
+    let ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+    scene.add(ambientLight);
 
     let pointLight = new THREE.PointLight(0xffffff, 0.3);
-    pointLight.position.x = -100;
-    pointLight.position.y = 100;
-    pointLight.position.z = 100;
+    pointLight.position.x = -300;
+    pointLight.position.y = 300;
+    pointLight.position.z = 300;
     camera.add(pointLight);
     scene.add(camera);
 
@@ -75,13 +86,18 @@ function init() {
         .load("CLH_ep2_computer_high_poly.mtl", function(materials) {
             materials.preload();
 
+            for (let mat in materials.materials) {
+                // do stuff to each material
+                materials.materials[mat].envMap = envMap;
+            }
+
             new THREE.OBJLoader()
                 .setMaterials(materials)
                 .setPath("../assets/models/")
                 .load(
                     "CLH_ep2_computer_high_poly.obj",
                     function(object) {
-                        object.position.y = -250;
+                        object.position.y = -300;
                         object.position.x = 0;
                         computer = object;
                         scene.add(object);
@@ -91,7 +107,7 @@ function init() {
                 );
         });
 
-    //
+    // init renderer
 
     renderer = new THREE.WebGLRenderer({
         canvas: document.querySelector("#game-canvas"),
@@ -99,9 +115,8 @@ function init() {
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
 
-    camera.position.z = 500;
+    container.appendChild(renderer.domElement);
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
