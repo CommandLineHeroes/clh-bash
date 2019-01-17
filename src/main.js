@@ -46,8 +46,8 @@ function init() {
 
     scene = new THREE.Scene();
 
-    let ambientLight = new THREE.AmbientLight(0x7537b4, 0.5);
-    scene.add(ambientLight);
+    // let ambientLight = new THREE.AmbientLight(0x7537b4, 0.5);
+    // scene.add(ambientLight);
 
     let pointLight = new THREE.PointLight(0xffffff, 0.3);
     pointLight.position.x = -100;
@@ -69,14 +69,14 @@ function init() {
 
     new THREE.MTLLoader()
         .setPath("../assets/models/")
-        .load("CLH_Computer.mtl", function(materials) {
+        .load("CLH_ep2_computer_high_poly.mtl", function(materials) {
             materials.preload();
 
             new THREE.OBJLoader()
                 .setMaterials(materials)
                 .setPath("../assets/models/")
                 .load(
-                    "CLH_Computer.obj",
+                    "CLH_ep2_computer_high_poly.obj",
                     function(object) {
                         object.position.y = -250;
                         object.position.x = 0;
