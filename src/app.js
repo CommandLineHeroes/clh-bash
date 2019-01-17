@@ -1,4 +1,3 @@
-import { find } from "../node_modules/lodash-es/lodash.js";
 import STATES from "./states.js";
 
 // create some handy aliases for keycodes, for use with Vue's v-on directive.
@@ -15,7 +14,7 @@ const app = new Vue({
     },
     methods: {
         testInput: function() {
-            const matchedCmd = find(
+            const matchedCmd = _.find(
                 this.commands,
                 c => c.cmd.trim().toLowerCase() == this.cmd.trim().toLowerCase()
             );
