@@ -10,6 +10,10 @@ let mouseX = 0,
     mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
+let computer;
+
+let stats = new Stats();
+document.body.appendChild( stats.dom );
 
 async function start() {
     // fetch the commands database
@@ -80,6 +84,7 @@ function init() {
                     function(object) {
                         object.position.y = -250;
                         object.position.x = 0;
+                        computer = object;
                         scene.add(object);
                     },
                     onProgress,
@@ -127,12 +132,16 @@ function animate() {
 }
 
 function render() {
+    stats.begin();
+
     camera.position.x += (mouseX - camera.position.x) * 0.05;
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
 
     camera.lookAt(scene.position);
 
     renderer.render(scene, camera);
+
+    stats.end();
 }
 
 start();
