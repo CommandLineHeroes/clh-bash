@@ -1,6 +1,6 @@
 import "../node_modules/three/examples/js/loaders/OBJLoader.js";
-import "../node_modules/three/examples/js/loaders/MTLLoader.js";
 import "../node_modules/three/examples/js/controls/OrbitControls.js";
+import "./MTLLoaderPhysical.js";
 import app from "./app.js";
 import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
@@ -42,17 +42,17 @@ async function init() {
     // scene
 
     scene = new THREE.Scene();
-    const envMap = new THREE.CubeTextureLoader()
-        .setPath("../assets/textures/")
-        .load([
-            "wall.png",
-            "wall.png",
-            "wall.png",
-            "wall.png",
-            "wall.png",
-            "wall.png"
-        ]);
-    scene.background = envMap;
+    // const envMap = new THREE.CubeTextureLoader()
+    //     .setPath("../assets/textures/")
+    //     .load([
+    //         "wall.png",
+    //         "wall.png",
+    //         "wall.png",
+    //         "wall.png",
+    //         "wall.png",
+    //         "wall.png"
+    //     ]);
+    // scene.background = envMap;
 
     // camera
 
@@ -70,18 +70,38 @@ async function init() {
 
     // lighting
 
-    let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    let ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    let pointLight = new THREE.PointLight(0xffffff, 0.3);
-    pointLight.position.x = -300;
-    pointLight.position.y = 500;
-    pointLight.position.z = 500;
-    camera.add(pointLight);
+    // spotlights
 
-    // 218
-    // 138
-    // 255
+    const whiteSpot = new THREE.SpotLight(0xffffff, 2);
+    whiteSpot.position.set(-400, 400, 400);
+    whiteSpot.angle = Math.PI / 6;
+    whiteSpot.penumbra = 0.5;
+    whiteSpot.decay = 2;
+    whiteSpot.distance = 2000;
+    whiteSpot.castShadow = true;
+    whiteSpot.shadow.mapSize.width = 1024;
+    whiteSpot.shadow.mapSize.height = 1024;
+    whiteSpot.shadow.camera.near = 10;
+    whiteSpot.shadow.camera.far = 200;
+    whiteSpot.add(new THREE.SpotLightHelper(whiteSpot));
+    scene.add(whiteSpot);
+
+    const purpleSpot = new THREE.SpotLight(0xda8aff, 1);
+    purpleSpot.position.set(200, 200, 200);
+    purpleSpot.angle = Math.PI / 6;
+    purpleSpot.penumbra = 0.5;
+    purpleSpot.decay = 3;
+    purpleSpot.distance = 2000;
+    purpleSpot.castShadow = true;
+    purpleSpot.shadow.mapSize.width = 1024;
+    purpleSpot.shadow.mapSize.height = 1024;
+    purpleSpot.shadow.camera.near = 10;
+    purpleSpot.shadow.camera.far = 200;
+    purpleSpot.add(new THREE.SpotLightHelper(purpleSpot));
+    scene.add(purpleSpot);
 
     // models
 
@@ -92,14 +112,19 @@ async function init() {
         "CLH_ep2_computer_high_poly.mtl",
         "CLH_ep2_computer_high_poly.obj"
     );
-    // comp.materials.materials.screen.envMap = envMap;
+    // make the screen reflect a crisp image
+    comp.materials.materials.screen.roughness = 0.08;
+    comp.materials.materials.purple.roughness = 0.7;
     // comp.materials.materials.purple
     // comp.materials.materials.red
-
     comp.object.position.y = -300;
     comp.object.position.x = 0;
 
+    comp.object.castShadow = true;
+    comp.object.receiveShadow = true;
+
     computer = comp.object;
+    window.comp = comp;
     scene.add(comp.object);
     camera.lookAt(comp.object.position);
 
@@ -111,6 +136,11 @@ async function init() {
         "CLH_ep2_cyc_wall.obj"
     );
     window.cyc = cyc.object;
+    cyc.object.position.y = 50;
+    cyc.object.castShadow = true;
+    cyc.object.receiveShadow = true;
+    cyc.materials.materials.purple.metalness = 0;
+    cyc.materials.materials.purple.roughness = 1.0;
     scene.add(cyc.object);
 
     // init renderer
