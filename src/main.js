@@ -1,10 +1,11 @@
 import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/loaders/MTLLoader.js";
+import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import app from "./app.js";
 import STATES from "./states.js";
 
 let container;
-let camera, scene, renderer;
+let camera, scene, renderer, controls;
 let mouseX = 0,
     mouseY = 0;
 let windowHalfX = window.innerWidth / 2;
@@ -12,7 +13,7 @@ let windowHalfY = window.innerHeight / 2;
 let computer;
 
 let stats = new Stats();
-document.body.appendChild( stats.dom );
+document.body.appendChild(stats.dom);
 
 async function start() {
     // fetch the commands database
@@ -37,14 +38,6 @@ function init() {
     container = document.createElement("div");
     document.body.appendChild(container);
 
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        1,
-        2000
-    );
-    camera.position.z = 350;
-
     // scene
 
     scene = new THREE.Scene();
@@ -60,15 +53,30 @@ function init() {
         ]);
     scene.background = envMap;
 
-    let ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+    // camera
+
+    camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000
+    );
+    camera.position.z = 350;
+    camera.position.y = 100;
+    scene.add(camera);
+
+    controls = new THREE.OrbitControls(camera);
+
+    // lighting
+
+    let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
     let pointLight = new THREE.PointLight(0xffffff, 0.3);
     pointLight.position.x = -300;
-    pointLight.position.y = 300;
-    pointLight.position.z = 300;
+    pointLight.position.y = 500;
+    pointLight.position.z = 500;
     camera.add(pointLight);
-    scene.add(camera);
 
     // model
 
@@ -86,10 +94,10 @@ function init() {
         .load("CLH_ep2_computer_high_poly.mtl", function(materials) {
             materials.preload();
 
-            for (let mat in materials.materials) {
-                // do stuff to each material
-                materials.materials[mat].envMap = envMap;
-            }
+            materials.materials.screen.envMap = envMap;
+
+            // materials.materials.purple
+            // materials.materials.red
 
             new THREE.OBJLoader()
                 .setMaterials(materials)
@@ -99,8 +107,10 @@ function init() {
                     function(object) {
                         object.position.y = -300;
                         object.position.x = 0;
+
                         computer = object;
                         scene.add(object);
+                        camera.lookAt(object.position);
                     },
                     onProgress,
                     onError
@@ -148,10 +158,9 @@ function animate() {
 function render() {
     stats.begin();
 
-    camera.position.x += (mouseX - camera.position.x) * 0.05;
-    camera.position.y += (-mouseY - camera.position.y) * 0.05;
+    controls.update();
 
-    camera.lookAt(scene.position);
+    // camera.lookAt(scene.position);
 
     renderer.render(scene, camera);
 

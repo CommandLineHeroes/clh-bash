@@ -24,7 +24,7 @@ input {
     font-size: 64px;
     text-transform: lowercase;
     text-align: center;
-    /* opacity: 0; */
+    opacity: 0;
 }
 
 #game-canvas {
