@@ -2,6 +2,7 @@ import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/loaders/MTLLoader.js";
 import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import app from "./app.js";
+import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 
 let container;
@@ -30,11 +31,11 @@ async function start() {
         console.log(`bah, ${cmd} is invalid!  update three.js!`);
     };
 
-    init();
+    await init();
     animate();
 }
 
-function init() {
+async function init() {
     container = document.createElement("div");
     document.body.appendChild(container);
 
@@ -59,7 +60,7 @@ function init() {
         45,
         window.innerWidth / window.innerHeight,
         1,
-        2000
+        20000
     );
     camera.position.z = 350;
     camera.position.y = 100;
@@ -78,44 +79,39 @@ function init() {
     pointLight.position.z = 500;
     camera.add(pointLight);
 
-    // model
+    // 218
+    // 138
+    // 255
 
-    let onProgress = function(xhr) {
-        if (xhr.lengthComputable) {
-            let percentComplete = (xhr.loaded / xhr.total) * 100;
-            console.log(Math.round(percentComplete, 2) + "% downloaded");
-        }
-    };
+    // models
 
-    let onError = function() {};
+    // load computer
 
-    new THREE.MTLLoader()
-        .setPath("../assets/models/")
-        .load("CLH_ep2_computer_high_poly.mtl", function(materials) {
-            materials.preload();
+    const { object: compObj, materials: compMtl } = await loadMesh(
+        "../assets/models/",
+        "CLH_ep2_computer_high_poly.mtl",
+        "CLH_ep2_computer_high_poly.obj"
+    );
+    // compMtl.materials.screen.envMap = envMap;
+    // compMtl.materials.purple
+    // compMtl.materials.red
 
-            materials.materials.screen.envMap = envMap;
+    compObj.position.y = -300;
+    compObj.position.x = 0;
 
-            // materials.materials.purple
-            // materials.materials.red
+    computer = compObj;
+    scene.add(compObj);
+    camera.lookAt(compObj.position);
 
-            new THREE.OBJLoader()
-                .setMaterials(materials)
-                .setPath("../assets/models/")
-                .load(
-                    "CLH_ep2_computer_high_poly.obj",
-                    function(object) {
-                        object.position.y = -300;
-                        object.position.x = 0;
+    // load cyc wall
 
-                        computer = object;
-                        scene.add(object);
-                        camera.lookAt(object.position);
-                    },
-                    onProgress,
-                    onError
-                );
-        });
+    const { object: cycObj, materials: cycMaterials } = await loadMesh(
+        "../assets/models/",
+        "CLH_ep2_cyc_wall.mtl",
+        "CLH_ep2_cyc_wall.obj"
+    );
+    window.cycObj = cycObj;
+    scene.add(cycObj);
 
     // init renderer
 
