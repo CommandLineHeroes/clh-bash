@@ -75,32 +75,34 @@ async function init() {
 
     // spotlights
 
+    var SHADOW_MAP_WIDTH = 2048 * 1,
+        SHADOW_MAP_HEIGHT = 2048 * 1;
     const whiteSpot = new THREE.SpotLight(0xffffff, 2);
     whiteSpot.position.set(-400, 400, 400);
-    whiteSpot.angle = Math.PI / 6;
+    whiteSpot.angle = Math.PI / 4;
     whiteSpot.penumbra = 0.5;
     whiteSpot.decay = 2;
     whiteSpot.distance = 2000;
-    whiteSpot.castShadow = true;
-    whiteSpot.shadow.mapSize.width = 1024;
-    whiteSpot.shadow.mapSize.height = 1024;
+    // whiteSpot.castShadow = true;
+    whiteSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
+    whiteSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
     whiteSpot.shadow.camera.near = 10;
-    whiteSpot.shadow.camera.far = 200;
-    whiteSpot.add(new THREE.SpotLightHelper(whiteSpot));
+    whiteSpot.shadow.camera.far = 2000;
+    // whiteSpot.add(new THREE.SpotLightHelper(whiteSpot));
     scene.add(whiteSpot);
 
     const purpleSpot = new THREE.SpotLight(0xda8aff, 1);
     purpleSpot.position.set(200, 200, 200);
-    purpleSpot.angle = Math.PI / 6;
+    purpleSpot.angle = Math.PI / 4;
     purpleSpot.penumbra = 0.5;
     purpleSpot.decay = 3;
     purpleSpot.distance = 2000;
     purpleSpot.castShadow = true;
-    purpleSpot.shadow.mapSize.width = 1024;
-    purpleSpot.shadow.mapSize.height = 1024;
+    purpleSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
+    purpleSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
     purpleSpot.shadow.camera.near = 10;
-    purpleSpot.shadow.camera.far = 200;
-    purpleSpot.add(new THREE.SpotLightHelper(purpleSpot));
+    purpleSpot.shadow.camera.far = 2000;
+    // purpleSpot.add(new THREE.SpotLightHelper(purpleSpot));
     scene.add(purpleSpot);
 
     // models
@@ -120,6 +122,11 @@ async function init() {
     comp.object.position.y = -300;
     comp.object.position.x = 0;
 
+    comp.object.children.forEach(c => {
+        c.castShadow = true;
+        c.receiveShadow = true;
+    });
+
     comp.object.castShadow = true;
     comp.object.receiveShadow = true;
 
@@ -137,8 +144,8 @@ async function init() {
     );
     window.cyc = cyc.object;
     cyc.object.position.y = 50;
-    cyc.object.castShadow = true;
-    cyc.object.receiveShadow = true;
+    cyc.object.children[0].castShadow = true;
+    cyc.object.children[0].receiveShadow = true;
     cyc.materials.materials.purple.metalness = 0;
     cyc.materials.materials.purple.roughness = 1.0;
     scene.add(cyc.object);
@@ -151,6 +158,9 @@ async function init() {
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
 
     container.appendChild(renderer.domElement);
 
@@ -186,7 +196,7 @@ function render() {
 
     controls.update();
 
-    // camera.lookAt(scene.position);
+    // computer.rotation.y += 0.01;
 
     renderer.render(scene, camera);
 
