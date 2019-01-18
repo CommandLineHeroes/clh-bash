@@ -87,31 +87,31 @@ async function init() {
 
     // load computer
 
-    const { object: compObj, materials: compMtl } = await loadMesh(
+    const comp = await loadMesh(
         "../assets/models/",
         "CLH_ep2_computer_high_poly.mtl",
         "CLH_ep2_computer_high_poly.obj"
     );
-    // compMtl.materials.screen.envMap = envMap;
-    // compMtl.materials.purple
-    // compMtl.materials.red
+    // comp.materials.materials.screen.envMap = envMap;
+    // comp.materials.materials.purple
+    // comp.materials.materials.red
 
-    compObj.position.y = -300;
-    compObj.position.x = 0;
+    comp.object.position.y = -300;
+    comp.object.position.x = 0;
 
-    computer = compObj;
-    scene.add(compObj);
-    camera.lookAt(compObj.position);
+    computer = comp.object;
+    scene.add(comp.object);
+    camera.lookAt(comp.object.position);
 
     // load cyc wall
 
-    const { object: cycObj, materials: cycMaterials } = await loadMesh(
+    const cyc = await loadMesh(
         "../assets/models/",
         "CLH_ep2_cyc_wall.mtl",
         "CLH_ep2_cyc_wall.obj"
     );
-    window.cycObj = cycObj;
-    scene.add(cycObj);
+    window.cyc = cyc.object;
+    scene.add(cyc.object);
 
     // init renderer
 
