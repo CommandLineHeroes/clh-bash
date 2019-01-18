@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "browser-sync -w --ignore node_modules",
         "extract": "gunzip -k assets/models/*.gz",
-        "compress": "gzip -k assets/models/*.{mtl,obj}"
+        "compress": "gzip -fk assets/models/*.{mtl,obj}"
     },
     "keywords": [],
     "author": "",
