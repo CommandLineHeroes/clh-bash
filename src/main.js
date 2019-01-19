@@ -3,6 +3,7 @@ import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import "../node_modules/three/examples/js/controls/TrackballControls.js";
 import "./MTLLoaderPhysical.js";
 import app from "./app.js";
+import tweenCamera from "./tween-camera.js";
 import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 
@@ -23,36 +24,25 @@ let cameraDestination = {
 let stats = new Stats();
 document.body.appendChild(stats.dom);
 
+
 const states = {
     title: {
         enter: function() {
             return new Promise((resolve, reject) => {
                 // TODO show other title state stuff like text, logo, etc.
 
-                // tween to camera position
-                new TWEEN.Tween(camera.rotation) // Create a new tween that modifies 'coords'.
-                    .to(
-                        {
-                            x: -0.5832659522477153,
-                            y: 0.4513175431123964,
-                            z: 0.28022041929249414
-                        },
-                        2000
-                    ) // Move to (300, 200) in 1 second.
-                    .easing(TWEEN.Easing.Quartic.Out) // Use an easing function to make the animation smooth.
-                    .start(); // Start the tween immediately.
-                new TWEEN.Tween(camera.position) // Create a new tween that modifies 'coords'.
-                    .to(
-                        {
-                            x: 68.79903504601936,
-                            y: 218.79396932448483,
-                            z: 432.0475129782785
-                        },
-                        2000
-                    ) // Move to (300, 200) in 1 second.
-                    .easing(TWEEN.Easing.Quartic.Out) // Use an easing function to make the animation smooth.
-                    .onComplete(resolve)
-                    .start(); // Start the tween immediately.
+                tweenCamera(camera, {
+                    rotation: {
+                        x: -0.5832659522477153,
+                        y: 0.4513175431123964,
+                        z: 0.28022041929249414
+                    },
+                    position: {
+                        x: 68.79903504601936,
+                        y: 218.79396932448483,
+                        z: 432.0475129782785
+                    }
+                });
             });
         }
     },
@@ -61,30 +51,18 @@ const states = {
             return new Promise((resolve, reject) => {
                 // TODO show other play state stuff like game logic, score, ghosty, etc.
 
-                // tween to camera position
-                new TWEEN.Tween(camera.rotation) // Create a new tween that modifies 'coords'.
-                    .to(
-                        {
-                            x: 0,
-                            y: 0,
-                            z: 0
-                        },
-                        2000
-                    ) // Move to (300, 200) in 1 second.
-                    .easing(TWEEN.Easing.Quartic.Out) // Use an easing function to make the animation smooth.
-                    .start(); // Start the tween immediately.
-                new TWEEN.Tween(camera.position) // Create a new tween that modifies 'coords'.
-                    .to(
-                        {
-                            x: -4.336209717881005,
-                            y: 39.566049707444186,
-                            z: 155.4934617372831
-                        },
-                        2000
-                    ) // Move to (300, 200) in 1 second.
-                    .easing(TWEEN.Easing.Quartic.Out) // Use an easing function to make the animation smooth.
-                    .onComplete(resolve)
-                    .start(); // Start the tween immediately.
+                tweenCamera(camera, {
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    position: {
+                        x: -4.336209717881005,
+                        y: 39.566049707444186,
+                        z: 155.4934617372831
+                    }
+                });
             });
         }
     }
@@ -110,8 +88,7 @@ async function start() {
     animate(0);
 
     // example of using await with state entry
-    // await states.title.enter();
-    // console.log("title state ready");
+    await states.title.enter();
     // await states.play.enter();
     // console.log("play state ready");
 }
@@ -149,7 +126,7 @@ async function init() {
         20000
     );
     // camera.position.z = 350;
-    camera.position.z = 6050;
+    camera.position.z = 800;
     camera.position.y = 150;
     scene.add(camera);
 
