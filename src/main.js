@@ -53,6 +53,11 @@ async function init() {
     //         "wall.png"
     //     ]);
     // scene.background = envMap;
+    scene.background = new THREE.Color(
+        0.52164000272751 / 4.3,
+        0.08910000324249 / 4.3,
+        0.81000000238419 / 4.3
+    );
 
     // camera
 
@@ -62,11 +67,13 @@ async function init() {
         1,
         20000
     );
-    camera.position.z = 350;
-    camera.position.y = 100;
+    // camera.position.z = 350;
+    camera.position.z = 6050;
+    camera.position.y = 150;
     scene.add(camera);
 
-    controls = new THREE.OrbitControls(camera);
+    // controls = new THREE.OrbitControls(camera);
+    controls = new THREE.TrackballControls(camera);
 
     // lighting
 
@@ -75,14 +82,19 @@ async function init() {
 
     // spotlights
 
-    var SHADOW_MAP_WIDTH = 2048 * 1,
+    const SHADOW_MAP_WIDTH = 2048 * 1,
         SHADOW_MAP_HEIGHT = 2048 * 1;
-    const whiteSpot = new THREE.SpotLight(0xffffff, 2);
-    whiteSpot.position.set(-400, 400, 400);
-    whiteSpot.angle = Math.PI / 4;
+    const whiteSpotDistance = 400;
+    const whiteSpot = new THREE.SpotLight(0xffffff, 1);
+    whiteSpot.position.set(
+        -whiteSpotDistance,
+        whiteSpotDistance,
+        whiteSpotDistance
+    );
+    whiteSpot.angle = Math.PI;
     whiteSpot.penumbra = 0.5;
     whiteSpot.decay = 2;
-    whiteSpot.distance = 2000;
+    whiteSpot.distance = 4000;
     // whiteSpot.castShadow = true;
     whiteSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
     whiteSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
@@ -122,6 +134,7 @@ async function init() {
     comp.object.position.y = -300;
     comp.object.position.x = 0;
 
+    // enable shadows for each object in the set of computer meshes
     comp.object.children.forEach(c => {
         c.castShadow = true;
         c.receiveShadow = true;
