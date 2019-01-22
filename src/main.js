@@ -14,12 +14,6 @@ let mouseX = 0,
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 let computer;
-let cameraDestination = {
-    percent: 0,
-    distance: 0,
-    rotation: new THREE.Vector3(),
-    position: new THREE.Vector3()
-};
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
