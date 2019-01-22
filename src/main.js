@@ -24,7 +24,6 @@ let cameraDestination = {
 let stats = new Stats();
 document.body.appendChild(stats.dom);
 
-
 const states = {
     title: {
         enter: function() {
@@ -41,7 +40,9 @@ const states = {
                         x: 68.79903504601936,
                         y: 218.79396932448483,
                         z: 432.0475129782785
-                    }
+                    },
+                    duration: 4000,
+                    easing: TWEEN.Easing.Quartic.InOut
                 });
             });
         }
@@ -126,8 +127,8 @@ async function init() {
         20000
     );
     // camera.position.z = 350;
-    camera.position.z = 800;
-    camera.position.y = 150;
+    camera.position.z = 2000;
+    camera.position.y = 300;
     scene.add(camera);
 
     // controls = new THREE.OrbitControls(camera);
@@ -135,15 +136,15 @@ async function init() {
 
     // lighting
 
-    let ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    let ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
     // spotlights
 
-    const SHADOW_MAP_WIDTH = 2048 * 1,
-        SHADOW_MAP_HEIGHT = 2048 * 1;
+    const SHADOW_MAP_WIDTH = 1024 * 2,
+        SHADOW_MAP_HEIGHT = 1024 * 2;
     const whiteSpotDistance = 400;
-    const whiteSpot = new THREE.SpotLight(0xffffff, 1);
+    const whiteSpot = new THREE.SpotLight(0xffffff, 1.0);
     whiteSpot.position.set(
         -whiteSpotDistance,
         whiteSpotDistance,
@@ -154,24 +155,24 @@ async function init() {
     whiteSpot.decay = 2;
     whiteSpot.distance = 4000;
     // whiteSpot.castShadow = true;
-    whiteSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
-    whiteSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
-    whiteSpot.shadow.camera.near = 10;
-    whiteSpot.shadow.camera.far = 2000;
+    // whiteSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
+    // whiteSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
+    // whiteSpot.shadow.camera.near = 10;
+    // whiteSpot.shadow.camera.far = 2000;
     // whiteSpot.add(new THREE.SpotLightHelper(whiteSpot));
     scene.add(whiteSpot);
 
-    const purpleSpot = new THREE.SpotLight(0xda8aff, 1);
+    const purpleSpot = new THREE.SpotLight(0xda8aff, 1.0);
     purpleSpot.position.set(200, 200, 200);
     purpleSpot.angle = Math.PI / 4;
     purpleSpot.penumbra = 0.5;
-    purpleSpot.decay = 3;
+    purpleSpot.decay = 4;
     purpleSpot.distance = 2000;
     purpleSpot.castShadow = true;
     purpleSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
     purpleSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
-    purpleSpot.shadow.camera.near = 10;
-    purpleSpot.shadow.camera.far = 2000;
+    purpleSpot.shadow.camera.near = 200;
+    purpleSpot.shadow.camera.far = 1000;
     // purpleSpot.add(new THREE.SpotLightHelper(purpleSpot));
     scene.add(purpleSpot);
 
@@ -186,7 +187,7 @@ async function init() {
     );
     // make the screen reflect a crisp image
     comp.materials.materials.screen.roughness = 0.08;
-    comp.materials.materials.purple.roughness = 0.7;
+    comp.materials.materials.purple.roughness = 0.8;
     // comp.materials.materials.purple
     // comp.materials.materials.red
     comp.object.position.y = -300;
@@ -217,7 +218,7 @@ async function init() {
     cyc.object.position.y = 50;
     cyc.object.children[0].castShadow = true;
     cyc.object.children[0].receiveShadow = true;
-    cyc.materials.materials.purple.metalness = 0;
+    cyc.materials.materials.purple.metalness = 0.7;
     cyc.materials.materials.purple.roughness = 1.0;
     scene.add(cyc.object);
 
