@@ -2,6 +2,7 @@ import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import "../node_modules/three/examples/js/controls/TrackballControls.js";
 import "./MTLLoaderPhysical.js";
+import palette from "./palette.js";
 import app from "./app.js";
 import tweenCamera from "./tween-camera.js";
 import { loadMesh } from "./three-utils.js";
