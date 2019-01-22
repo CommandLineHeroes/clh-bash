@@ -9,14 +9,15 @@
     <body>
         <canvas id="game-canvas"></canvas>
         <div id="game">
-            <input
+                <!-- v-on:keydown.enter="testInput" -->
+            <textarea
                 v-model="cmd"
-                v-on:keydown.enter="testInput"
+                v-on:keydown="handleKeypress"
                 ref="cmd"
                 spellcheck=false
                 type="text"
                 name="cmd"
-                id="cmd"/>
+                id="cmd"></textarea>
         </div>
         <script src="node_modules/three/build/three.min.js"></script>
         <script src="node_modules/three/examples/js/libs/stats.min.js"></script>
