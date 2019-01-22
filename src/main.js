@@ -36,8 +36,7 @@ const states = {
                         y: 218.79396932448483,
                         z: 432.0475129782785
                     },
-                    duration: 4000,
-                    easing: TWEEN.Easing.Quartic.InOut
+                    duration: 4000
                 });
             });
         }
