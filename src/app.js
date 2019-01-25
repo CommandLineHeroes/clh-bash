@@ -20,10 +20,12 @@ function validKeycode(kc, leftChar) {
         _.inRange(kc, keyCodes.lalpha.start, keyCodes.lalpha.end + 1);
 
     const valid_other =
-        kc == keyCodes.underscore ||
-        kc == keyCodes.hyphen ||
-        kc == keyCodes.enter ||
-        kc == keyCodes.right_arrow ||
+        [
+            keyCodes.underscore,
+            keyCodes.hyphen,
+            keyCodes.enter,
+            keyCodes.right_arrow
+        ].includes(kc) ||
         (leftChar != "\n" &&
             (kc == keyCodes.left_arrow || kc == keyCodes.backspace));
 
@@ -47,38 +49,49 @@ const app = new Vue({
             // left arrow is pressed to determine if left arrow is valid; left
             // arrow is valid except when it would cross over a newline and
             // move the cursor to the line above)
-            const leftChar = this.cmd[
-                this.$el.querySelector("#cmd").selectionStart - 1
-            ];
+            const textarea = this.$el.querySelector("#cmd");
+            const leftChar = this.cmd[textarea.selectionStart - 1];
 
-            // if keycode is invalid, drop the event and abort
-            if (!validKeycode(ev.keyCode, leftChar)) {
-                ev.preventDefault();
-                return;
-            }
-            // for valid keycodes, if it's enter, test the input, for all other
-            // valid keycodes just allow the default event handler to proceed.
+            // if it's enter, test the input and return.  also, preventDefault
+            // so enter doesn't add a newline.  Instead, add the newline
+            // ourselves.  This prevents Enter from splitting a word in half if
+            // the cursor is inside a word, like hitting enter on "ca|t" would
+            // result in "ca\nt".
             if (ev.keyCode == Vue.config.keyCodes.enter) {
                 console.log("enter pressed, testing input");
-                this.testInput(ev);
+                const cmdResult = this.testInput(ev);
+                ev.preventDefault();
+                // if the command submitted is not empty string, add a newline
+                if (cmdResult.cmd.length != 0) {
+                    this.cmd += "\n";
+                    this.$nextTick(() => {
+                        textarea.blur();
+                        textarea.focus();
+                    });
+                }
+                return;
+            }
+
+            // if keycode is invalid, drop the event.
+            if (!validKeycode(ev.keyCode, leftChar)) {
+                ev.preventDefault();
             }
         },
         testInput: function(ev) {
+            const cmd = _(this.cmd)
+                .split("\n")
+                .last()
+                .trim();
             const matchedCmd = _.find(
                 this.commands,
-                c =>
-                    c.cmd.trim().toLowerCase() ==
-                    _(this.cmd)
-                        .split("\n")
-                        .last()
-                        .trim()
-                        .toLowerCase()
+                c => c.cmd.trim().toLowerCase() == cmd.toLowerCase()
             );
             if (matchedCmd) {
                 this.onValidCmd(matchedCmd);
             } else {
                 this.onInvalidCmd(this.cmd);
             }
+            return { cmd, valid: !!matchedCmd, matchedCmd };
         },
         onValidCmd: function(cmd) {
             console.log(
