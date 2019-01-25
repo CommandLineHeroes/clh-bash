@@ -33,9 +33,14 @@ textarea#cmd {
   outline: none;
   font-family: monospace;
   padding: 8px;
-  font-size: 64px;
+  font-size: 32px;
   text-transform: lowercase;
-  text-align: center;
+  text-align: left;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 20vw;
+  height: 30vw;
   /* opacity: 0; */
 }
 
