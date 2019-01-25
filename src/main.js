@@ -150,14 +150,9 @@ async function init() {
 
     const SHADOW_MAP_WIDTH = 1024 * 2,
         SHADOW_MAP_HEIGHT = 1024 * 2;
-    const whiteSpotDistance = 400;
     const whiteSpot = new THREE.SpotLight(0xffffff, 1.0);
-    whiteSpot.position.set(
-        -whiteSpotDistance,
-        whiteSpotDistance,
-        whiteSpotDistance
-    );
-    whiteSpot.angle = Math.PI;
+    whiteSpot.position.set(-300, 600, 600);
+    whiteSpot.angle = Math.PI / 8;
     whiteSpot.penumbra = 0.5;
     whiteSpot.decay = 2;
     whiteSpot.distance = 4000;
@@ -194,7 +189,7 @@ async function init() {
     );
     // make the screen reflect a crisp image
     comp.materials.materials.screen.roughness = 0.08;
-    comp.materials.materials.purple.roughness = 0.8;
+    comp.materials.materials.purple.roughness = 0.7;
     // comp.materials.materials.purple
     // comp.materials.materials.red
     comp.object.position.y = -300;
