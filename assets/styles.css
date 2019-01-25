@@ -53,3 +53,11 @@ textarea#cmd {
   right: 0;
   bottom: 0;
 }
+
+#console-canvas {
+  position: absolute;
+  width: calc(1920px / 5);
+  bottom: 20px;
+  right: 20px;
+  border: 3px solid var(--clh-blue);
+}

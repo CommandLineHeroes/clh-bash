@@ -8,6 +8,7 @@ import tweenCamera from "./tween-camera.js";
 import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 import sleep from "./sleep.js";
+import consoleCanvas from "./console-canvas.js";
 
 let container;
 let camera, scene, renderer, controls;
@@ -203,6 +204,15 @@ async function init() {
 
     comp.object.castShadow = true;
     comp.object.receiveShadow = true;
+
+    // set up a special canvas material for the screen
+
+    const screen = _.find(comp.object.children, {
+        name: "IBM_5150_Monitor_-_glass"
+    });
+    screen.material = new THREE.MeshBasicMaterial();
+    screen.material.map = new THREE.CanvasTexture(consoleCanvas.canvas);
+    window.screen = screen;
 
     computer = comp.object;
     window.comp = comp;
