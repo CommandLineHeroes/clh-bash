@@ -22,55 +22,52 @@ document.body.appendChild(stats.dom);
 
 const states = {
     [STATES.title]: {
-        enter: function() {
-            return new Promise(async (resolve, reject) => {
-                // TODO show other title state stuff like text, logo, etc.
+        enter: async function() {
+            // TODO show other title state stuff like text, logo, etc.
 
-                await tweenCamera(camera, {
-                    rotation: {
-                        x: -0.5832659522477153,
-                        y: 0.4513175431123964,
-                        z: 0.28022041929249414
-                    },
-                    position: {
-                        x: 68.79903504601936,
-                        y: 218.79396932448483,
-                        z: 432.0475129782785
-                    },
-                    duration: 4000
-                });
-
-                app.allowTyping = true;
-
-                app.onResult = function(result) {
-                    app.cmd = "";
-                    if (result.cmd == "play") {
-                        console.log("PLAY!");
-                        app.onResult = _.noop();
-                        app.allowTyping = false;
-                        app.toState(STATES.play);
-                    }
-                };
+            await tweenCamera(camera, {
+                rotation: {
+                    x: -0.5832659522477153,
+                    y: 0.4513175431123964,
+                    z: 0.28022041929249414
+                },
+                position: {
+                    x: 68.79903504601936,
+                    y: 218.79396932448483,
+                    z: 432.0475129782785
+                },
+                duration: 4000
             });
+
+            app.allowTyping = true;
+
+            app.onResult = async result => {
+                app.cmd = "";
+                if (result.cmd == "play") {
+                    app.onResult = _.noop();
+                    app.allowTyping = false;
+                    app.toState(STATES.play);
+                } else {
+                    console.log("type 'PLAY' to begin");
+                }
+            };
         }
     },
     [STATES.play]: {
         enter: async function() {
-            return new Promise((resolve, reject) => {
-                // TODO show other play state stuff like game logic, score, ghosty, etc.
+            // TODO show other play state stuff like game logic, score, ghosty, etc.
 
-                tweenCamera(camera, {
-                    rotation: {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    },
-                    position: {
-                        x: -4.336209717881005,
-                        y: 39.566049707444186,
-                        z: 155.4934617372831
-                    }
-                });
+            tweenCamera(camera, {
+                rotation: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                position: {
+                    x: -4.336209717881005,
+                    y: 39.566049707444186,
+                    z: 155.4934617372831
+                }
             });
         }
     }
