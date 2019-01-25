@@ -28,8 +28,9 @@ body {
 
 textarea#cmd {
   background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border: 1px solid white;
+  color: var(--clh-blue-light);
+
+  border: 3px solid var(--clh-blue);
   outline: none;
   font-family: monospace;
   padding: 8px;
