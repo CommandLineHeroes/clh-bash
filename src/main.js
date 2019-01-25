@@ -71,12 +71,10 @@ async function start() {
 
     app.commands = commands;
 
-    app.onValidCmd = function(cmd) {
-        console.log(`woot, ${cmd.cmd} is valid!  update three.js!`);
-    };
-
-    app.onInvalidCmd = function(cmd) {
-        console.log(`bah, ${cmd} is invalid!  update three.js!`);
+    app.onResult = function(result) {
+        console.log(
+            `\`${result.cmd}\` is ${result.valid ? "valid" : "invalid"}`
+        );
     };
 
     await init();

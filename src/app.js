@@ -59,11 +59,14 @@ const app = new Vue({
             // result in "ca\nt".
             if (ev.keyCode == Vue.config.keyCodes.enter) {
                 console.log("enter pressed, testing input");
-                const cmdResult = this.testInput(ev);
+                const result = this.testInput(ev);
                 ev.preventDefault();
                 // if the command submitted is not empty string, add a newline
-                if (cmdResult.cmd.length != 0) {
+                if (result.cmd.length != 0) {
                     this.cmd += "\n";
+                    // scroll to bottom of the textarea (this doesn't affect
+                    // gameplay, it just makes the textarea look nicer when the
+                    // textarea itself is visible during debugging)
                     this.$nextTick(() => {
                         textarea.blur();
                         textarea.focus();
@@ -86,23 +89,15 @@ const app = new Vue({
                 this.commands,
                 c => c.cmd.trim().toLowerCase() == cmd.toLowerCase()
             );
-            if (matchedCmd) {
-                this.onValidCmd(matchedCmd);
-            } else {
-                this.onInvalidCmd(this.cmd);
-            }
-            return { cmd, valid: !!matchedCmd, matchedCmd };
+            const result = { cmd, valid: !!matchedCmd, matchedCmd };
+            this.onResult(result);
+            return result;
         },
-        onValidCmd: function(cmd) {
+        onResult: function(result) {
             console.log(
-                `\`${
-                    cmd.cmd
-                }\` is valid but no onValidCmd handler is registered.`
-            );
-        },
-        onInvalidCmd: function(cmd) {
-            console.log(
-                `\`${cmd}\` is invalid but no onInvalidCmd handler is registered.`
+                `\`${result.cmd}\` is ${
+                    result.valid ? "valid" : "invalid"
+                } but no onResult handler is registered.`
             );
         }
     },
