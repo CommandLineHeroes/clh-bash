@@ -7,6 +7,7 @@ import app from "./app.js";
 import tweenCamera from "./tween-camera.js";
 import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
+import sleep from "./sleep.js";
 
 let container;
 let camera, scene, renderer, controls;

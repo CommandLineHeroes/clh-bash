@@ -1,5 +1,6 @@
 import STATES from "./states.js";
 import keyCodes from "./keycodes.js";
+import sleep from "./sleep.js";
 
 // create some handy aliases for keycodes, for use with Vue's v-on directive.
 Vue.config.keyCodes = {
