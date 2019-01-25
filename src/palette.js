@@ -1,8 +1,7 @@
 const palette = {};
 
 function cssVar(prop) {
-    return;
-    window
+    return window
         .getComputedStyle(document.body)
         .getPropertyValue(prop)
         .trim();
