@@ -26,6 +26,8 @@ const states = {
         enter: async function() {
             // TODO show other title state stuff like text, logo, etc.
 
+            app.cmd = "LOADING...\n";
+
             await tweenCamera(camera, {
                 rotation: {
                     x: -0.5832659522477153,
@@ -39,6 +41,8 @@ const states = {
                 },
                 duration: 4000
             });
+
+            app.cmd += "TYPE 'PLAY' TO BEGIN.\n";
 
             app.allowTyping = true;
 
@@ -58,7 +62,7 @@ const states = {
         enter: async function() {
             // TODO show other play state stuff like game logic, score, ghosty, etc.
 
-            tweenCamera(camera, {
+            await tweenCamera(camera, {
                 rotation: {
                     x: 0,
                     y: 0,
@@ -70,6 +74,32 @@ const states = {
                     z: 155.4934617372831
                 }
             });
+
+            app.cmd = "TYPE AS MANY COMMANDS AS YOU CAN IN ONE MINUTE!\n";
+            app.cmd += "\nCHOOSE FROM THE FOLLOWING.";
+            app.cmd += "\n - any HTML tag";
+            app.cmd += "\n - any Python keyword";
+            app.cmd += "\n - any JavaScript keyword";
+            app.cmd += "\n - any Bash built-in command";
+            app.cmd += "\n\nBEGIN IN... ";
+            await sleep(500);
+            app.cmd += "3 ";
+            await sleep(500);
+            app.cmd += "2 ";
+            await sleep(500);
+            app.cmd += "1 ";
+            await sleep(500);
+            app.cmd += "GO!\n";
+
+            app.allowTyping = true;
+
+            app.onResult = async result => {
+                console.log(
+                    `entered "${result.cmd}"... it's ${
+                        result.valid ? "valid!" : "invalid :("
+                    }`
+                );
+            };
         }
     }
 };
@@ -85,7 +115,7 @@ async function start() {
     // set up a state change listener so when the Vue app changes state, we
     // also run the 3D world state changes.
     app.onStateChange = change => {
-        console.log(`changing state from ${change.from} to ${change.to}`);
+        console.log(`state change: ${change.from} -> ${change.to}`);
         if (states[change.to]) {
             states[change.to].enter();
         } else {
@@ -282,6 +312,9 @@ function render(time) {
 
     // controls.update();
     // computer.rotation.y += 0.01;
+
+    // update the canvas-based material
+    screen.material.map.needsUpdate = true;
 
     renderer.render(scene, camera);
 

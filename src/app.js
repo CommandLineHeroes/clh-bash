@@ -8,6 +8,8 @@ Vue.config.keyCodes = {
     enter: keyCodes.enter
 };
 
+let ctrl_down = false;
+
 /**
  * @param {Number} kc the keyCode of the key pressed
  * @param {String} leftChar the character to the left of the cursor, used to
@@ -15,6 +17,16 @@ Vue.config.keyCodes = {
  * newline)
  */
 function validKeycode(kc, leftChar) {
+    console.log(kc);
+    // if ctrl is held down, ignore everything
+    if (kc == keyCodes.ctrl) {
+        ctrl_down = true;
+    }
+
+    if (ctrl_down) {
+        return false;
+    }
+
     // valid keys are alpha, numeric, underscore, hyphen, enter, and right-arrow.  left-arrow and backspace areonly accepted when they doesn't cross over a newline (ie, would have made the cursor to up one line).
     const alphanumeric =
         _.inRange(kc, keyCodes.nums.start, keyCodes.nums.end + 1) ||
@@ -51,6 +63,10 @@ const app = new Vue({
             const change = { from: this.state, to: state };
             this.state = state;
             this.onStateChange(change);
+        },
+        handlePaste: function(ev) {
+            // disable pasting into the textarea
+            ev.preventDefault();
         },
         handleKeypress: function(ev) {
             if (!this.allowTyping) {
@@ -91,6 +107,11 @@ const app = new Vue({
                 ev.preventDefault();
             }
         },
+        handleKeyup: function(ev) {
+            if (ev.keyCode == keyCodes.ctrl) {
+                ctrl_down = false;
+            }
+        },
         testInput: function(ev) {
             const cmd = _(this.cmd)
                 .split("\n")
@@ -128,5 +149,14 @@ const app = new Vue({
         });
     }
 });
+
+function updateConsole() {
+    requestAnimationFrame(updateConsole);
+    app.$nextTick(() => {
+        consoleCanvas.write(app.cmd);
+    });
+}
+
+updateConsole();
 
 export default app;

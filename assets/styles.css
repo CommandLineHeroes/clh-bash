@@ -42,7 +42,7 @@ textarea#cmd {
   left: 20px;
   width: 20vw;
   height: 30vw;
-  /* opacity: 0; */
+  opacity: 0;
 }
 
 #game-canvas {
@@ -56,8 +56,9 @@ textarea#cmd {
 
 #console-canvas {
   position: absolute;
-  width: calc(1920px / 5);
+  width: calc(1920px / 3);
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   border: 3px solid var(--clh-blue);
+  user-select: none; /* disable ctrl+a to select all text */
 }

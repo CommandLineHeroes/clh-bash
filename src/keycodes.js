@@ -11,5 +11,6 @@ export default {
     enter: 13,
     left_arrow: 37,
     right_arrow: 39,
-    backspace: 8
+    backspace: 8,
+    ctrl: 17
 };

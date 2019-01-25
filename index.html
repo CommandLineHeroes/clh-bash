@@ -13,6 +13,8 @@
             <textarea
                 v-model="cmd"
                 v-on:keydown="handleKeypress"
+                v-on:keyup="handleKeyup"
+                v-on:paste="handlePaste"
                 ref="cmd"
                 spellcheck=false
                 type="text"
