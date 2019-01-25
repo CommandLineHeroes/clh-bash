@@ -1,7 +1,7 @@
 export default {
-    SPLASH_SCREEN: "SPLASH_SCREEN",
-    MAIN_MENU: "MAIN_MENU",
-    PLAYING: "PLAYING",
-    SCORE_SCREEN: "SCORE_SCREEN",
-    LEADERBOARD: "LEADERBOARD"
+    loading: "loading",
+    title: "title",
+    play: "play",
+    score: "score",
+    leaderboard: "leaderboard"
 };

@@ -20,12 +20,12 @@ let stats = new Stats();
 document.body.appendChild(stats.dom);
 
 const states = {
-    title: {
+    [STATES.title]: {
         enter: function() {
-            return new Promise((resolve, reject) => {
+            return new Promise(async (resolve, reject) => {
                 // TODO show other title state stuff like text, logo, etc.
 
-                tweenCamera(camera, {
+                await tweenCamera(camera, {
                     rotation: {
                         x: -0.5832659522477153,
                         y: 0.4513175431123964,
@@ -38,10 +38,22 @@ const states = {
                     },
                     duration: 4000
                 });
+
+                app.allowTyping = true;
+
+                app.onResult = function(result) {
+                    app.cmd = "";
+                    if (result.cmd == "play") {
+                        console.log("PLAY!");
+                        app.onResult = _.noop();
+                        app.allowTyping = false;
+                        app.toState(STATES.play);
+                    }
+                };
             });
         }
     },
-    play: {
+    [STATES.play]: {
         enter: async function() {
             return new Promise((resolve, reject) => {
                 // TODO show other play state stuff like game logic, score, ghosty, etc.
@@ -71,10 +83,15 @@ async function start() {
 
     app.commands = commands;
 
-    app.onResult = function(result) {
-        console.log(
-            `\`${result.cmd}\` is ${result.valid ? "valid" : "invalid"}`
-        );
+    // set up a state change listener so when the Vue app changes state, we
+    // also run the 3D world state changes.
+    app.onStateChange = change => {
+        console.log(`changing state from ${change.from} to ${change.to}`);
+        if (states[change.to]) {
+            states[change.to].enter();
+        } else {
+            throw new Error(`tried to enter nonexistant state ${change.to}`);
+        }
     };
 
     await init();

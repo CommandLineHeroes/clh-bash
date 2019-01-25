@@ -39,12 +39,22 @@ function validKeycode(kc, leftChar) {
 const app = new Vue({
     el: "#game",
     data: {
-        state: STATES.SPLASH_SCREEN,
+        state: STATES.loading,
         cmd: "",
-        commands: []
+        commands: [],
+        allowTyping: false
     },
     methods: {
+        toState: function(state) {
+            const change = { from: this.state, to: state };
+            this.state = state;
+            this.onStateChange(change);
+        },
         handleKeypress: function(ev) {
+            if (!this.allowTyping) {
+                ev.preventDefault();
+                return;
+            }
             // first get the char to the left of the cursor (it's used when
             // left arrow is pressed to determine if left arrow is valid; left
             // arrow is valid except when it would cross over a newline and
@@ -58,7 +68,6 @@ const app = new Vue({
             // the cursor is inside a word, like hitting enter on "ca|t" would
             // result in "ca\nt".
             if (ev.keyCode == Vue.config.keyCodes.enter) {
-                console.log("enter pressed, testing input");
                 const result = this.testInput(ev);
                 ev.preventDefault();
                 // if the command submitted is not empty string, add a newline
@@ -90,14 +99,17 @@ const app = new Vue({
                 c => c.cmd.trim().toLowerCase() == cmd.toLowerCase()
             );
             const result = { cmd, valid: !!matchedCmd, matchedCmd };
-            this.onResult(result);
+            this.$nextTick(() => {
+                this.onResult(result);
+            });
             return result;
         },
-        onResult: function(result) {
+        onResult: _.noop,
+        onStateChange: function(change) {
             console.log(
-                `\`${result.cmd}\` is ${
-                    result.valid ? "valid" : "invalid"
-                } but no onResult handler is registered.`
+                `state changing from "${change.from}" to "${
+                    change.to
+                }" but no handler is registered.`
             );
         }
     },
