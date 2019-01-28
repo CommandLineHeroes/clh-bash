@@ -17,8 +17,12 @@ let ctrl_down = false;
  * determine whether left arrow is valid (left arrow can't cross over a
  * newline)
  */
-function validKeycode(kc, leftChar) {
-    console.log(kc);
+function validKeycode(ev, leftChar) {
+    // drop all keys while shift is held
+    if (ev.shiftKey) return;
+
+    const kc = ev.keyCode;
+
     // if ctrl is held down, ignore everything
     if (kc == keyCodes.ctrl) {
         ctrl_down = true;
