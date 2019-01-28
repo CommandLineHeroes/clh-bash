@@ -42,6 +42,7 @@ textarea#cmd {
   left: 20px;
   width: 20vw;
   height: 30vw;
+
   opacity: 0;
 }
 
@@ -61,4 +62,10 @@ textarea#cmd {
   left: 20px;
   border: 3px solid var(--clh-blue);
   user-select: none; /* disable ctrl+a to select all text */
+
+  opacity: 0;
+}
+
+#test-pattern {
+  display: none;
 }
