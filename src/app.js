@@ -2,6 +2,7 @@ import STATES from "./states.js";
 import keyCodes from "./keycodes.js";
 import sleep from "./sleep.js";
 import consoleCanvas from "./console-canvas.js";
+import * as cmds from "./cmds.js";
 
 // create some handy aliases for keycodes, for use with Vue's v-on directive.
 Vue.config.keyCodes = {
@@ -103,7 +104,7 @@ const app = new Vue({
             }
 
             // if keycode is invalid, drop the event.
-            if (!validKeycode(ev.keyCode, leftChar)) {
+            if (!validKeycode(ev, leftChar)) {
                 ev.preventDefault();
             }
         },
@@ -117,10 +118,7 @@ const app = new Vue({
                 .split("\n")
                 .last()
                 .trim();
-            const matchedCmd = _.find(
-                this.commands,
-                c => c.cmd.trim().toLowerCase() == cmd.toLowerCase()
-            );
+            const matchedCmd = cmds.all().includes(cmd.trim().toLowerCase());
             const result = { cmd, valid: !!matchedCmd, matchedCmd };
             this.$nextTick(() => {
                 this.onResult(result);

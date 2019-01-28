@@ -106,12 +106,6 @@ const states = {
 window.states = states;
 
 async function start() {
-    // fetch the commands database
-    const rsp = await fetch("../assets/commands.json");
-    const commands = await rsp.json();
-
-    app.commands = commands;
-
     // set up a state change listener so when the Vue app changes state, we
     // also run the 3D world state changes.
     app.onStateChange = change => {
