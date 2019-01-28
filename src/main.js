@@ -26,6 +26,9 @@ const states = {
         enter: async function() {
             // TODO show other title state stuff like text, logo, etc.
 
+            // make font big enough to see from a distance
+            consoleCanvas.conf.FONT_SIZE = 120;
+
             app.cmd = "LOADING...\n";
 
             await tweenCamera(camera, {
@@ -61,6 +64,9 @@ const states = {
     [STATES.play]: {
         enter: async function() {
             // TODO show other play state stuff like game logic, score, ghosty, etc.
+
+            // make font appropriate size for when camera is zoomed in
+            consoleCanvas.conf.FONT_SIZE = 48;
 
             await tweenCamera(camera, {
                 rotation: {
@@ -242,6 +248,36 @@ async function init() {
     window.comp = comp;
     scene.add(comp.object);
     camera.lookAt(comp.object.position);
+
+    // create a TEMPORARY flat plane to draw the console on.
+
+    // the comp model we have doesnt' have UV coordinates, so we can't draw a
+    // texture onto it.  for now, create a 3d plane, position it just
+    // in front of the screen, and draw the console onto it.
+    // (TODO: remove this once we have a comp model with UV coords)
+
+    // get the screen position and dimensions and copy them
+    screen.geometry.computeBoundingBox();
+    const screenSize = {
+        width:
+            screen.geometry.boundingBox.max.x -
+            screen.geometry.boundingBox.min.x,
+        height:
+            screen.geometry.boundingBox.max.y -
+            screen.geometry.boundingBox.min.y
+    };
+
+    const consolePlaneGeo = new THREE.PlaneGeometry(
+        screenSize.width,
+        screenSize.height
+    );
+    const consolePlane = new THREE.Mesh(consolePlaneGeo, screen.material);
+    consolePlane.position.set(-5.5, 42.8, 28);
+    consolePlane.rotation.x = -0.16;
+    screen.visible = false;
+    window.consolePlane = consolePlane;
+
+    scene.add(consolePlane);
 
     // load cyc wall
 
