@@ -133,10 +133,15 @@ export default [
 
     // reflection (ch 26)
     "reflect",
-    "proxy"
+    "proxy",
 
     // some curiously hard to find ones in the spec
     "async",
     "let",
-    "static"
+    "static",
+    "else",
+    "document",
+    "window",
+    "navigator",
+    "then"
 ];

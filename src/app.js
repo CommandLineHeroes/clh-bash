@@ -93,9 +93,7 @@ const app = new Vue({
             if (ev.keyCode == Vue.config.keyCodes.enter) {
                 const result = this.testInput(ev);
                 ev.preventDefault();
-                // if the command submitted is not empty string, add a newline
                 if (result.cmd.length != 0) {
-                    this.cmd += "\n";
                     // scroll to bottom of the textarea (this doesn't affect
                     // gameplay, it just makes the textarea look nicer when the
                     // textarea itself is visible during debugging)

@@ -100,6 +100,9 @@ const states = {
             app.allowTyping = true;
 
             app.onResult = async result => {
+                app.cmd += result.valid ? " ✔" : " ⨯";
+                // if the command submitted is not empty string, add a newline
+                app.cmd += "\n";
                 console.log(
                     `entered "${result.cmd}"... it's ${
                         result.valid ? "valid!" : "invalid :("
