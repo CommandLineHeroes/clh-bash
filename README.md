@@ -1,6 +1,6 @@
 # clh-bash
 
-![screenshot from 2019-01-18 17-22-17](https://user-images.githubusercontent.com/364615/51415959-a36c7c00-1b45-11e9-8630-544d2075f3cf.png)
+![screenshot from 2019-01-30 11-09-52](https://user-images.githubusercontent.com/3926730/51994879-a76e9700-247f-11e9-9671-9db2555972ac.png)
 
 ## Development
 
