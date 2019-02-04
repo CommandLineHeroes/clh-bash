@@ -2,8 +2,9 @@
 
 import jsCmds from "../assets/cmds/js.js";
 import pyCmds from "../assets/cmds/python.js";
+import htmlCmds from "../assets/cmds/html.js";
 
-const allCmds = _.union(js(), py() /* and other langs as needed */);
+const allCmds = _.union(js(), py(), html() /* and other langs as needed */);
 
 export function all() {
     return allCmds;
@@ -17,10 +18,15 @@ export function py() {
     return pyCmds;
 }
 
+export function html() {
+    return htmlCmds;
+}
+
 export function find(cmd) {
     const cmdsByLang = {
         js: js(),
-        py: py()
+        py: py(),
+        html: html()
     };
     const result = {
         lang: []
