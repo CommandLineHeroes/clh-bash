@@ -1,3 +1,5 @@
+@import "./fonts/fonts.css";
+
 html,
 body {
   height: 100%;
@@ -57,13 +59,13 @@ textarea#cmd {
 
 #console-canvas {
   position: absolute;
-  width: calc(1920px / 3);
+  width: calc(1920px / 7);
   bottom: 20px;
   left: 20px;
   border: 3px solid var(--clh-blue);
   user-select: none; /* disable ctrl+a to select all text */
 
-  opacity: 0;
+  /* opacity: 0; */
 }
 
 #test-pattern {

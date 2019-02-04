@@ -9,7 +9,7 @@ class ConsoleCanvas {
             PAD_LEFT: 25,
             PAD_BOTTOM: 35,
             FONT_SIZE: 64, // px
-            FONT_FAM: "monospace",
+            FONT_FAM: "overpass-mono",
             LINE_SPACING: 8 // px
         };
 
@@ -54,7 +54,7 @@ class ConsoleCanvas {
     }
 
     write(text) {
-        this.ctx.font = `${this.conf.FONT_SIZE}px monospace`;
+        this.ctx.font = `${this.conf.FONT_SIZE}px ${this.conf.FONT_FAM}`;
         this.ctx.fillStyle = palette.black;
         this.ctx.fillRect(
             0,
