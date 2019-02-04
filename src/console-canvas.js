@@ -1,5 +1,7 @@
 import palette from "./palette.js";
 
+let cachedScore = 0;
+
 class ConsoleCanvas {
     constructor() {
         this.conf = {
@@ -53,7 +55,15 @@ class ConsoleCanvas {
         document.body.appendChild(this.canvas);
     }
 
-    write(text) {
+    /**
+     * Write text onto the screen.  Also draws the score. If you don't want the
+     * score to appear at the top-right, pass in score `false` (for instance,
+     * on the title screen or leaderboard screen).
+     */
+    write(text, score = cachedScore) {
+        // update cached score
+        cachedScore = score;
+
         this.ctx.font = `${this.conf.FONT_SIZE}px ${this.conf.FONT_FAM}`;
         this.ctx.fillStyle = palette.black;
         this.ctx.fillRect(
@@ -80,6 +90,8 @@ class ConsoleCanvas {
             line_count += 1;
             if (line_count > this.conf.MAX_LINES) break;
         }
+
+        //
     }
 }
 

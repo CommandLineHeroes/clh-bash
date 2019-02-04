@@ -45,7 +45,7 @@ const states = {
                 duration: 4000
             });
 
-            app.cmd += "Type 'play' to begin.\n";
+            app.cmd += "Type 'play'...\n";
 
             app.allowTyping = true;
 
@@ -103,12 +103,54 @@ const states = {
                 app.cmd += result.valid ? " ✔" : " ⨯";
                 // if the command submitted is not empty string, add a newline
                 app.cmd += "\n";
+                if (result.valid) {
+                    app.score += 10;
+                }
                 console.log(
                     `entered "${result.cmd}"... it's ${
                         result.valid ? "valid!" : "invalid :("
                     }`
                 );
             };
+
+            console.log("starting game timer");
+            const gameTimer = sleep(5000);
+            await gameTimer;
+            console.log("game timer o'er");
+
+            app.cmd = "";
+            app.onResult = _.noop();
+            app.allowTyping = false;
+            app.toState(STATES.score);
+        }
+    },
+    [STATES.score]: {
+        enter: async function() {
+            app.allowTyping = false;
+
+            // make font appropriate size for when camera is zoomed in
+            consoleCanvas.conf.FONT_SIZE = 4 * 48;
+
+            await tweenCamera(camera, {
+                rotation: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                position: {
+                    x: -4.336209717881005,
+                    y: 39.566049707444186,
+                    z: 255.4934617372831
+                }
+            });
+
+            await sleep(500);
+            app.cmd = "GAME OVER\n";
+            app.cmd += `score: ${app.score}\n`;
+            app.cmd += `JavaScript: ${app.count.js}\n`;
+            app.cmd += `HTML: ${app.count.html}\n`;
+            app.cmd += `Python: ${app.count.py}\n`;
+            app.cmd += `Bash: ${app.count.bash}\n`;
         }
     }
 };

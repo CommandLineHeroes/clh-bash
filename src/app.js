@@ -23,8 +23,6 @@ function validKeycode(ev, leftChar) {
 
     const kc = ev.keyCode;
 
-    console.log(kc);
-
     // if ctrl is held down, ignore everything
     if (kc == keyCodes.ctrl) {
         ctrl_down = true;
@@ -63,7 +61,14 @@ const app = new Vue({
         state: STATES.loading,
         cmd: "",
         commands: [],
-        allowTyping: false
+        allowTyping: false,
+        score: 0,
+        count: {
+            js: 0,
+            bash: 0,
+            html: 0,
+            py: 0
+        }
     },
     methods: {
         toState: function(state) {
@@ -93,10 +98,11 @@ const app = new Vue({
             // the cursor is inside a word, like hitting enter on "ca|t" would
             // result in "ca\nt".
             if (ev.keyCode == Vue.config.keyCodes.enter) {
-                const result = this.testInput(ev);
                 ev.preventDefault();
+                const result = this.testCmd(ev);
+                app.count[result.lang]++;
                 if (result.cmd.length != 0) {
-                    // scroll to bottom of the textarea (this doesn't affect
+                    // scroll to bottom of the textarea
                     // gameplay, it just makes the textarea look nicer when the
                     // textarea itself is visible during debugging)
                     this.$nextTick(() => {
@@ -117,13 +123,13 @@ const app = new Vue({
                 ctrl_down = false;
             }
         },
-        testInput: function(ev) {
+        testCmd: function(ev) {
             const cmd = _(this.cmd)
                 .split("\n")
                 .last()
                 .trim();
-            const matchedCmd = cmds.all().includes(cmd.trim().toLowerCase());
-            const result = { cmd, valid: !!matchedCmd, matchedCmd };
+            const { cmd: matchedCmd, lang } = cmds.find(cmd);
+            const result = { cmd, valid: !!matchedCmd, matchedCmd, lang };
             this.$nextTick(() => {
                 this.onResult(result);
             });
