@@ -45,7 +45,7 @@ const states = {
                 duration: 4000
             });
 
-            app.cmd += "TYPE 'PLAY' TO BEGIN.\n";
+            app.cmd += "Type 'play' to begin.\n";
 
             app.allowTyping = true;
 
@@ -81,13 +81,13 @@ const states = {
                 }
             });
 
-            app.cmd = "TYPE AS MANY COMMANDS AS YOU CAN IN ONE MINUTE!\n";
-            app.cmd += "\nCHOOSE FROM THE FOLLOWING.";
+            app.cmd = "Type as many commands as you can in one minute!\n";
+            app.cmd += "\nChoose from the following.";
             app.cmd += "\n - any HTML tag";
             app.cmd += "\n - any Python keyword";
             app.cmd += "\n - any JavaScript keyword";
             app.cmd += "\n - any Bash built-in command";
-            app.cmd += "\n\nBEGIN IN... ";
+            app.cmd += "\n\nBegin in... ";
             await sleep(500);
             app.cmd += "3 ";
             await sleep(500);
