@@ -8,13 +8,15 @@ body {
 }
 
 body {
-  background: #000;
-  color: #fff;
+  background: var(--clh-black);
+  color: var(--clh-white);
 
   display: flex;
   align-items: center;
   justify-items: center;
   justify-content: center;
+
+  font-family: overpass;
 
   --clh-white: #dbdbdb;
   --clh-black: #101114;
@@ -26,6 +28,18 @@ body {
   --clh-orange-light: #f7a060;
   --clh-blue: #00a9e0;
   --clh-blue-light: #68cceb;
+
+  --title-reveal-interval: 600ms;
+}
+
+a {
+  color: var(--clh-blue);
+}
+a:active {
+  color: var(--clh-white);
+}
+a:visited {
+  color: var(--clh-purple);
 }
 
 textarea#cmd {
@@ -72,4 +86,69 @@ textarea#cmd {
 
 #test-pattern {
   display: none;
+}
+
+/* Title screen */
+#title-screen > * {
+  opacity: 0;
+  transition: opacity 100ms linear;
+  width: 100%;
+}
+#title-screen > *.show {
+  opacity: 1;
+  transition: opacity 1800ms linear;
+}
+
+#title-screen {
+  opacity: 0;
+  transition: opacity 100ms linear;
+  position: absolute;
+  top: 20vh;
+  left: 10vw;
+  width: 40vw;
+  height: 70vh;
+  display: grid;
+
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+#title-screen.show {
+  opacity: 1;
+}
+
+/* delay the reveal of each title screen element so the reveals cacade down the screen */
+#title-screen > *:nth-child(1) {
+  transition-delay: calc(0 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(2) {
+  transition-delay: calc(1 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(3) {
+  transition-delay: calc(2 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(4) {
+  transition-delay: calc(3 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(5) {
+  transition-delay: calc(4 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(6) {
+  transition-delay: calc(5 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(7) {
+  transition-delay: calc(6 * var(--title-reveal-interval));
+}
+
+/* individual elements of the title screen */
+#langs {
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--clh-blue-light);
+}
+#langs .sep {
+  color: var(--clh-white);
+}
+#credits {
+  font-size: 0.7em;
+  color: var(--clh-white);
 }

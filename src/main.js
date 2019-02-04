@@ -29,9 +29,7 @@ const states = {
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;
 
-            app.cmd = "LOADING...\n";
-
-            await tweenCamera(camera, {
+            const camTween = tweenCamera(camera, {
                 rotation: {
                     x: -0.5832659522477153,
                     y: 0.4513175431123964,
@@ -45,6 +43,15 @@ const states = {
                 duration: 4000
             });
 
+            // let the camera zoom in for a while before moving on to displaying text on screen
+            await sleep(1500);
+
+            app.cmd = "LOADING...\n";
+
+            await camTween;
+
+            app.showTitle = true;
+
             app.cmd += "Type 'play'...\n";
 
             app.allowTyping = true;
@@ -54,6 +61,7 @@ const states = {
                 if (result.cmd == "play") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
+                    app.showTitle = false;
                     app.toState(STATES.play);
                 } else {
                     console.log("type 'PLAY' to begin");
@@ -178,10 +186,7 @@ async function start() {
     await init();
     animate(0);
 
-    // example of using await with state entry
-    await states.title.enter();
-    // await states.play.enter();
-    // console.log("play state ready");
+    app.toState(STATES.title);
 }
 
 async function init() {

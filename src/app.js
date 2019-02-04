@@ -59,6 +59,7 @@ const app = new Vue({
     el: "#game",
     data: {
         state: STATES.loading,
+        showTitle: false,
         cmd: "",
         commands: [],
         displayScore: false,
@@ -77,6 +78,7 @@ const app = new Vue({
         toState: function(state) {
             const change = { from: this.state, to: state };
             this.state = state;
+            this.titleState = state === STATES.title;
             this.onStateChange(change);
         },
         handlePaste: function(ev) {

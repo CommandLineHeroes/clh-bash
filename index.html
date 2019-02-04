@@ -10,7 +10,18 @@
         <canvas id="game-canvas"></canvas>
         <img id="test-pattern" src="assets/textures/clh_test_pattern.jpg">
         <div id="game">
-                <!-- v-on:keydown.enter="testInput" -->
+            <div v-bind:class="{ show: showTitle }" id="title-screen">
+                <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
+                <p v-bind:class="{ show: showTitle }" id="instructions">
+                    Type as many commands as you can in 60 seconds.<br>Set the terminal on fire.
+                </p>
+                <p v-bind:class="{ show: showTitle }" id="langs">
+                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML
+                </p>
+                <p v-bind:class="{ show: showTitle }" id="credits">
+                    Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team @ Red Hat.  Listen to the podcast at <a target=_blank href="https://www.redhat.com/en/command-line-heroes">redhat.com/en/command-line-heroes</a>.
+                </p>
+            </div>
             <textarea
                 v-model="cmd"
                 v-on:keydown="handleKeypress"

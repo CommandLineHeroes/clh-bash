@@ -10,6 +10,7 @@ class ConsoleCanvas {
             PAD_BOTTOM: 4 * 82,
             FONT_SIZE: 4 * 64, // px
             FONT_FAM: "overpass-mono",
+            FONT_WEIGHT: "bold",
             LINE_SPACING: 4 * 14 // px
         };
 
@@ -41,16 +42,20 @@ class ConsoleCanvas {
 
         this.ctx.scale(this.conf.ASPECT, 1);
 
+        this.drawTestPattern();
+
+        document.body.appendChild(this.canvas);
+    }
+
+    drawTestPattern() {
         // draw a test pattern
         this.ctx.drawImage(
             document.querySelector("#test-pattern"),
             0,
             0,
-            1024 / this.conf.ASPECT,
-            1024
+            this.conf.WIDTH / this.conf.ASPECT,
+            this.conf.HEIGHT
         );
-
-        document.body.appendChild(this.canvas);
     }
 
     /**
@@ -59,7 +64,9 @@ class ConsoleCanvas {
      * on the title screen or leaderboard screen).
      */
     write(text, score = false, timer = false) {
-        this.ctx.font = `${this.conf.FONT_SIZE}px ${this.conf.FONT_FAM}`;
+        this.ctx.font = `${this.conf.FONT_WEIGHT} ${this.conf.FONT_SIZE}px ${
+            this.conf.FONT_FAM
+        }`;
         this.ctx.fillStyle = palette.black;
         this.ctx.fillRect(
             0,
