@@ -17,7 +17,7 @@ body {
   justify-content: center;
 
   --clh-white: #dbdbdb;
-  --clh-black: #262931;
+  --clh-black: #101114;
   --clh-purple: #200a5f;
   --clh-purple-light: #6b45a0;
   --clh-yellow: #f4be4a;
@@ -64,6 +64,8 @@ textarea#cmd {
   left: 20px;
   border: 3px solid var(--clh-blue);
   user-select: none; /* disable ctrl+a to select all text */
+
+  /* letter-spacing: -0.5em; */
 
   /* opacity: 0; */
 }

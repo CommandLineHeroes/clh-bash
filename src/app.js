@@ -23,6 +23,8 @@ function validKeycode(ev, leftChar) {
 
     const kc = ev.keyCode;
 
+    console.log(kc);
+
     // if ctrl is held down, ignore everything
     if (kc == keyCodes.ctrl) {
         ctrl_down = true;

@@ -3,14 +3,14 @@ import palette from "./palette.js";
 class ConsoleCanvas {
     constructor() {
         this.conf = {
-            WIDTH: 1024,
-            HEIGHT: 1024,
+            WIDTH: 2 * 2048,
+            HEIGHT: 2 * 2048,
             ASPECT: 0.7222,
-            PAD_LEFT: 25,
-            PAD_BOTTOM: 35,
-            FONT_SIZE: 64, // px
+            PAD_LEFT: 4 * 54,
+            PAD_BOTTOM: 4 * 82,
+            FONT_SIZE: 4 * 64, // px
             FONT_FAM: "overpass-mono",
-            LINE_SPACING: 8 // px
+            LINE_SPACING: 4 * 16 // px
         };
 
         // find the maximum number of lines of text that can be drawn (to avoid
@@ -62,7 +62,7 @@ class ConsoleCanvas {
             this.canvas.width / this.conf.ASPECT,
             this.canvas.height
         );
-        this.ctx.fillStyle = palette.yellow;
+        this.ctx.fillStyle = palette.blue_light;
 
         // fillText doesn't do multi-line, so split the text and call fill text
         // multiple times

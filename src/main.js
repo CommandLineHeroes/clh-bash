@@ -27,7 +27,7 @@ const states = {
             // TODO show other title state stuff like text, logo, etc.
 
             // make font big enough to see from a distance
-            consoleCanvas.conf.FONT_SIZE = 120;
+            consoleCanvas.conf.FONT_SIZE = 4 * 114;
 
             app.cmd = "LOADING...\n";
 
@@ -66,7 +66,7 @@ const states = {
             // TODO show other play state stuff like game logic, score, ghosty, etc.
 
             // make font appropriate size for when camera is zoomed in
-            consoleCanvas.conf.FONT_SIZE = 48;
+            consoleCanvas.conf.FONT_SIZE = 4 * 48;
 
             await tweenCamera(camera, {
                 rotation: {
