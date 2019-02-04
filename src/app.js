@@ -100,7 +100,7 @@ const app = new Vue({
             if (ev.keyCode == Vue.config.keyCodes.enter) {
                 ev.preventDefault();
                 const result = this.testCmd(ev);
-                app.count[result.lang]++;
+                result.lang.forEach(lang => app.count[lang]++);
                 if (result.cmd.length != 0) {
                     // scroll to bottom of the textarea
                     // gameplay, it just makes the textarea look nicer when the
