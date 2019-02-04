@@ -143,5 +143,6 @@ export default [
     "document",
     "window",
     "navigator",
-    "then"
+    "then",
+    "of"
 ];
