@@ -144,5 +144,7 @@ export default [
     "window",
     "navigator",
     "then",
+    "set",
+    "get",
     "of"
 ];
