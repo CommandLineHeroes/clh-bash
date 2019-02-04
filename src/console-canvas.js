@@ -1,7 +1,5 @@
 import palette from "./palette.js";
 
-let cachedScore = 0;
-
 class ConsoleCanvas {
     constructor() {
         this.conf = {
@@ -12,7 +10,7 @@ class ConsoleCanvas {
             PAD_BOTTOM: 4 * 82,
             FONT_SIZE: 4 * 64, // px
             FONT_FAM: "overpass-mono",
-            LINE_SPACING: 4 * 16 // px
+            LINE_SPACING: 4 * 14 // px
         };
 
         // find the maximum number of lines of text that can be drawn (to avoid
@@ -60,10 +58,7 @@ class ConsoleCanvas {
      * score to appear at the top-right, pass in score `false` (for instance,
      * on the title screen or leaderboard screen).
      */
-    write(text, score = cachedScore) {
-        // update cached score
-        cachedScore = score;
-
+    write(text, score = false, timer = false) {
         this.ctx.font = `${this.conf.FONT_SIZE}px ${this.conf.FONT_FAM}`;
         this.ctx.fillStyle = palette.black;
         this.ctx.fillRect(
@@ -91,7 +86,34 @@ class ConsoleCanvas {
             if (line_count > this.conf.MAX_LINES) break;
         }
 
-        //
+        // black out the top line whenever score or timer is being displayed
+        if (score !== false || timer !== false) {
+            this.ctx.fillStyle = palette.black;
+            this.ctx.fillRect(
+                0,
+                0,
+                this.canvas.width * 2,
+                this.conf.FONT_SIZE * 2
+            );
+            // this.ctx.fillRect(0, 0, 1000, 1000);
+            this.ctx.fillStyle = palette.blue_light;
+        }
+
+        // draw score and time remaining
+        if (score !== false) {
+            this.ctx.fillText(
+                `score: ${score}`,
+                this.conf.PAD_LEFT,
+                this.conf.PAD_BOTTOM
+            );
+        }
+        if (timer !== false) {
+            this.ctx.fillText(
+                `timer: ${timer}`,
+                this.canvas.width - this.conf.PAD_LEFT,
+                this.conf.PAD_BOTTOM
+            );
+        }
     }
 }
 

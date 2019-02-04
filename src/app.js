@@ -61,6 +61,9 @@ const app = new Vue({
         state: STATES.loading,
         cmd: "",
         commands: [],
+        displayScore: false,
+        gameDuration: 60 * 1000,
+        timer: 0,
         allowTyping: false,
         score: 0,
         count: {
@@ -161,7 +164,12 @@ const app = new Vue({
 function updateConsole() {
     requestAnimationFrame(updateConsole);
     app.$nextTick(() => {
-        consoleCanvas.write(app.cmd);
+        let args = [app.cmd];
+        if (app.state === STATES.play) {
+            args.push(app.score);
+            args.push(app.timer);
+        }
+        consoleCanvas.write(...args);
     });
 }
 

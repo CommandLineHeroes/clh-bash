@@ -113,9 +113,16 @@ const states = {
                 );
             };
 
+            app.timer = app.gameDuration / 1000;
+            const iid = setInterval(() => {
+                app.timer -= 1;
+                if (app.timer <= 0) {
+                    clearInterval(iid);
+                }
+            }, 1000);
+
             console.log("starting game timer");
-            const gameTimer = sleep(5000);
-            await gameTimer;
+            await sleep(app.gameDuration);
             console.log("game timer o'er");
 
             app.cmd = "";
@@ -129,7 +136,7 @@ const states = {
             app.allowTyping = false;
 
             // make font appropriate size for when camera is zoomed in
-            consoleCanvas.conf.FONT_SIZE = 4 * 48;
+            consoleCanvas.conf.FONT_SIZE = 4 * 90;
 
             await tweenCamera(camera, {
                 rotation: {

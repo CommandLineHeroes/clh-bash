@@ -23,11 +23,11 @@ export function find(cmd) {
         py: py()
     };
     const result = {
-        cmd,
         lang: []
     };
     for (let lang in cmdsByLang) {
         if (cmdsByLang[lang].includes(cmd.trim().toLowerCase())) {
+            result.cmd = cmd;
             result.lang.push(lang);
         }
     }
