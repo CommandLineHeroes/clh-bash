@@ -10,6 +10,7 @@ import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 import sleep from "./sleep.js";
 import consoleCanvas from "./console-canvas.js";
+import sfx from "./sfx.js";
 
 let container;
 let camera, scene, renderer, controls;
@@ -114,7 +115,10 @@ const states = {
                 // if the command submitted is not empty string, add a newline
                 app.cmd += "\n";
                 if (result.valid) {
+                    sfx.cmdGood.play();
                     app.score += 10;
+                } else {
+                    sfx.cmdBad.play();
                 }
                 console.log(
                     `entered "${result.cmd}"... it's ${
