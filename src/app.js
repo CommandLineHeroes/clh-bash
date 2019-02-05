@@ -18,9 +18,6 @@ let ctrl_down = false;
  * newline)
  */
 function validKeycode(ev, leftChar) {
-    // drop all keys while shift is held
-    // if (ev.shiftKey) return;  // Why?? This breaks valid commands like "NetworkManager"
-
     const kc = ev.keyCode;
 
     // if ctrl is held down, ignore everything
