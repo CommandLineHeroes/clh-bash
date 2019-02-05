@@ -39,7 +39,7 @@ a:active {
   color: var(--clh-white);
 }
 a:visited {
-  color: var(--clh-purple);
+  color: var(--clh-purple-light);
 }
 
 textarea#cmd {
