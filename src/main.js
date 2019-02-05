@@ -57,14 +57,15 @@ const states = {
             app.allowTyping = true;
 
             app.onResult = async result => {
-                app.cmd = "";
                 if (result.cmd == "play") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     app.showTitle = false;
+                    app.cmd = "\nEntering game...";
+                    await sleep(200);
                     app.toState(STATES.play);
                 } else {
-                    console.log("type 'PLAY' to begin");
+                    app.cmd += "\nType 'play'...\n";
                 }
             };
         }
