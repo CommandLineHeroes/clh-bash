@@ -288,7 +288,7 @@ async function init() {
     // load computer
 
     const comp = await loadMesh(
-        "../assets/models/",
+        "/assets/models/",
         "CLH_ep2_computer_high_poly.mtl",
         "CLH_ep2_computer_high_poly.obj"
     );
