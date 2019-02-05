@@ -118,7 +118,6 @@ const states = {
                 app.cmd += "\n";
                 if (result.valid) {
                     sfx.cmdGood.play();
-                    app.score += 10;
                 } else {
                     sfx.cmdBad.play();
                 }

@@ -62,7 +62,9 @@ const app = new Vue({
             js: 0,
             bash: 0,
             html: 0,
-            py: 0
+            py: 0,
+            totalValidCharacters: 0,
+            totalValidCommands: 0,
         }
     },
     methods: {
@@ -103,6 +105,16 @@ const app = new Vue({
                 ev.preventDefault();
                 const result = this.testCmd(ev);
                 result.lang.forEach(lang => app.count[lang]++);
+
+                if (result.valid) {
+                    // Increase score
+                    app.score += (10 + result.cmd.length) * 100;
+
+                    // Valid command increment counters
+                    app.count.totalValidCommands++;
+                    app.count.totalValidCharacters += result.cmd.length;
+                }
+
                 if (result.cmd.length != 0) {
                     // scroll to bottom of the textarea
                     // gameplay, it just makes the textarea look nicer when the
