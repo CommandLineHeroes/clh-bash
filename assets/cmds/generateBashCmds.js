@@ -5,15 +5,13 @@
 // Example Usage:
 //     node generateBashCmds.js from-path-fedora.txt from-path-ubuntu.txt
 
-// First load the files from command line arguments
-
 'use strict';
 
 let fs = require('fs');
 
 let allCmds = [];
 
-// Read all commands from files
+// First load the files from command line arguments
 for (let i = 2; i < process.argv.length; i++) {
     let fileName = process.argv[i];
     console.log('Loading file: ' + (fileName));

@@ -19,7 +19,7 @@ let ctrl_down = false;
  */
 function validKeycode(ev, leftChar) {
     // drop all keys while shift is held
-    if (ev.shiftKey) return;
+    // if (ev.shiftKey) return;  // Why?? This breaks valid commands like "NetworkManager"
 
     const kc = ev.keyCode;
 
@@ -32,27 +32,23 @@ function validKeycode(ev, leftChar) {
         return false;
     }
 
-    // valid keys are alpha, numeric, underscore, hyphen, enter, and right-arrow.  left-arrow and backspace areonly accepted when they doesn't cross over a newline (ie, would have made the cursor to up one line).
+    // valid keys are alpha, numeric, punctuation, underscore, hyphen, enter, and right-arrow.
+    // left-arrow and backspace areonly accepted when they doesn't cross over a newline
+    // (ie, would have made the cursor to up one line).
     const alphanumeric =
         _.inRange(kc, keyCodes.nums.start, keyCodes.nums.end + 1) ||
-        _.inRange(kc, keyCodes.ualpha.start, keyCodes.ualpha.end + 1) ||
-        _.inRange(kc, keyCodes.lalpha.start, keyCodes.lalpha.end + 1);
+        _.inRange(kc, keyCodes.alpha.start, keyCodes.alpha.end + 1) ||
+        _.inRange(kc, keyCodes.punct.start, keyCodes.punct.end + 1);
 
     const valid_other =
         [
-            keyCodes.underscore,
-            keyCodes.hyphen,
             keyCodes.enter,
             keyCodes.right_arrow
         ].includes(kc) ||
-        (leftChar != "\n" &&
-            (kc == keyCodes.left_arrow || kc == keyCodes.backspace));
+        (leftChar !== "\n" &&
+            (kc === keyCodes.left_arrow || kc === keyCodes.backspace));
 
-    if (alphanumeric || valid_other) {
-        return true;
-    }
-
-    return false;
+    return alphanumeric || valid_other;
 }
 
 const app = new Vue({

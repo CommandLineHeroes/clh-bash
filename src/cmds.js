@@ -38,7 +38,7 @@ export function find(cmd) {
         lang: []
     };
     for (let lang in cmdsByLang) {
-        if (cmdsByLang[lang].includes(cmd.trim().toLowerCase())) {
+        if (cmdsByLang[lang].includes(cmd.trim())) {
             result.cmd = cmd;
             result.lang.push(lang);
         }
