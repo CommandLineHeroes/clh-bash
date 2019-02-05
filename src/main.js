@@ -5,6 +5,7 @@ import "./MTLLoaderPhysical.js";
 import palette from "./palette.js";
 import app from "./app.js";
 import tweenCamera from "./tween-camera.js";
+import keyCodes from "./keycodes.js";
 import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 import sleep from "./sleep.js";
@@ -167,6 +168,21 @@ const states = {
             app.cmd += `HTML: ${app.count.html}\n`;
             app.cmd += `Python: ${app.count.py}\n`;
             app.cmd += `Bash: ${app.count.bash}\n`;
+
+            app.cmd += `Press Enter to continue.`;
+
+            // when any key is pressed, go back to the title screen
+            app.onKeyPress = async ev => {
+                // don't let any other event handlers run
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                if (ev.keyCode === keyCodes.enter) {
+                    app.onKeyPress = _.noop;
+                    app.cmd = "";
+                    app.toState(STATES.title);
+                }
+            };
         }
     }
 };

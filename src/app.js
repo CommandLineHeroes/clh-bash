@@ -75,7 +75,13 @@ const app = new Vue({
             // disable pasting into the textarea
             ev.preventDefault();
         },
+        // this keypress handler can be overridden and changed based on the state of the game.
+        onKeyPress: _.noop,
+        // this keypress handler is the primary one which controls interaction with the textarea.
         handleKeypress: function(ev) {
+            // give onKeyPress first crack at this event
+            this.onKeyPress(ev);
+
             if (!this.allowTyping) {
                 ev.preventDefault();
                 return;
