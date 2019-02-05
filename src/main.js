@@ -111,7 +111,9 @@ const states = {
             app.allowTyping = true;
 
             app.onResult = async result => {
-                app.cmd += result.valid ? " ✔" : " ⨯";
+                app.cmd += result.valid
+                    ? ` ✔  [${result.lang.join(" ")}]`
+                    : " ⨯";
                 // if the command submitted is not empty string, add a newline
                 app.cmd += "\n";
                 if (result.valid) {
