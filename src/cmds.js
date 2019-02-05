@@ -1,5 +1,6 @@
 // API for interrogating the command "database"
 
+import bashCmds from "../assets/cmds/bash.js";
 import jsCmds from "../assets/cmds/js.js";
 import pyCmds from "../assets/cmds/python.js";
 import htmlCmds from "../assets/cmds/html.js";
@@ -8,6 +9,10 @@ const allCmds = _.union(js(), py(), html() /* and other langs as needed */);
 
 export function all() {
     return allCmds;
+}
+
+export function bash() {
+    return bashCmds;
 }
 
 export function js() {
@@ -24,6 +29,7 @@ export function html() {
 
 export function find(cmd) {
     const cmdsByLang = {
+        bash: bash(),
         js: js(),
         py: py(),
         html: html()
