@@ -80,8 +80,6 @@ const app = new Vue({
         onKeyPress: _.noop,
         // this keypress handler is the primary one which controls interaction with the textarea.
         handleKeypress: function(ev) {
-            sfx.keypress.play();
-
             // give onKeyPress first crack at this event
             this.onKeyPress(ev);
 
