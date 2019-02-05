@@ -13,7 +13,7 @@
             <div v-bind:class="{ show: showTitle }" id="title-screen">
                 <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
                 <p v-bind:class="{ show: showTitle }" id="instructions">
-                    Type as many commands as you can in 60 seconds.<br>Set the terminal on fire.
+                    Type as many commands as you can in {{parseInt(gameDuration/1000)}} seconds.<br>Set the terminal on fire.
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="langs">
                     BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML
