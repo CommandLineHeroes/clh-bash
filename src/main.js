@@ -58,7 +58,7 @@ const states = {
             app.allowTyping = true;
 
             app.onResult = async result => {
-                if (result.cmd == "play") {
+                if (result.cmd.toLowerCase() == "play") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     app.showTitle = false;
