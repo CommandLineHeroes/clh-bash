@@ -38,10 +38,7 @@ function validKeycode(ev, leftChar) {
         _.inRange(kc, keyCodes.punct.start, keyCodes.punct.end + 1);
 
     const valid_other =
-        [
-            keyCodes.enter,
-            keyCodes.right_arrow
-        ].includes(kc) ||
+        [keyCodes.enter, keyCodes.right_arrow].includes(kc) ||
         (leftChar !== "\n" &&
             (kc === keyCodes.left_arrow || kc === keyCodes.backspace));
 
