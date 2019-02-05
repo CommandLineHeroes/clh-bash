@@ -220,7 +220,7 @@ async function init() {
 
     scene = new THREE.Scene();
     // const envMap = new THREE.CubeTextureLoader()
-    //     .setPath("../assets/textures/")
+    //     .setPath("assets/textures/")
     //     .load([
     //         "wall.png",
     //         "wall.png",
@@ -294,7 +294,7 @@ async function init() {
     // load computer
 
     const comp = await loadMesh(
-        "/assets/models/",
+        "assets/models/",
         "CLH_ep2_computer_high_poly.mtl",
         "CLH_ep2_computer_high_poly.obj"
     );
@@ -362,7 +362,7 @@ async function init() {
     // load cyc wall
 
     const cyc = await loadMesh(
-        "../assets/models/",
+        "assets/models/",
         "CLH_ep2_cyc_wall.mtl",
         "CLH_ep2_cyc_wall.obj"
     );
