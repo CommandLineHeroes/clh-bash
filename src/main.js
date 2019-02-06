@@ -417,7 +417,7 @@ async function init() {
         screenSize.height
     );
     const consolePlane = new THREE.Mesh(consolePlaneGeo, screen.material);
-    consolePlane.position.set(-5.5, 42.8, 28);
+    consolePlane.position.set(-5.5, 42.8, 26);
     consolePlane.rotation.x = -0.16;
     screen.visible = false;
     window.consolePlane = consolePlane;
