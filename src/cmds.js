@@ -5,7 +5,14 @@ import jsCmds from "../assets/cmds/js.js";
 import pyCmds from "../assets/cmds/python.js";
 import htmlCmds from "../assets/cmds/html.js";
 
-const allCmds = _.union(js(), py(), html() /* and other langs as needed */);
+const allCmds = _.union(bash(), js(), py(), html() /* and other langs as needed */);
+
+export const cmdsByLang = {
+    bash: bash(),
+    js: js(),
+    py: py(),
+    html: html()
+};
 
 export function all() {
     return allCmds;
@@ -28,12 +35,6 @@ export function html() {
 }
 
 export function find(cmd) {
-    const cmdsByLang = {
-        bash: bash(),
-        js: js(),
-        py: py(),
-        html: html()
-    };
     const result = {
         lang: []
     };

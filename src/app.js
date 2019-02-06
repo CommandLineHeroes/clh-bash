@@ -1,9 +1,8 @@
 import STATES from "./states.js";
 import keyCodes from "./keycodes.js";
-import sleep from "./sleep.js";
 import consoleCanvas from "./console-canvas.js";
 import * as cmds from "./cmds.js";
-import sfx from "./sfx.js";
+import config from "./config.js";
 
 // create some handy aliases for keycodes, for use with Vue's v-on directive.
 Vue.config.keyCodes = {
@@ -156,6 +155,43 @@ const app = new Vue({
                     change.to
                 }" but no handler is registered.`
             );
+        },
+
+        /**
+         * This function returns a json object with the set of golden command for this game
+         */
+        pickGoldenCommands: function() {
+            // General rules for golden commands
+            //   1. 10 char or less
+            //   2. don't start with _
+            //   3. don't end with ()
+            //   4. Pull from a list of well known commands for each lang
+            //   5. pick configurable amount of commands from each language type that meet the above rules
+
+            const filterCmds = function(cmds) {
+                // filter by length
+                let filteredCmds = cmds.filter(cmd => cmd.length <= config.GOLDEN_CMDS_MAX_LENGTH);
+
+                // Filter out starting with underscore
+                filteredCmds = filteredCmds.filter(cmd => !cmd.startsWith("_"));
+
+                // Filter out ending with parens )
+                filteredCmds = filteredCmds.filter(cmd => !cmd.endsWith(")"));
+
+                return filteredCmds;
+            };
+
+            let bash = filterCmds(cmds.cmdsByLang.bash);
+            let js = filterCmds(cmds.cmdsByLang.js);
+            let py = filterCmds(cmds.cmdsByLang.py);
+            let html = filterCmds(cmds.cmdsByLang.html);
+
+            return {
+                bash: _.sampleSize(bash, config.GOLDEN_CMDS_PER_LANG),
+                js: _.sampleSize(js, config.GOLDEN_CMDS_PER_LANG),
+                py: _.sampleSize(py, config.GOLDEN_CMDS_PER_LANG),
+                html: _.sampleSize(html, config.GOLDEN_CMDS_PER_LANG),
+            };
         }
     },
     mounted: function() {
@@ -185,5 +221,7 @@ function updateConsole() {
 }
 
 updateConsole();
+
+window.app = app;
 
 export default app;

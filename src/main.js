@@ -76,6 +76,9 @@ const states = {
         enter: async function() {
             // TODO show other play state stuff like game logic, score, ghosty, etc.
 
+            // Pick golden commands
+            const goldenCommands = app.pickGoldenCommands();
+
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
 
