@@ -181,10 +181,10 @@ const app = new Vue({
                 return filteredCmds;
             };
 
-            let bash = filterCmds(cmds.cmdsByLang.bash);
-            let js = filterCmds(cmds.cmdsByLang.js);
-            let py = filterCmds(cmds.cmdsByLang.py);
-            let html = filterCmds(cmds.cmdsByLang.html);
+            let bash = filterCmds(cmds.cmdsByLang.bash.cmds);
+            let js = filterCmds(cmds.cmdsByLang.js.cmds);
+            let py = filterCmds(cmds.cmdsByLang.py.cmds);
+            let html = filterCmds(cmds.cmdsByLang.html.cmds);
 
             return {
                 bash: _.sampleSize(bash, config.GOLDEN_CMDS_PER_LANG),
