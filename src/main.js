@@ -150,13 +150,14 @@ const states = {
 
                         // Give BIG bonus for golden commands
                         cmdScore *= config.SCORE_GOLDEN_COMMAND_MULTIPLIER;
-                    }
-                    else {
+                    } else {
                         sfx.cmdGood.play();
                     }
 
                     // Increase score
-                    app.score += (cmdScore + result.cmd.length) * config.SCORE_OVERALL_MULTIPLIER;
+                    app.score +=
+                        (cmdScore + result.cmd.length) *
+                        config.SCORE_OVERALL_MULTIPLIER;
 
                     // Keep log of entered valid commands
                     enteredValidCmds.push(result.cmd);
@@ -164,12 +165,12 @@ const states = {
                     // Valid command increment counters
                     app.count.totalValidCommands++;
                     app.count.totalValidCharacters += result.cmd.length;
-
-                }
-                else if(result.valid && enteredValidCmds.includes(result.cmd)) {
+                } else if (
+                    result.valid &&
+                    enteredValidCmds.includes(result.cmd)
+                ) {
                     app.cmd += " x  [duplicate]";
-                }
-                else {
+                } else {
                     sfx.cmdBad.play();
 
                     app.cmd += " x";

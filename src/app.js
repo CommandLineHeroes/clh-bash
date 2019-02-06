@@ -201,7 +201,11 @@ const app = new Vue({
                     _.sampleSize(_.xor(htmlCommon, htmlAll), rn)
                 )
             };
-            goldenCommands.all = goldenCommands.bash.concat(goldenCommands.js, goldenCommands.py, goldenCommands.html);
+            goldenCommands.all = goldenCommands.bash.concat(
+                goldenCommands.js,
+                goldenCommands.py,
+                goldenCommands.html
+            );
 
             return goldenCommands;
         },
