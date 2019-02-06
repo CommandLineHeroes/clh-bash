@@ -183,16 +183,31 @@ const app = new Vue({
                 return filteredCmds;
             };
 
-            let bash = filterCmds(cmds.cmdsByLang.bash.cmds);
-            let js = filterCmds(cmds.cmdsByLang.js.cmds);
-            let py = filterCmds(cmds.cmdsByLang.py.cmds);
-            let html = filterCmds(cmds.cmdsByLang.html.cmds);
+            let bashAll = filterCmds(cmds.cmdsByLang.bash.cmds);
+            let bashCommon = cmds.cmdsByLang.bash.commonCmds;
+            let jsAll = filterCmds(cmds.cmdsByLang.js.cmds);
+            let jsCommon = cmds.cmdsByLang.js.commonCmds;
+            let pyAll = filterCmds(cmds.cmdsByLang.py.cmds);
+            let pyCommon = cmds.cmdsByLang.py.commonCmds;
+            let htmlAll = filterCmds(cmds.cmdsByLang.html.cmds);
+            let htmlCommon = filterCmds(cmds.cmdsByLang.html.commonCmds);
+
+            let cn = config.GOLDEN_CMDS_COMMON_PER_LANG;
+            let rn = config.GOLDEN_CMDS_RANDOM_PER_LANG;
 
             return {
-                bash: _.sampleSize(bash, config.GOLDEN_CMDS_PER_LANG),
-                js: _.sampleSize(js, config.GOLDEN_CMDS_PER_LANG),
-                py: _.sampleSize(py, config.GOLDEN_CMDS_PER_LANG),
-                html: _.sampleSize(html, config.GOLDEN_CMDS_PER_LANG)
+                bash: _.sampleSize(bashCommon, cn).concat(
+                    _.sampleSize(_.xor(bashCommon, bashAll), rn)
+                ),
+                js: _.sampleSize(jsCommon, cn).concat(
+                    _.sampleSize(_.xor(jsCommon, jsAll), rn)
+                ),
+                py: _.sampleSize(pyCommon, cn).concat(
+                    _.sampleSize(_.xor(pyCommon, pyAll), rn)
+                ),
+                html: _.sampleSize(htmlCommon, cn).concat(
+                    _.sampleSize(_.xor(htmlCommon, htmlAll), rn)
+                )
             };
         }
     },

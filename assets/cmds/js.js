@@ -7,6 +7,18 @@
  */
 export default {
     name: "JavaScript",
+    commonCmds: [
+        "if",
+        "else",
+        "for",
+        "function",
+        "let",
+        "var",
+        "const",
+        "JSON",
+        "Date",
+        "window"
+    ],
     cmds: [
         // keywords
         "await",

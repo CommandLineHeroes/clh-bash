@@ -7,6 +7,26 @@
  */
 export default {
     name: "Python",
+    commonCmds: [
+        "def",
+        "len",
+        "lambda",
+        "tuple",
+        "elif",
+        "if",
+        "or",
+        "return",
+        "finally",
+        "class",
+        "and",
+        "del",
+        "not",
+        "while",
+        "break",
+        "with",
+        "True",
+        "False"
+    ],
     cmds: [
         // keywords
         "False",
