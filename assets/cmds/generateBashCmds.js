@@ -5,26 +5,26 @@
 // Example Usage:
 //     node generateBashCmds.js from-path-fedora.txt from-path-ubuntu.txt
 
-'use strict';
+"use strict";
 
-let fs = require('fs');
+let fs = require("fs");
 
 let allCmds = [];
 
 // First load the files from command line arguments
 for (let i = 2; i < process.argv.length; i++) {
     let fileName = process.argv[i];
-    console.log('Loading file: ' + (fileName));
+    console.log("Loading file: " + fileName);
 
-    let fileContents = fs.readFileSync(fileName, 'ascii');
-    let linesArray = fileContents.split('\n');
+    let fileContents = fs.readFileSync(fileName, "ascii");
+    let linesArray = fileContents.split("\n");
 
     allCmds = allCmds.concat(linesArray);
 
     console.log("command count: ", linesArray.length);
 }
 
-console.log('all commands count: ', allCmds.length);
+console.log("all commands count: ", allCmds.length);
 
 // Sort
 allCmds.sort();
@@ -34,19 +34,19 @@ let uniqueCmds = allCmds.filter(function(elem, index, self) {
     return index === self.indexOf(elem);
 });
 
-console.log('unique commands count: ', uniqueCmds.length);
+console.log("unique commands count: ", uniqueCmds.length);
 
 // Write to file
-console.log('Writing to: bash.js');
+console.log("Writing to: bash.js");
 let outFileContent = "/** Generated from generateBashCmds.js **/\n";
 outFileContent += "export default [\n";
 uniqueCmds.forEach(value => {
-    outFileContent += "\"" + value + "\",\n";
+    outFileContent += '"' + value + '",\n';
 });
 outFileContent += "];\n";
 
 try {
-    fs.writeFileSync('./bash.js', outFileContent)
+    fs.writeFileSync("./bash.js", outFileContent);
 } catch (err) {
-    console.error(err)
+    console.error(err);
 }

@@ -177,7 +177,6 @@ const states = {
             app.cmd += `JavaScript: ${app.count.js}\n`;
             app.cmd += `HTML: ${app.count.html}\n`;
 
-
             app.cmd += `Press Enter to continue.`;
 
             // when any key is pressed, go back to the title screen

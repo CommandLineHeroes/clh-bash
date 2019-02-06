@@ -63,7 +63,7 @@ const app = new Vue({
             html: 0,
             py: 0,
             totalValidCharacters: 0,
-            totalValidCommands: 0,
+            totalValidCommands: 0
         }
     },
     methods: {
@@ -170,7 +170,9 @@ const app = new Vue({
 
             const filterCmds = function(cmds) {
                 // filter by length
-                let filteredCmds = cmds.filter(cmd => cmd.length <= config.GOLDEN_CMDS_MAX_LENGTH);
+                let filteredCmds = cmds.filter(
+                    cmd => cmd.length <= config.GOLDEN_CMDS_MAX_LENGTH
+                );
 
                 // Filter out starting with underscore
                 filteredCmds = filteredCmds.filter(cmd => !cmd.startsWith("_"));
@@ -190,7 +192,7 @@ const app = new Vue({
                 bash: _.sampleSize(bash, config.GOLDEN_CMDS_PER_LANG),
                 js: _.sampleSize(js, config.GOLDEN_CMDS_PER_LANG),
                 py: _.sampleSize(py, config.GOLDEN_CMDS_PER_LANG),
-                html: _.sampleSize(html, config.GOLDEN_CMDS_PER_LANG),
+                html: _.sampleSize(html, config.GOLDEN_CMDS_PER_LANG)
             };
         }
     },
