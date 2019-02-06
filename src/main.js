@@ -51,12 +51,20 @@ const states = {
             await sleep(300);
             app.updateConsole = app.writeToConsole;
 
+            sfx.boot.volume(1);
+            sfx.boot.play();
+
             // let the camera zoom in for a while before moving on to displaying text on screen
-            await sleep(1200);
+            await sleep(1000);
 
             app.cmd = "LOADING...\n\n";
 
             await camTween;
+
+            await sleep(1200);
+
+            sfx.menuMusic.volume(1);
+            sfx.menuMusic.play();
 
             app.showTitle = true;
 
@@ -70,6 +78,8 @@ const states = {
                     app.allowTyping = false;
                     app.showTitle = false;
                     app.cmd = "";
+                    sfx.boot.fade(1, 0, 600);
+                    sfx.menuMusic.fade(1, 0, 600);
                     await sleep(200);
                     app.toState(STATES.play);
                 } else {
@@ -89,6 +99,9 @@ const states = {
             app.cmd = "\nEntering game...";
 
             app.goldenCommands = app.pickGoldenCommands();
+
+            sfx.play.volume(1);
+            sfx.play.play();
 
             await tweenCamera(camera, {
                 rotation: {
@@ -204,6 +217,8 @@ const states = {
             console.log("starting game timer");
             await sleep(app.gameDuration);
             console.log("game timer o'er");
+
+            sfx.play.fade(1, 0, 600);
 
             app.cmd = "";
             app.showScore = false;
