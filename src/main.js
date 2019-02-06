@@ -54,7 +54,7 @@ const states = {
             // let the camera zoom in for a while before moving on to displaying text on screen
             await sleep(1200);
 
-            app.cmd = "LOADING...\n";
+            app.cmd = "LOADING...\n\n";
 
             await camTween;
 
