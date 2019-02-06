@@ -220,7 +220,7 @@ const app = new Vue({
             const halfScreen = Math.floor(
                 consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2
             );
-            const goldCmds = this.pickGoldenCommands();
+            const goldCmds = app.goldenCommands;
             const langs = _.keys(goldCmds);
 
             // title of first and second langs

@@ -84,6 +84,8 @@ const states = {
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
             app.cmd = "\nEntering game...";
 
+            app.goldenCommands = app.pickGoldenCommands();
+
             await tweenCamera(camera, {
                 rotation: {
                     x: 0,
@@ -138,10 +140,22 @@ const states = {
                 // if the command submitted is not empty string, add a newline
                 app.cmd += "\n";
                 if (result.valid) {
-                    sfx.cmdGood.play();
+                    let cmdScore = config.SCORE_PER_COMMAND;
+
+                    // See if the command entered was a golden command
+                    if (app.goldenCommands.all.includes(result.cmd)) {
+                        console.log("GOLDEN COMMAND ENTERED!");
+                        sfx.cmdGold.play();
+
+                        // Give BIG bonus for golden commands
+                        cmdScore *= config.SCORE_GOLDEN_COMMAND_MULTIPLIER;
+                    }
+                    else {
+                        sfx.cmdGood.play();
+                    }
 
                     // Increase score
-                    app.score += (10 + result.cmd.length) * 100;
+                    app.score += (cmdScore + result.cmd.length) * config.SCORE_OVERALL_MULTIPLIER;
 
                     // Valid command increment counters
                     app.count.totalValidCommands++;
