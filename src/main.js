@@ -54,7 +54,7 @@ const states = {
             // let the camera zoom in for a while before moving on to displaying text on screen
             await sleep(1200);
 
-            app.cmd = "LOADING...\n";
+            app.cmd = "LOADING...\n\n";
 
             await camTween;
 
@@ -100,12 +100,21 @@ const states = {
             app.cmd = "Here are some bonus commands to get you started...\n\n";
             app.cmd += app.printGoldenCommands();
             await sleep(config.GOLDEN_CMDS_PREVIEW_TIME);
-            app.cmd += "\nBegin in... ";
+            app.cmd += "\nGet ready... ";
+            await sleep(1000);
             let countdown = 5;
             while (countdown--) {
                 app.cmd += `${1 + countdown} `;
+                // play a sound for the last few seconds of the timer
+                if (countdown > 0) {
+                    sfx.timerRelaxed.play();
+                } else {
+                    sfx.timerUrgent.play();
+                }
                 await sleep(1000);
             }
+            sfx.timerUrgent.play();
+
             const blankChars = _.times(
                 Math.floor(consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2 - 2),
                 _.constant(" ")
@@ -151,6 +160,13 @@ const states = {
             app.timer = app.gameDuration / 1000;
             const iid = setInterval(() => {
                 app.timer -= 1;
+
+                // play a sound for the last few seconds of the timer
+                if (app.timer <= 10 && app.timer >= 3) {
+                    sfx.timerRelaxed.play();
+                } else if (app.timer < 3) {
+                    sfx.timerUrgent.play();
+                }
                 if (app.timer <= 0) {
                     clearInterval(iid);
                 }
