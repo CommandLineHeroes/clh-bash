@@ -10,6 +10,7 @@ import { loadMesh } from "./three-utils.js";
 import STATES from "./states.js";
 import sleep from "./sleep.js";
 import consoleCanvas from "./console-canvas.js";
+import config from "./config.js";
 import sfx from "./sfx.js";
 
 let container;
@@ -28,6 +29,8 @@ const states = {
         enter: async function() {
             // TODO show other title state stuff like text, logo, etc.
 
+            app.updateConsole = _.noop;
+
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;
 
@@ -44,9 +47,12 @@ const states = {
                 },
                 duration: 4000
             });
+            // wait a short time so the CLH test pattern can be seen, then start drawing the console
+            await sleep(300);
+            app.updateConsole = app.writeToConsole;
 
             // let the camera zoom in for a while before moving on to displaying text on screen
-            await sleep(1500);
+            await sleep(1200);
 
             app.cmd = "LOADING...\n";
 
@@ -63,7 +69,7 @@ const states = {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     app.showTitle = false;
-                    app.cmd = "\nEntering game...";
+                    app.cmd = "";
                     await sleep(200);
                     app.toState(STATES.play);
                 } else {
@@ -74,13 +80,9 @@ const states = {
     },
     [STATES.play]: {
         enter: async function() {
-            // TODO show other play state stuff like game logic, score, ghosty, etc.
-
-            // Pick golden commands
-            const goldenCommands = app.pickGoldenCommands();
-
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
+            app.cmd = "\nEntering game...";
 
             await tweenCamera(camera, {
                 rotation: {
@@ -95,23 +97,30 @@ const states = {
                 }
             });
 
-            app.cmd = "Type as many commands as you can in one minute!\n";
-            app.cmd += "\nChoose from the following.";
-            app.cmd += "\n - any Bash built-in command";
-            app.cmd += "\n - any JavaScript keyword";
-            app.cmd += "\n - any Python keyword";
-            app.cmd += "\n - any HTML tag";
-            app.cmd += "\n\nBegin in... ";
-            await sleep(500);
-            app.cmd += "3 ";
-            await sleep(500);
-            app.cmd += "2 ";
-            await sleep(500);
-            app.cmd += "1 ";
-            await sleep(500);
-            app.cmd += "GO!\n";
+            app.cmd = "Here are some bonus commands to get you started...\n\n";
+            app.cmd += app.printGoldenCommands();
+            await sleep(config.GOLDEN_CMDS_PREVIEW_TIME);
+            app.cmd += "\nBegin in... ";
+            let countdown = 5;
+            while (countdown--) {
+                app.cmd += `${1 + countdown} `;
+                await sleep(1000);
+            }
+            const blankChars = _.times(
+                Math.floor(consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2 - 2),
+                _.constant(" ")
+            ).join("");
+            const blankLines = _.times(
+                Math.floor(consoleCanvas.conf.MAX_LINES / 2),
+                _.constant("\n")
+            ).join("");
+            app.cmd = `${blankChars}GO!${blankLines}`;
+            await sleep(1000);
 
+            app.showScore = true;
             app.allowTyping = true;
+
+            app.cmd = "";
 
             app.onResult = async result => {
                 app.cmd += result.valid
@@ -144,6 +153,7 @@ const states = {
             console.log("game timer o'er");
 
             app.cmd = "";
+            app.showScore = false;
             app.onResult = _.noop();
             app.allowTyping = false;
             app.toState(STATES.score);
@@ -427,6 +437,8 @@ function render(time) {
 
     // update the canvas-based material
     screen.material.map.needsUpdate = true;
+
+    app.updateConsole();
 
     renderer.render(scene, camera);
 

@@ -6,10 +6,10 @@ import pyCmds from "../assets/cmds/python.js";
 import htmlCmds from "../assets/cmds/html.js";
 
 const allCmds = _.union(
-    bash(),
-    js(),
-    py(),
-    html() /* and other langs as needed */
+    bash().cmds,
+    js().cmds,
+    py().cmds,
+    html().cmds /* and other langs as needed */
 );
 
 export const cmdsByLang = {
@@ -37,6 +37,12 @@ export function py() {
 
 export function html() {
     return htmlCmds;
+}
+
+export function longest() {
+    return allCmds.reduce(function(a, b) {
+        return a.length > b.length ? a : b;
+    }).length;
 }
 
 export function find(cmd) {

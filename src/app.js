@@ -50,12 +50,19 @@ const app = new Vue({
     data: {
         state: STATES.loading,
         showTitle: false,
+        showScore: false,
         cmd: "",
         commands: [],
         displayScore: false,
         gameDuration: 60 * 1000,
         timer: 0,
         allowTyping: false,
+        goldenCommands: {
+            js: {
+                name: "JavaScript",
+                cmds: ["if", "of", "for", "function"]
+            }
+        },
         score: 0,
         count: {
             js: 0,
@@ -209,6 +216,61 @@ const app = new Vue({
                     _.sampleSize(_.xor(htmlCommon, htmlAll), rn)
                 )
             };
+        },
+        /**
+         * Get the golden commands for the console canvas.
+         */
+        printGoldenCommands: function() {
+            let out = "";
+
+            const halfScreen = Math.floor(
+                consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2
+            );
+            const goldCmds = this.pickGoldenCommands();
+            const langs = _.keys(goldCmds);
+
+            // title of first and second langs
+            out += cmds.bash().name.padEnd(halfScreen);
+            out += cmds.js().name + "\n";
+
+            // interleave commands of first and second langs
+            out += _.zip(
+                goldCmds.bash.map(c => ` - ${c}`.padEnd(halfScreen)),
+                goldCmds.js.map(c => `${` - ${c}`.padEnd(halfScreen)}\n`)
+            )
+                .map(cs => cs.join(""))
+                .join("");
+
+            out += "\n";
+
+            // title of third and fourth langs
+            out += cmds
+                .py()
+                .name.padEnd(
+                    Math.floor(consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2)
+                );
+            out += cmds.html().name + "\n";
+
+            // interleave commands of third and fourth langs
+            out += _.zip(
+                goldCmds.py.map(c => ` - ${c}`.padEnd(halfScreen)),
+                goldCmds.html.map(c => `${` - ${c}`.padEnd(halfScreen)}\n`)
+            )
+                .map(cs => cs.join(""))
+                .join("");
+
+            return out;
+        },
+        updateConsole: _.noop,
+        writeToConsole: function() {
+            this.$nextTick(() => {
+                let args = [this.cmd];
+                if (this.showScore) {
+                    args.push(this.score);
+                    args.push(this.timer);
+                }
+                consoleCanvas.write(...args);
+            });
         }
     },
     mounted: function() {
@@ -224,20 +286,6 @@ const app = new Vue({
         });
     }
 });
-
-function updateConsole() {
-    requestAnimationFrame(updateConsole);
-    app.$nextTick(() => {
-        let args = [app.cmd];
-        if (app.state === STATES.play) {
-            args.push(app.score);
-            args.push(app.timer);
-        }
-        consoleCanvas.write(...args);
-    });
-}
-
-updateConsole();
 
 window.app = app;
 

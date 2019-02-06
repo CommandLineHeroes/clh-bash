@@ -11,7 +11,8 @@ class ConsoleCanvas {
             FONT_SIZE: 4 * 64, // px
             FONT_FAM: "overpass-mono",
             FONT_WEIGHT: "bold",
-            LINE_SPACING: 4 * 14 // px
+            LINE_SPACING: 4 * 14, // px
+            PLAY_CHARS_PER_LINE: 44 // this will need to change if the font size in play mode changes
         };
 
         // find the maximum number of lines of text that can be drawn (to avoid
