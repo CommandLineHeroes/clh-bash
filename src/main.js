@@ -97,10 +97,10 @@ const states = {
 
             app.cmd = "Type as many commands as you can in one minute!\n";
             app.cmd += "\nChoose from the following.";
-            app.cmd += "\n - any HTML tag";
-            app.cmd += "\n - any Python keyword";
-            app.cmd += "\n - any JavaScript keyword";
             app.cmd += "\n - any Bash built-in command";
+            app.cmd += "\n - any JavaScript keyword";
+            app.cmd += "\n - any Python keyword";
+            app.cmd += "\n - any HTML tag";
             app.cmd += "\n\nBegin in... ";
             await sleep(500);
             app.cmd += "3 ";
@@ -172,10 +172,11 @@ const states = {
             await sleep(500);
             app.cmd = "GAME OVER\n";
             app.cmd += `score: ${app.score}\n`;
+            app.cmd += `Bash: ${app.count.bash}\n`;
+            app.cmd += `Python: ${app.count.py}\n`;
             app.cmd += `JavaScript: ${app.count.js}\n`;
             app.cmd += `HTML: ${app.count.html}\n`;
-            app.cmd += `Python: ${app.count.py}\n`;
-            app.cmd += `Bash: ${app.count.bash}\n`;
+
 
             app.cmd += `Press Enter to continue.`;
 
