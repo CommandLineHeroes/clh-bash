@@ -82,6 +82,10 @@ const states = {
         enter: async function() {
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
+
+            // Keep a record of entered valid commands
+            let enteredValidCmds = [];
+
             app.cmd = "\nEntering game...";
 
             app.goldenCommands = app.pickGoldenCommands();
@@ -134,13 +138,10 @@ const states = {
             app.cmd = "";
 
             app.onResult = async result => {
-                app.cmd += result.valid
-                    ? ` ✔  [${result.lang.join(" ")}]`
-                    : " ⨯";
-                // if the command submitted is not empty string, add a newline
-                app.cmd += "\n";
-                if (result.valid) {
+                if (result.valid && !enteredValidCmds.includes(result.cmd)) {
                     let cmdScore = config.SCORE_PER_COMMAND;
+
+                    app.cmd += ` ✔  [${result.lang.join(" ")}]`;
 
                     // See if the command entered was a golden command
                     if (app.goldenCommands.all.includes(result.cmd)) {
@@ -157,13 +158,26 @@ const states = {
                     // Increase score
                     app.score += (cmdScore + result.cmd.length) * config.SCORE_OVERALL_MULTIPLIER;
 
+                    // Keep log of entered valid commands
+                    enteredValidCmds.push(result.cmd);
+
                     // Valid command increment counters
                     app.count.totalValidCommands++;
                     app.count.totalValidCharacters += result.cmd.length;
 
-                } else {
-                    sfx.cmdBad.play();
                 }
+                else if(result.valid && enteredValidCmds.includes(result.cmd)) {
+                    app.cmd += " x  [duplicate]";
+                }
+                else {
+                    sfx.cmdBad.play();
+
+                    app.cmd += " x";
+                }
+
+                // if the command submitted is not empty string, add a newline
+                app.cmd += "\n";
+
                 console.log(
                     `entered "${result.cmd}"... it's ${
                         result.valid ? "valid!" : "invalid :("

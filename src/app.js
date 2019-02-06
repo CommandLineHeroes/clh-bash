@@ -57,12 +57,6 @@ const app = new Vue({
         gameDuration: 60 * 1000,
         timer: 0,
         allowTyping: false,
-        goldenCommands: {
-            js: {
-                name: "JavaScript",
-                cmds: ["if", "of", "for", "function"]
-            }
-        },
         score: 0,
         count: {
             js: 0,
@@ -107,12 +101,12 @@ const app = new Vue({
             // ourselves.  This prevents Enter from splitting a word in half if
             // the cursor is inside a word, like hitting enter on "ca|t" would
             // result in "ca\nt".
-            if (ev.keyCode == Vue.config.keyCodes.enter) {
+            if (ev.keyCode === Vue.config.keyCodes.enter) {
                 ev.preventDefault();
                 const result = this.testCmd(ev);
                 result.lang.forEach(lang => app.count[lang]++);
 
-                if (result.cmd.length != 0) {
+                if (result.cmd.length !== 0) {
                     // scroll to bottom of the textarea
                     // gameplay, it just makes the textarea look nicer when the
                     // textarea itself is visible during debugging)
@@ -130,7 +124,7 @@ const app = new Vue({
             }
         },
         handleKeyup: function(ev) {
-            if (ev.keyCode == keyCodes.ctrl) {
+            if (ev.keyCode === keyCodes.ctrl) {
                 ctrl_down = false;
             }
         },
