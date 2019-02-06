@@ -112,15 +112,6 @@ const app = new Vue({
                 const result = this.testCmd(ev);
                 result.lang.forEach(lang => app.count[lang]++);
 
-                if (result.valid) {
-                    // Increase score
-                    app.score += (10 + result.cmd.length) * 100;
-
-                    // Valid command increment counters
-                    app.count.totalValidCommands++;
-                    app.count.totalValidCharacters += result.cmd.length;
-                }
-
                 if (result.cmd.length != 0) {
                     // scroll to bottom of the textarea
                     // gameplay, it just makes the textarea look nicer when the
@@ -202,7 +193,7 @@ const app = new Vue({
             let cn = config.GOLDEN_CMDS_COMMON_PER_LANG;
             let rn = config.GOLDEN_CMDS_RANDOM_PER_LANG;
 
-            return {
+            let goldenCommands = {
                 bash: _.sampleSize(bashCommon, cn).concat(
                     _.sampleSize(_.xor(bashCommon, bashAll), rn)
                 ),
@@ -216,6 +207,9 @@ const app = new Vue({
                     _.sampleSize(_.xor(htmlCommon, htmlAll), rn)
                 )
             };
+            goldenCommands.all = goldenCommands.bash.concat(goldenCommands.js, goldenCommands.py, goldenCommands.html);
+
+            return goldenCommands;
         },
         /**
          * Get the golden commands for the console canvas.

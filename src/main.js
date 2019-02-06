@@ -130,6 +130,14 @@ const states = {
                 app.cmd += "\n";
                 if (result.valid) {
                     sfx.cmdGood.play();
+
+                    // Increase score
+                    app.score += (10 + result.cmd.length) * 100;
+
+                    // Valid command increment counters
+                    app.count.totalValidCommands++;
+                    app.count.totalValidCharacters += result.cmd.length;
+
                 } else {
                     sfx.cmdBad.play();
                 }
