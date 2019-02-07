@@ -70,7 +70,7 @@ const states = {
 
             await sleep(600);
 
-            app.cmd += "\n\nType 'play' to begin...\n";
+            app.cmd += "\n\nType PLAY\n";
 
             app.allowTyping = true;
 
@@ -85,7 +85,7 @@ const states = {
                     await sleep(200);
                     app.toState(STATES.play);
                 } else {
-                    app.cmd += "\nType 'play'...\n";
+                    app.cmd += "\nType PLAY\n";
                 }
             };
         }
