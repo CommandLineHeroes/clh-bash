@@ -144,12 +144,11 @@ const states = {
                 _.constant("\n")
             ).join("");
             app.cmd = `${blankChars}GO!${blankLines}`;
+            app.allowTyping = true;
+
             await sleep(1000);
 
             app.showScore = true;
-            app.allowTyping = true;
-
-            app.cmd = "";
 
             app.onResult = async result => {
                 if (result.valid && !enteredValidCmds.includes(result.cmd)) {
