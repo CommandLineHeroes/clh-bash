@@ -3,10 +3,17 @@ const sfx = {
     cmdGold: new Howl({ src: ["assets/sfx/cmd-gold.mp3"] }),
     cmdBad: new Howl({ src: ["assets/sfx/cmd-bad.mp3"] }),
     keypress: new Howl({ src: ["assets/sfx/keypress.mp3"] }),
-    timerRelaxed: new Howl({ src: ["assets/sfx/timer-relaxed.mp3"] }),
-    timerUrgent: new Howl({ src: ["assets/sfx/timer-urgent.mp3"] }),
+    timerRelaxed: new Howl({
+        src: ["assets/sfx/timer-relaxed.mp3"],
+        volume: 1
+    }),
+    timerUrgent: new Howl({ src: ["assets/sfx/timer-urgent.mp3"], volume: 1 }),
     boot: new Howl({ src: ["assets/sfx/boot.mp3"] }),
-    menuMusic: new Howl({ src: ["assets/sfx/menu-music.mp3"], volume: 0.5 }),
+    menuMusic: new Howl({
+        src: ["assets/sfx/menu-music.mp3"],
+        volume: 0.5,
+        loop: true
+    }),
     play: new Howl({ src: ["assets/sfx/play.mp3"], volume: 0.6 })
 };
 
