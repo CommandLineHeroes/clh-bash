@@ -67,6 +67,14 @@ const app = new Vue({
             totalValidCommands: 0
         }
     },
+    watch: {
+        cmd: function(val) {
+            // if receiving user input and on a newline, add a prompt
+            if (this.allowTyping && val[val.length - 1] === "\n") {
+                this.cmd += "$ ";
+            }
+        }
+    },
     methods: {
         toState: function(state) {
             const change = { from: this.state, to: state };
@@ -132,7 +140,8 @@ const app = new Vue({
             const cmd = _(this.cmd)
                 .split("\n")
                 .last()
-                .trim();
+                .trim()
+                .replace(/^\$ /, ""); // ignore the prompt
             const { cmd: matchedCmd, lang } = cmds.find(cmd);
             const result = { cmd, valid: !!matchedCmd, matchedCmd, lang };
             this.$nextTick(() => {
