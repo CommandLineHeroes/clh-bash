@@ -13,10 +13,14 @@
             <div v-bind:class="{ show: showTitle }" id="title-screen">
                 <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
                 <p v-bind:class="{ show: showTitle }" id="instructions">
-                    Type as many commands as you can in {{parseInt(gameDuration/1000)}} seconds.<br>Set the terminal on fire.
+                    Test your command line skills.<br>
+                    You have {{parseInt(gameDuration/1000)}} seconds to type commands from:
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="langs">
-                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML
+                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5
+                </p>
+                <p v-bind:class="{ show: showTitle }">
+                    Set the terminal on fire.
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="credits">
                     Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team @ Red Hat.  Listen to the podcast at <a target=_blank href="https://www.redhat.com/en/command-line-heroes">redhat.com/en/command-line-heroes</a>.
