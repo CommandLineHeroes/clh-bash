@@ -27,8 +27,6 @@ document.body.appendChild(stats.dom);
 const states = {
     [STATES.title]: {
         enter: async function() {
-            // TODO show other title state stuff like text, logo, etc.
-
             app.updateConsole = _.noop;
 
             // make font big enough to see from a distance
