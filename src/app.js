@@ -265,7 +265,12 @@ const app = new Vue({
         updateConsole: _.noop,
         writeToConsole: function() {
             this.$nextTick(() => {
-                let args = [this.cmd];
+                let args = [_.clone(this.cmd)];
+                const showCursor =
+                    this.allowTyping && performance.now() % 1200 < 600;
+                if (showCursor) {
+                    args[0] += "█";
+                }
                 if (this.showScore) {
                     args.push(this.score);
                     args.push(this.timer);
