@@ -51,24 +51,28 @@ const states = {
             await sleep(300);
             app.updateConsole = app.writeToConsole;
 
-            sfx.boot.volume(1);
             sfx.boot.play();
 
             // let the camera zoom in for a while before moving on to displaying text on screen
             await sleep(1000);
 
-            app.cmd = "LOADING...\n\n";
+            app.cmd = "LOADING...";
 
             await camTween;
 
             await sleep(1200);
 
-            sfx.menuMusic.volume(1);
             sfx.menuMusic.play();
 
             app.showTitle = true;
 
-            app.cmd += "Type 'play'...\n";
+            await sleep(600);
+
+            app.cmd += "\n\nTESTING ROUTINE\nINITIATED.";
+
+            await sleep(600);
+
+            app.cmd += "\n\nType 'play' to begin...\n";
 
             app.allowTyping = true;
 
