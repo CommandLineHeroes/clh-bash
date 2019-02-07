@@ -102,7 +102,6 @@ const states = {
 
             app.goldenCommands = app.pickGoldenCommands();
 
-            sfx.play.volume(1);
             sfx.play.play();
 
             await tweenCamera(camera, {
