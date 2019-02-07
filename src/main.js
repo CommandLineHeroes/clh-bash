@@ -117,7 +117,9 @@ const states = {
                 }
             });
 
-            app.cmd = "Here are some bonus commands to get you started...\n\n";
+            app.cmd = `Memorize these ${
+                config.SCORE_GOLDEN_COMMAND_MULTIPLIER
+            }x BONUS commands!\n\n`;
             app.cmd += app.printGoldenCommands();
             await sleep(config.GOLDEN_CMDS_PREVIEW_TIME);
             app.cmd += "\nGet ready... ";
