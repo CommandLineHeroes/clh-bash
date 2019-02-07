@@ -1,5 +1,5 @@
 export default {
-    name: "HTML",
+    name: "HTML5",
     commonCmds: [
         "html",
         "head",
