@@ -284,6 +284,18 @@ const app = new Vue({
                 consoleCanvas.write(...args);
             });
         },
+        resetState: function() {
+            // Reset the score and other stat between games:
+            this.timer = 0;
+            this.allowTyping = false;
+            this.score = 0;
+            this.count.js = 0;
+            this.count.bash = 0;
+            this.count.html = 0;
+            this.count.py = 0;
+            this.count.totalValidCharacters = 0;
+            this.count.totalValidCommands = 0;
+        }
     },
     mounted: function() {
         // after the entire view has rendered

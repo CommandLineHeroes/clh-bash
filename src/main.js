@@ -34,6 +34,7 @@ const states = {
     [STATES.title]: {
         enter: async function() {
             app.updateConsole = _.noop;
+            app.resetState();
 
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;
@@ -224,18 +225,6 @@ const states = {
                         sfx.cmdBad.play();
                     }
 
-                    // See if we need to turn up the FIRE!
-                    let elapsedTime = (config.GAME_DURATION / 1000) - app.timer;
-                    let cps = 0;
-                    if (elapsedTime > 0) cps = app.count.totalValidCharacters / elapsedTime;
-                    console.log(elapsedTime, app.count.totalValidCharacters, cps);
-                    if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
-                        turnUpFire();
-                    }
-                    else if (fire.userData.on === true && cps < config.FIRE_CPS_THRESHOLD) {
-                        turnDownFire();
-                    }
-
                     // if the command submitted is not empty string, add a newline
                     app.cmd += "\n";
 
@@ -249,6 +238,18 @@ const states = {
                 app.timer = config.GAME_DURATION / 1000;
                 const iid = setInterval(() => {
                     app.timer -= 1;
+
+                    // See if we need to turn up the FIRE!
+                    let elapsedTime = (config.GAME_DURATION / 1000) - app.timer;
+                    let cps = 0;
+                    if (elapsedTime > 0) cps = app.count.totalValidCharacters / elapsedTime;
+                    console.log(elapsedTime, app.count.totalValidCharacters, cps);
+                    if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
+                        turnUpFire();
+                    }
+                    else if (fire.userData.on === true && cps < config.FIRE_CPS_THRESHOLD) {
+                        turnDownFire();
+                    }
 
                     // play a sound for the last few seconds of the timer
                     if (app.timer <= 10 && app.timer >= 3) {
