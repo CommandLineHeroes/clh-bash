@@ -28,7 +28,7 @@ let firePlane;
 let allowFire = false;
 
 let stats = new Stats();
-document.body.appendChild(stats.dom);
+// document.body.appendChild(stats.dom);
 
 const states = {
     [STATES.title]: {
@@ -381,7 +381,7 @@ async function init() {
     camera.position.y = 300;
     scene.add(camera);
 
-    controls = new THREE.OrbitControls(camera);
+    // controls = new THREE.OrbitControls(camera);
     // controls = new THREE.TrackballControls(camera);
 
     // lighting
@@ -569,7 +569,7 @@ window.turnUpFire=turnUpFire;
 
 function turnDownFire() {
     new TWEEN.Tween(fire)
-        .to({airSpeed: 0, burnRate: 10, speed: 1000}, 1500)
+        .to({airSpeed: 50, burnRate: 10, speed: 1000, expansion: -0.6}, 2000)
         .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
         .onComplete(() => {
             fire.userData.on = false;
