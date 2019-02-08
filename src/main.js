@@ -279,6 +279,9 @@ const states = {
         enter: async function() {
             app.allowTyping = false;
 
+            // Turn off Fire
+            turnDownFire();
+
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 90;
 
