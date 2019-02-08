@@ -102,6 +102,7 @@ const states = {
         enter: async function() {
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
+            controls.enabled = true;
 
             // Keep a record of entered valid commands
             let enteredValidCmds = [];
@@ -278,6 +279,8 @@ const states = {
 
                 sfx.play.fade(1, 0, 600);
 
+                controls.enabled = false;
+
                 app.cmd = "";
                 app.showScore = false;
                 app.onResult = _.noop();
@@ -391,7 +394,8 @@ async function init() {
     camera.position.y = 300;
     scene.add(camera);
 
-    // controls = new THREE.OrbitControls(camera);
+    controls = new THREE.OrbitControls(camera);
+    controls.enabled = false;
     // controls = new THREE.TrackballControls(camera);
 
     // lighting
@@ -579,7 +583,7 @@ window.turnUpFire = turnUpFire;
 
 function turnDownFire() {
     new TWEEN.Tween(fire)
-        .to({airSpeed: 50, burnRate: 10, speed: 1000, expansion: -0.6}, 2000)
+        .to({ airSpeed: 50, burnRate: 10, speed: 1000, expansion: -0.6 }, 2000)
         .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
         .onComplete(() => {
             fire.userData.on = false;
@@ -613,9 +617,6 @@ function render(time) {
     stats.begin();
 
     TWEEN.update(time);
-
-    // controls.update();
-    // computer.rotation.y += 0.01;
 
     // update the canvas-based material
     screen.material.map.needsUpdate = true;
