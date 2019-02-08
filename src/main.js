@@ -127,11 +127,11 @@ const states = {
                 }
             });
 
-            app.cmd = `Memorize these ${
+            app.cmd = `Randomized BONUS commands ${
                 config.SCORE_GOLDEN_COMMAND_MULTIPLIER
-            }x BONUS commands!\n\n`;
+            }x points each:\n\n`;
             app.cmd += app.printGoldenCommands();
-            app.cmd += "\nPress Enter when ready.";
+            app.cmd += "\nPress Enter to begin.";
 
             // wait for Enter to be pressed and then start the countdown
             app.onKeyPress = async ev => {
@@ -146,7 +146,7 @@ const states = {
             };
 
             async function startPlaying() {
-                app.cmd += "\nGet ready... ";
+                app.cmd += "\nGet ready to enter commands... ";
                 await sleep(1000);
                 let countdown = 5;
                 while (countdown--) {
@@ -169,7 +169,7 @@ const states = {
                     Math.floor(consoleCanvas.conf.MAX_LINES / 2),
                     _.constant("\n")
                 ).join("");
-                app.cmd = `${blankChars}GO!${blankLines}`;
+                app.cmd = `${blankChars}TYPE!${blankLines}`;
                 app.allowTyping = true;
 
                 // play gameplay music command music
