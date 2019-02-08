@@ -271,6 +271,7 @@ const states = {
                     app.onKeyPress = _.noop;
                     app.cmd = "";
                     app.toState(STATES.title);
+                    app.score = 0;
                 }
             };
         }
