@@ -124,116 +124,135 @@ const states = {
                 config.SCORE_GOLDEN_COMMAND_MULTIPLIER
             }x BONUS commands!\n\n`;
             app.cmd += app.printGoldenCommands();
-            await sleep(config.GOLDEN_CMDS_PREVIEW_TIME);
-            app.cmd += "\nGet ready... ";
-            await sleep(1000);
-            let countdown = 5;
-            while (countdown--) {
-                app.cmd += `${1 + countdown} `;
-                // play a sound for the last few seconds of the timer
-                if (countdown > 0) {
-                    sfx.timerRelaxed.play();
-                } else {
-                    sfx.timerUrgent.play();
+            app.cmd += "\nPress Enter when ready.";
+
+            // wait for Enter to be pressed and then start the countdown
+            app.onKeyPress = async ev => {
+                // don't let any other event handlers run
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                if (ev.keyCode === keyCodes.enter) {
+                    app.onKeyPress = _.noop;
+                    startPlaying();
                 }
-                await sleep(1000);
-            }
-            sfx.timerUrgent.play();
-
-            const blankChars = _.times(
-                Math.floor(consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2 - 2),
-                _.constant(" ")
-            ).join("");
-            const blankLines = _.times(
-                Math.floor(consoleCanvas.conf.MAX_LINES / 2),
-                _.constant("\n")
-            ).join("");
-            app.cmd = `${blankChars}GO!${blankLines}`;
-            app.allowTyping = true;
-
-            // play gameplay music command music
-            sfx.play.fade(1, 0, 600, "golden");
-            sfx.play.play("playing");
-
-            await sleep(1000);
-
-            app.showScore = true;
-
-            app.onResult = async result => {
-                if (result.valid && !enteredValidCmds.includes(result.cmd)) {
-                    let cmdScore = config.SCORE_PER_COMMAND;
-
-                    app.cmd += ` ✔  [${result.lang.join(" ")}]`;
-
-                    // See if the command entered was a golden command
-                    if (app.goldenCommands.all.includes(result.cmd)) {
-                        console.log("GOLDEN COMMAND ENTERED!");
-                        sfx.cmdGold.play();
-
-                        // Give BIG bonus for golden commands
-                        cmdScore *= config.SCORE_GOLDEN_COMMAND_MULTIPLIER;
-                    } else {
-                        sfx.cmdGood.play();
-                    }
-
-                    // Increase score
-                    app.score +=
-                        (cmdScore + result.cmd.length) *
-                        config.SCORE_OVERALL_MULTIPLIER;
-
-                    // Keep log of entered valid commands
-                    enteredValidCmds.push(result.cmd);
-
-                    // Valid command increment counters
-                    app.count.totalValidCommands++;
-                    app.count.totalValidCharacters += result.cmd.length;
-                } else if (
-                    result.valid &&
-                    enteredValidCmds.includes(result.cmd)
-                ) {
-                    app.cmd += " x  [duplicate]";
-                } else {
-                    sfx.cmdBad.play();
-
-                    app.cmd += " x";
-                }
-
-                // if the command submitted is not empty string, add a newline
-                app.cmd += "\n";
-
-                console.log(
-                    `entered "${result.cmd}"... it's ${
-                        result.valid ? "valid!" : "invalid :("
-                    }`
-                );
             };
 
-            app.timer = app.gameDuration / 1000;
-            const iid = setInterval(() => {
-                app.timer -= 1;
-
-                // play a sound for the last few seconds of the timer
-                if (app.timer <= 10 && app.timer >= 3) {
-                    sfx.timerRelaxed.play();
-                } else if (app.timer < 3) {
-                    sfx.timerUrgent.play();
+            async function startPlaying() {
+                app.cmd += "\nGet ready... ";
+                await sleep(1000);
+                let countdown = 5;
+                while (countdown--) {
+                    app.cmd += `${1 + countdown} `;
+                    // play a sound for the last few seconds of the timer
+                    if (countdown > 0) {
+                        sfx.timerRelaxed.play();
+                    } else {
+                        sfx.timerUrgent.play();
+                    }
+                    await sleep(1000);
                 }
-                if (app.timer <= 0) {
-                    clearInterval(iid);
-                }
-            }, 1000);
+                sfx.timerUrgent.play();
 
-            console.log("starting game timer");
-            await sleep(app.gameDuration);
-            console.log("game timer o'er");
+                const blankChars = _.times(
+                    Math.floor(consoleCanvas.conf.PLAY_CHARS_PER_LINE / 2 - 2),
+                    _.constant(" ")
+                ).join("");
+                const blankLines = _.times(
+                    Math.floor(consoleCanvas.conf.MAX_LINES / 2),
+                    _.constant("\n")
+                ).join("");
+                app.cmd = `${blankChars}GO!${blankLines}`;
+                app.allowTyping = true;
 
-            sfx.play.fade(1, 0, 600);
+                // play gameplay music command music
+                // sfx.play.fade(1, 0, 600, "golden");
+                sfx.play.stop();
+                sfx.play.play("playing");
 
-            app.cmd = "";
-            app.showScore = false;
-            app.onResult = _.noop();
-            app.allowTyping = false;
-            app.toState(STATES.score);
+                await sleep(1000);
+
+                app.showScore = true;
+
+                app.onResult = async result => {
+                    if (
+                        result.valid &&
+                        !enteredValidCmds.includes(result.cmd)
+                    ) {
+                        let cmdScore = config.SCORE_PER_COMMAND;
+
+                        app.cmd += ` ✔  [${result.lang.join(" ")}]`;
+
+                        // See if the command entered was a golden command
+                        if (app.goldenCommands.all.includes(result.cmd)) {
+                            console.log("GOLDEN COMMAND ENTERED!");
+                            sfx.cmdGold.play();
+
+                            // Give BIG bonus for golden commands
+                            cmdScore *= config.SCORE_GOLDEN_COMMAND_MULTIPLIER;
+                        } else {
+                            sfx.cmdGood.play();
+                        }
+
+                        // Increase score
+                        app.score +=
+                            (cmdScore + result.cmd.length) *
+                            config.SCORE_OVERALL_MULTIPLIER;
+
+                        // Keep log of entered valid commands
+                        enteredValidCmds.push(result.cmd);
+
+                        // Valid command increment counters
+                        app.count.totalValidCommands++;
+                        app.count.totalValidCharacters += result.cmd.length;
+                    } else if (
+                        result.valid &&
+                        enteredValidCmds.includes(result.cmd)
+                    ) {
+                        app.cmd += " x  [duplicate]";
+                    } else {
+                        sfx.cmdBad.play();
+
+                        app.cmd += " x";
+                    }
+
+                    // if the command submitted is not empty string, add a newline
+                    app.cmd += "\n";
+
+                    console.log(
+                        `entered "${result.cmd}"... it's ${
+                            result.valid ? "valid!" : "invalid :("
+                        }`
+                    );
+                };
+
+                app.timer = app.gameDuration / 1000;
+                const iid = setInterval(() => {
+                    app.timer -= 1;
+
+                    // play a sound for the last few seconds of the timer
+                    if (app.timer <= 10 && app.timer >= 3) {
+                        sfx.timerRelaxed.play();
+                    } else if (app.timer < 3) {
+                        sfx.timerUrgent.play();
+                    }
+                    if (app.timer <= 0) {
+                        clearInterval(iid);
+                    }
+                }, 1000);
+
+                console.log("starting game timer");
+                await sleep(app.gameDuration);
+                console.log("game timer o'er");
+
+                sfx.play.fade(1, 0, 600);
+
+                app.cmd = "";
+                app.showScore = false;
+                app.onResult = _.noop();
+                app.allowTyping = false;
+                app.toState(STATES.score);
+            }
         }
     },
     [STATES.score]: {
