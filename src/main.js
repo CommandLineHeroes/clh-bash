@@ -178,7 +178,7 @@ const states = {
 
                 // Reset fire delay timer
                 allowFire = false;
-                setTimeout(() => allowFire = true, config.DELAY_BEFORE_FIRE);
+                setTimeout(() => (allowFire = true), config.DELAY_BEFORE_FIRE);
 
                 await sleep(1000);
 
@@ -216,10 +216,12 @@ const states = {
                         app.count.totalValidCommands++;
                         app.count.totalValidCharacters += result.cmd.length;
                     } else {
-                        if (result.valid && enteredValidCmds.includes(result.cmd)) {
+                        if (
+                            result.valid &&
+                            enteredValidCmds.includes(result.cmd)
+                        ) {
                             app.cmd += " x  [duplicate]";
-                        }
-                        else {
+                        } else {
                             app.cmd += " x";
                         }
 
@@ -241,14 +243,21 @@ const states = {
                     app.timer -= 1;
 
                     // See if we need to turn up the FIRE!
-                    let elapsedTime = (config.GAME_DURATION / 1000) - app.timer;
+                    let elapsedTime = config.GAME_DURATION / 1000 - app.timer;
                     let cps = 0;
-                    if (elapsedTime > 0) cps = app.count.totalValidCharacters / elapsedTime;
-                    console.log(elapsedTime, app.count.totalValidCharacters, cps);
+                    if (elapsedTime > 0)
+                        cps = app.count.totalValidCharacters / elapsedTime;
+                    console.log(
+                        elapsedTime,
+                        app.count.totalValidCharacters,
+                        cps
+                    );
                     if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
                         turnUpFire();
-                    }
-                    else if (fire.userData.on === true && cps < config.FIRE_CPS_THRESHOLD) {
+                    } else if (
+                        fire.userData.on === true &&
+                        cps < config.FIRE_CPS_THRESHOLD
+                    ) {
                         turnDownFire();
                     }
 
@@ -566,7 +575,7 @@ function turnUpFire() {
     fire.userData.on = true;
     scene.add(fire);
 }
-window.turnUpFire=turnUpFire;
+window.turnUpFire = turnUpFire;
 
 function turnDownFire() {
     new TWEEN.Tween(fire)
@@ -578,7 +587,7 @@ function turnDownFire() {
         })
         .start();
 }
-window.turnDownFire=turnDownFire;
+window.turnDownFire = turnDownFire;
 
 function onWindowResize() {
     windowHalfX = window.innerWidth / 2;
