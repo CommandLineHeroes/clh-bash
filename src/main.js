@@ -444,16 +444,18 @@ async function init() {
     scene.add(consolePlane);
 
     // Fire
-    let plane = new THREE.PlaneBufferGeometry( screenSize.width * 1.15,
-        screenSize.height * 1.15 );
-    fire = new THREE.Fire( plane, {
+    let plane = new THREE.PlaneBufferGeometry(
+        screenSize.width * 1.15,
+        screenSize.height * 1.15
+    );
+    fire = new THREE.Fire(plane, {
         textureWidth: 512,
         textureHeight: 512,
         debug: false
-    } )
-    fire.color1.set( 0x00bdf7 );
-    fire.color2.set( 0x1b3fb6 );
-    fire.color3.set( 0x18171b );
+    });
+    fire.color1.set(0x00bdf7);
+    fire.color2.set(0x1b3fb6);
+    fire.color3.set(0x18171b);
     fire.windVector.x = 0.0;
     fire.windVector.y = -0.25;
     fire.colorBias = 0.25;
@@ -467,13 +469,15 @@ async function init() {
     fire.speed = 500.0;
     fire.massConservation = false;
     fire.clearSources();
-    let texture = new THREE.TextureLoader().load( 'assets/images/monitor_bezel_outline.png' );
+    let texture = new THREE.TextureLoader().load(
+        "assets/images/monitor_bezel_outline.png"
+    );
     texture.needsUpdate = true;
-    fire.setSourceMap( texture );
+    fire.setSourceMap(texture);
     fire.position.set(-5.5, 42.8, 26.5);
     fire.rotation.x = -0.16;
-    scene.add( fire );
-    window.fire=fire;
+    scene.add(fire);
+    window.fire = fire;
 
     // load cyc wall
 
