@@ -84,8 +84,8 @@ const states = {
                     app.allowTyping = false;
                     app.showTitle = false;
                     app.cmd = "";
-                    sfx.boot.fade(1, 0, 600);
-                    sfx.menuMusic.fade(1, 0, 600);
+                    sfx.boot.fade(sfx.boot.originalVolume, 0, 600);
+                    sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
                     await sleep(200);
                     app.toState(STATES.play);
                 } else {
@@ -276,7 +276,7 @@ const states = {
                 await sleep(app.gameDuration);
                 console.log("game timer o'er");
 
-                sfx.play.fade(1, 0, 600);
+                sfx.play.fade(sfx.play.originalVolume, 0, 600);
 
                 controls.enabled = false;
 

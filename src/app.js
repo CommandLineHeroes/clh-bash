@@ -73,7 +73,6 @@ const app = new Vue({
     },
     watch: {
         displayCmd: function(val, oldVal) {
-            console.log(val);
             // if receiving user input and on a newline, add a prompt to the main cmd
             if (this.allowTyping && val[val.length - 1] === "\n") {
                 this.cmd += "> ";
