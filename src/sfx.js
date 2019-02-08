@@ -14,7 +14,14 @@ const sfx = {
         volume: 0.5,
         loop: true
     }),
-    play: new Howl({ src: ["assets/sfx/play.mp3"], volume: 0.6 })
+    play: new Howl({
+        src: ["assets/sfx/play.mp3"],
+        volume: 0.6,
+        sprite: {
+            golden: [0, 29648, true],
+            playing: [29649, 60000 + 39456]
+        }
+    })
 };
 
 // preserve the original volume setting for each sfx

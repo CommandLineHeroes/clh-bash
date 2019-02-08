@@ -104,7 +104,8 @@ const states = {
 
             app.goldenCommands = app.pickGoldenCommands();
 
-            sfx.play.play();
+            // play golden command music
+            sfx.play.play("golden");
 
             await tweenCamera(camera, {
                 rotation: {
@@ -149,6 +150,10 @@ const states = {
             ).join("");
             app.cmd = `${blankChars}GO!${blankLines}`;
             app.allowTyping = true;
+
+            // play gameplay music command music
+            sfx.play.fade(1, 0, 600, "golden");
+            sfx.play.play("playing");
 
             await sleep(1000);
 
