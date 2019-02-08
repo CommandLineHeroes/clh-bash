@@ -21,7 +21,11 @@ let mouseX = 0,
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 let computer;
+
+// Fire vars
 let fire;
+let firePlane;
+let allowFire = false;
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
@@ -170,6 +174,10 @@ const states = {
                 sfx.play.stop();
                 sfx.play.play("playing");
 
+                // Reset fire delay timer
+                allowFire = false;
+                setTimeout(() => allowFire = true, config.DELAY_BEFORE_FIRE);
+
                 await sleep(1000);
 
                 app.showScore = true;
@@ -205,15 +213,27 @@ const states = {
                         // Valid command increment counters
                         app.count.totalValidCommands++;
                         app.count.totalValidCharacters += result.cmd.length;
-                    } else if (
-                        result.valid &&
-                        enteredValidCmds.includes(result.cmd)
-                    ) {
-                        app.cmd += " x  [duplicate]";
                     } else {
-                        sfx.cmdBad.play();
+                        if (result.valid && enteredValidCmds.includes(result.cmd)) {
+                            app.cmd += " x  [duplicate]";
+                        }
+                        else {
+                            app.cmd += " x";
+                        }
 
-                        app.cmd += " x";
+                        sfx.cmdBad.play();
+                    }
+
+                    // See if we need to turn up the FIRE!
+                    let elapsedTime = (config.GAME_DURATION / 1000) - app.timer;
+                    let cps = 0;
+                    if (elapsedTime > 0) cps = app.count.totalValidCharacters / elapsedTime;
+                    console.log(elapsedTime, app.count.totalValidCharacters, cps);
+                    if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
+                        turnUpFire();
+                    }
+                    else if (fire.userData.on === true && cps < config.FIRE_CPS_THRESHOLD) {
+                        turnDownFire();
                     }
 
                     // if the command submitted is not empty string, add a newline
@@ -226,7 +246,7 @@ const states = {
                     );
                 };
 
-                app.timer = app.gameDuration / 1000;
+                app.timer = config.GAME_DURATION / 1000;
                 const iid = setInterval(() => {
                     app.timer -= 1;
 
@@ -357,8 +377,8 @@ async function init() {
     camera.position.y = 300;
     scene.add(camera);
 
-    // controls = new THREE.OrbitControls(camera);
-    controls = new THREE.TrackballControls(camera);
+    controls = new THREE.OrbitControls(camera);
+    // controls = new THREE.TrackballControls(camera);
 
     // lighting
 
@@ -468,40 +488,27 @@ async function init() {
     scene.add(consolePlane);
 
     // Fire
-    let plane = new THREE.PlaneBufferGeometry(
-        screenSize.width * 1.15,
-        screenSize.height * 1.15
+    firePlane = new THREE.PlaneBufferGeometry(
+        screenSize.width * 1.2,
+        screenSize.height * 1.2
     );
-    fire = new THREE.Fire(plane, {
+    fire = new THREE.Fire(firePlane, {
         textureWidth: 512,
         textureHeight: 512,
         debug: false
     });
-    fire.color1.set(0x00bdf7);
-    fire.color2.set(0x1b3fb6);
-    fire.color3.set(0x18171b);
-    fire.windVector.x = 0.0;
-    fire.windVector.y = -0.25;
-    fire.colorBias = 0.25;
-    fire.burnRate = 2.6;
-    fire.diffuse = 5.0;
-    fire.viscosity = 0.5;
-    fire.expansion = 0.75;
-    fire.swirl = 30.0;
-    fire.drag = 0.0;
-    fire.airSpeed = 40.0;
-    fire.speed = 500.0;
-    fire.massConservation = false;
-    fire.clearSources();
     let texture = new THREE.TextureLoader().load(
         "assets/images/monitor_bezel_outline.png"
     );
     texture.needsUpdate = true;
+    fire.clearSources();
     fire.setSourceMap(texture);
+    fire.color1.set(0x00bdf7);
+    fire.color2.set(0x1b3fb6);
+    fire.color3.set(0x18171b);
     fire.position.set(-5.5, 42.8, 26.5);
     fire.rotation.x = -0.16;
-    //TODO: uncomment when logic for when to show fire is done
-    // scene.add(fire);
+    fire.userData.on = false;
     window.fire = fire;
 
     // load cyc wall
@@ -539,6 +546,34 @@ async function init() {
 
     window.addEventListener("resize", onWindowResize, false);
 }
+
+function turnUpFire() {
+    fire.windVector.y = -0.25;
+    fire.colorBias = 0.25;
+    fire.burnRate = 2.6;
+    fire.diffuse = 5.0;
+    fire.viscosity = 0.5;
+    fire.expansion = 0.75;
+    fire.swirl = 30.0;
+    fire.drag = 0.0;
+    fire.airSpeed = 40.0;
+    fire.speed = 500.0;
+    fire.userData.on = true;
+    scene.add(fire);
+}
+window.turnUpFire=turnUpFire;
+
+function turnDownFire() {
+    new TWEEN.Tween(fire)
+        .to({airSpeed: 0, burnRate: 10, speed: 1000}, 1500)
+        .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
+        .onComplete(() => {
+            fire.userData.on = false;
+            scene.remove(fire);
+        })
+        .start();
+}
+window.turnDownFire=turnDownFire;
 
 function onWindowResize() {
     windowHalfX = window.innerWidth / 2;

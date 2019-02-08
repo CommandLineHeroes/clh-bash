@@ -56,7 +56,7 @@ const app = new Vue({
         cmd: "",
         commands: [],
         displayScore: false,
-        gameDuration: 60 * 1000,
+        gameDuration: config.GAME_DURATION,
         timer: 0,
         allowTyping: false,
         score: 0,
@@ -283,7 +283,7 @@ const app = new Vue({
                 }
                 consoleCanvas.write(...args);
             });
-        }
+        },
     },
     mounted: function() {
         // after the entire view has rendered
