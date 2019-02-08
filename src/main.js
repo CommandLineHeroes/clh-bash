@@ -35,6 +35,7 @@ const states = {
         enter: async function() {
             app.updateConsole = _.noop;
             app.resetState();
+            app.cmd = "";
 
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;

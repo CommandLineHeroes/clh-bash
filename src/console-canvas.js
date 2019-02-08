@@ -43,20 +43,7 @@ class ConsoleCanvas {
 
         this.ctx.scale(this.conf.ASPECT, 1);
 
-        this.drawTestPattern();
-
         document.body.appendChild(this.canvas);
-    }
-
-    drawTestPattern() {
-        // draw a test pattern
-        this.ctx.drawImage(
-            document.querySelector("#test-pattern"),
-            0,
-            0,
-            this.conf.WIDTH / this.conf.ASPECT,
-            this.conf.HEIGHT
-        );
     }
 
     /**
