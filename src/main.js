@@ -1,6 +1,7 @@
 import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import "../node_modules/three/examples/js/controls/TrackballControls.js";
+import "../node_modules/three/examples/js/objects/Fire.js";
 import "./MTLLoaderPhysical.js";
 import palette from "./palette.js";
 import app from "./app.js";
@@ -20,6 +21,7 @@ let mouseX = 0,
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 let computer;
+let fire;
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
@@ -440,6 +442,38 @@ async function init() {
     window.consolePlane = consolePlane;
 
     scene.add(consolePlane);
+
+    // Fire
+    let plane = new THREE.PlaneBufferGeometry( screenSize.width * 1.15,
+        screenSize.height * 1.15 );
+    fire = new THREE.Fire( plane, {
+        textureWidth: 512,
+        textureHeight: 512,
+        debug: false
+    } )
+    fire.color1.set( 0x00bdf7 );
+    fire.color2.set( 0x1b3fb6 );
+    fire.color3.set( 0x18171b );
+    fire.windVector.x = 0.0;
+    fire.windVector.y = -0.25;
+    fire.colorBias = 0.25;
+    fire.burnRate = 2.6;
+    fire.diffuse = 5.0;
+    fire.viscosity = 0.5;
+    fire.expansion = 0.75;
+    fire.swirl = 30.0;
+    fire.drag = 0.0;
+    fire.airSpeed = 40.0;
+    fire.speed = 500.0;
+    fire.massConservation = false;
+    fire.clearSources();
+    let texture = new THREE.TextureLoader().load( 'assets/images/monitor_bezel_outline.png' );
+    texture.needsUpdate = true;
+    fire.setSourceMap( texture );
+    fire.position.set(-5.5, 42.8, 26.5);
+    fire.rotation.x = -0.16;
+    scene.add( fire );
+    window.fire=fire;
 
     // load cyc wall
 
