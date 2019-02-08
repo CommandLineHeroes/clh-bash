@@ -13,11 +13,11 @@ let ctrl_down = false;
 
 /**
  * @param {Number} kc the keyCode of the key pressed
- * @param {String} leftChar the character to the left of the cursor, used to
+ * @param {Array<String>} leftChars the character to the left of the cursor, used to
  * determine whether left arrow is valid (left arrow can't cross over a
  * newline)
  */
-function validKeycode(ev, leftChar) {
+function validKeycode(ev, leftChars) {
     const kc = ev.keyCode;
 
     // if ctrl is held down, ignore everything
@@ -37,12 +37,14 @@ function validKeycode(ev, leftChar) {
         _.inRange(kc, keyCodes.alpha.start, keyCodes.alpha.end + 1) ||
         _.inRange(kc, keyCodes.punct.start, keyCodes.punct.end + 1);
 
-    const valid_other =
-        [keyCodes.enter, keyCodes.right_arrow].includes(kc) ||
-        (leftChar !== "\n" &&
-            (kc === keyCodes.left_arrow || kc === keyCodes.backspace));
+    const valid_other = [keyCodes.enter, keyCodes.right_arrow].includes(kc);
 
-    return alphanumeric || valid_other;
+    const on_newline = leftChars[0] === "\n";
+    const on_prompt = leftChars.reverse().join("") === "\n> ";
+    const valid_backspace =
+        kc === keyCodes.backspace && !(on_newline || on_prompt);
+
+    return alphanumeric || valid_other || valid_backspace;
 }
 
 const app = new Vue({
@@ -102,7 +104,11 @@ const app = new Vue({
             // arrow is valid except when it would cross over a newline and
             // move the cursor to the line above)
             const textarea = this.$el.querySelector("#cmd");
-            const leftChar = this.cmd[textarea.selectionStart - 1];
+            const leftChars = [
+                this.cmd[textarea.selectionStart - 1],
+                this.cmd[textarea.selectionStart - 2],
+                this.cmd[textarea.selectionStart - 3]
+            ];
 
             // if it's enter, test the input and return.  also, preventDefault
             // so enter doesn't add a newline.  Instead, add the newline
@@ -127,7 +133,7 @@ const app = new Vue({
             }
 
             // if keycode is invalid, drop the event.
-            if (!validKeycode(ev, leftChar)) {
+            if (!validKeycode(ev, leftChars)) {
                 ev.preventDefault();
             }
         },
