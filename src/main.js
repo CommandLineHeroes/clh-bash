@@ -35,6 +35,7 @@ const states = {
         enter: async function() {
             app.updateConsole = _.noop;
             app.resetState();
+            app.typingLoop();
             app.cmd = "";
 
             // make font big enough to see from a distance
@@ -63,24 +64,19 @@ const states = {
             await sleep(1000);
 
             app.cmd = "LOADING...";
+            app.cmd += "\n\nTESTING ROUTINE\nINITIATED.";
+            app.cmd += "\n\nType PLAY";
 
             await camTween;
-
-            await sleep(1200);
 
             sfx.menuMusic.play();
 
             app.showTitle = true;
 
-            await sleep(600);
-
-            app.cmd += "\n\nTESTING ROUTINE\nINITIATED.";
-
-            await sleep(600);
-
-            app.cmd += "\n\nType PLAY\n";
+            await sleep(app.typingTime(app.cmd));
 
             app.allowTyping = true;
+            app.cmd += "\n";
 
             app.onResult = async result => {
                 if (result.cmd.toLowerCase() == "play") {

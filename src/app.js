@@ -54,6 +54,8 @@ const app = new Vue({
         showTitle: false,
         showScore: false,
         cmd: "",
+        typingPosition: 0,
+        displayCmd: "",
         commands: [],
         displayScore: false,
         gameDuration: config.GAME_DURATION,
@@ -70,10 +72,22 @@ const app = new Vue({
         }
     },
     watch: {
-        cmd: function(val) {
-            // if receiving user input and on a newline, add a prompt
+        displayCmd: function(val, oldVal) {
+            console.log(val);
+            // if receiving user input and on a newline, add a prompt to the main cmd
             if (this.allowTyping && val[val.length - 1] === "\n") {
                 this.cmd += "> ";
+            }
+        },
+        cmd: function(val, oldVal) {
+            // if typing is enabled, copy this directly into displayCmd and update typingPosition
+            if (this.allowTyping) {
+                this.displayCmd = _.clone(this.cmd);
+                this.typingPosition = this.cmd.length;
+            }
+            // if the screen was blanked out, reset typing position
+            if (!this.cmd.includes(oldVal)) {
+                this.typingPosition = 0;
             }
         }
     },
@@ -271,7 +285,7 @@ const app = new Vue({
         updateConsole: _.noop,
         writeToConsole: function() {
             this.$nextTick(() => {
-                let args = [_.clone(this.cmd)];
+                let args = [_.clone(this.displayCmd)];
                 const showCursor =
                     this.allowTyping && performance.now() % 1200 < 600;
                 if (showCursor) {
@@ -283,6 +297,39 @@ const app = new Vue({
                 }
                 consoleCanvas.write(...args);
             });
+        },
+        typingLoop: function() {
+            let delay = this.typingTimeChar(
+                this.displayCmd[this.displayCmd - 1]
+            );
+
+            if (!this.allowTyping) {
+                this.displayCmd = this.cmd.substr(0, this.typingPosition);
+            }
+            // increment typing position but don't exceed the length of cmd
+            this.typingPosition = Math.min(
+                this.typingPosition + 1,
+                this.cmd.length
+            );
+
+            setTimeout(this.typingLoop, delay);
+        },
+        // how long will it take to display the given character
+        typingTimeChar: function(str) {
+            let delay = config.CHAR_APPEAR_DELAY;
+
+            if (/\s/.test(this.displayCmd[this.displayCmd.length - 1])) {
+                delay /= 10;
+            }
+
+            return delay;
+        },
+        // how long will it take to display the given string
+        typingTime: function(str) {
+            return (
+                config.CHAR_APPEAR_DELAY * str.replace(/\S/g, "").length +
+                (config.CHAR_APPEAR_DELAY / 10) * str.replace(/\s/g, "").length
+            );
         },
         resetState: function() {
             // Reset the score and other stat between games:
