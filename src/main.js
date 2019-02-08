@@ -476,7 +476,8 @@ async function init() {
     fire.setSourceMap(texture);
     fire.position.set(-5.5, 42.8, 26.5);
     fire.rotation.x = -0.16;
-    scene.add(fire);
+    //TODO: uncomment when logic for when to show fire is done
+    // scene.add(fire);
     window.fire = fire;
 
     // load cyc wall
