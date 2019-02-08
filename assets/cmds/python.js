@@ -25,7 +25,10 @@ export default {
         "break",
         "with",
         "True",
-        "False"
+        "False",
+        "max",
+        "round",
+        "globals"
     ],
     cmds: [
         // keywords

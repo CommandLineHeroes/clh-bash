@@ -127,10 +127,13 @@ const states = {
                 }
             });
 
-            app.cmd = `Randomized BONUS commands ${
-                config.SCORE_GOLDEN_COMMAND_MULTIPLIER
-            }x points each:\n\n`;
+            app.cmd = `You have ${
+                (config.GAME_DURATION / 1000)
+                } seconds to enter ANY commands\n\n`;
             app.cmd += app.printGoldenCommands();
+            app.cmd += `\nCommands listed are worth ${
+                config.SCORE_GOLDEN_COMMAND_MULTIPLIER
+            }x BONUS points.\n`;
             app.cmd += "\nPress Enter to begin.";
 
             // wait for Enter to be pressed and then start the countdown
