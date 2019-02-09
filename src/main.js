@@ -627,4 +627,36 @@ function render(time) {
     stats.end();
 }
 
+function setInstuctionsDisplay(display) {
+    let instructions = document.getElementById("instructions");
+    let langs = document.getElementById("langs");
+    let tagline = document.getElementById("tagline");
+    let listen = document.getElementById("listen");
+
+
+    instructions.style.display = display;
+    langs.style.display = display;
+    tagline.style.display = display;
+    listen.style.display = display;
+}
+window.setInstuctionsDisplay=setInstuctionsDisplay;
+
+function setCreditsDisplay(display) {
+    let credits = document.getElementById("credits");
+    credits.style.display = display;
+}
+window.setCreditsDisplay=setCreditsDisplay;
+
+function showCredits() {
+    setInstuctionsDisplay('none');
+    setCreditsDisplay('block');
+}
+window.showCredits=showCredits;
+
+function showInstructions() {
+    setInstuctionsDisplay('block');
+    setCreditsDisplay('none');
+}
+window.showInstructions=showInstructions;
+
 start();

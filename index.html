@@ -19,11 +19,22 @@
                 <p v-bind:class="{ show: showTitle }" id="langs">
                     BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5
                 </p>
-                <p v-bind:class="{ show: showTitle }">
+                <p v-bind:class="{ show: showTitle }" id="tagline">
                     Set the terminal on fire.
                 </p>
+                <p v-bind:class="{ show: showTitle }" id="listen">
+                    Listen to the podcast at <a target=_blank href="https://www.redhat.com/en/command-line-heroes">redhat.com/commandlineheroes</a>.<br><br>
+                    <a href="#credits" onclick="showCredits()">Credits</a> &middot; <a target="_blank" href="https://github.com/CommandLineHeroes/clh-bash">Github</a>
+                </p>
                 <p v-bind:class="{ show: showTitle }" id="credits">
-                    Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team @ Red Hat.  Listen to the podcast at <a target=_blank href="https://www.redhat.com/en/command-line-heroes">redhat.com/en/command-line-heroes</a>.
+                    Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team and community.<br><br>
+                    Song <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a> used by permission<br><br>
+
+                    Special thanks to:
+                    Dan Courcy &middot; Eric Kramer &middot; Open-source contributors &middot; Command Line Heroes discord community<br><br>
+
+
+                    <a href="#back-to-instructions" onclick="showInstructions()">Back to instructions</a>
                 </p>
             </div>
             <textarea
