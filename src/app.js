@@ -281,8 +281,31 @@ const app = new Vue({
 
             return out;
         },
-        printHighScores: function() {
-            return "HIGH SCORES";
+        printHighScores: function(leaders) {
+
+            let out = "";
+            let longestScoreLength = leaders[0].score.toString().length;
+            let longestNickLength = 0;
+
+            // Find the nick with longest string length
+            leaders.forEach(leader => {
+               if (leader.name.length > longestNickLength) {
+                   longestNickLength = leader.name.length;
+               }
+            });
+
+            leaders.forEach(leader => {
+                let score = leader.score.toString();
+                let name = leader.name;
+
+                // pad for column formatting
+                score = score.padEnd(longestScoreLength);
+                name = name.padEnd(longestNickLength);
+
+                out += score + "  " + name + "  " + leader.tribe + "\n";
+            });
+
+            return out;
         },
         updateConsole: _.noop,
         writeToConsole: function() {

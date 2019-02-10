@@ -39,6 +39,8 @@ const states = {
             app.typingLoop();
             app.cmd = "";
 
+            controls.enabled = false;
+
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;
 
@@ -279,8 +281,6 @@ const states = {
 
                 sfx.play.fade(sfx.play.originalVolume, 0, 600);
 
-                controls.enabled = false;
-
                 app.cmd = "";
                 app.showScore = false;
                 app.onResult = _.noop();
@@ -389,15 +389,18 @@ const states = {
                 if (result.cmd.length > 0 && result.cmd !== '>') {
                     app.onResult = _.noop();
                     app.allowTyping = false;
-
+                    let name = result.cmd;
                     let tribe = diriveTribe();
+
+                    // truncate name to max size
+                    name = name.substring(0, config.MAX_LEADER_NAME_LENGTH);
 
                     // Store score and name pair in localStorage
                     console.log("leader name: ", result.cmd);
                     let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
                     leaders.push(
                         {
-                            name: result.cmd,
+                            name: name,
                             score: app.score,
                             tribe: tribe,
                         });
@@ -418,11 +421,11 @@ const states = {
             app.allowTyping = false;
             app.showTitle = false;
 
-            // make font appropriate size
-            consoleCanvas.conf.FONT_SIZE = 4 * 90;
+            // Make smaller font size
+            consoleCanvas.conf.FONT_SIZE = 4 * 48;
 
             // Only tween if the camera is not close enough to screen
-            if (Math.floor(camera.position.z) !== 255) {
+            if (Math.floor(camera.position.z) !== 155) {
                 await tweenCamera(camera, {
                     rotation: {
                         x: 0,
@@ -432,12 +435,16 @@ const states = {
                     position: {
                         x: -4.336209717881005,
                         y: 39.566049707444186,
-                        z: 255.4934617372831
+                        z: 155.4934617372831
                     }
                 });
             }
 
-            app.cmd = app.printHighScores();
+            // Fetch current leaders
+            leaders = fetchLeaders();
+
+            app.cmd = "HIGH SCORES\n\n";
+            app.cmd += app.printHighScores(leaders.leaders);
 
             app.cmd += `\nPress Enter to continue.`;
 
@@ -684,6 +691,7 @@ function diriveTribe() {
 function fetchLeaders() {
     // First get the current scores from localStorage
     let leaders = JSON.parse(localStorage.getItem('clhLeaders'));
+    leaders = _.reverse(_.sortBy(leaders, 'score'));
 
     const hiScores = _(leaders)
         .sortBy('score')

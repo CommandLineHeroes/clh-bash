@@ -9,5 +9,6 @@ export default {
     DELAY_BEFORE_FIRE: 15000, // Minimum time the game has be be running before fire can display,
     GAME_DURATION: 60000,
     FIRE_CPS_THRESHOLD: 2.5, // Number of valid characters per-second a player must average to get fire
-    CHAR_APPEAR_DELAY: 60 // ms between characters appearing on screen
+    CHAR_APPEAR_DELAY: 60, // ms between characters appearing on screen
+    MAX_LEADER_NAME_LENGTH: 20,  // max length of names on leaderboard
 };
