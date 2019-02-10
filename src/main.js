@@ -74,7 +74,7 @@ const states = {
 
             app.showTitle = true;
 
-            await sleep(app.typingTime(app.cmd));
+            //await sleep(app.typingTime(app.cmd));
 
             app.allowTyping = true;
             app.cmd += "\n";
@@ -390,10 +390,17 @@ const states = {
                     app.onResult = _.noop();
                     app.allowTyping = false;
 
+                    let tribe = diriveTribe();
+
                     // Store score and name pair in localStorage
                     console.log("leader name: ", result.cmd);
                     let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
-                    leaders.push({name: result.cmd, score: app.score});
+                    leaders.push(
+                        {
+                            name: result.cmd,
+                            score: app.score,
+                            tribe: tribe,
+                        });
                     localStorage.setItem("clhLeaders", JSON.stringify(leaders));
 
                     app.cmd = "";
@@ -659,6 +666,19 @@ async function init() {
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
     window.addEventListener("resize", onWindowResize, false);
+}
+
+function diriveTribe() {
+    let cmdCounts = [
+        {tribe: "bash", count: app.count.bash},
+        {tribe: "Python", count: app.count.py},
+        {tribe: "JavaScript", count: app.count.js},
+        {tribe: "HTML", count: app.count.html},
+    ];
+
+    const tribesSorted = _.reverse(_.sortBy(cmdCounts, 'count'));
+
+    return tribesSorted[0].tribe;
 }
 
 function fetchLeaders() {
