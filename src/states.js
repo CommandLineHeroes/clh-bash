@@ -3,5 +3,6 @@ export default {
     title: "title",
     play: "play",
     score: "score",
-    leaderboard: "leaderboard"
+    leaderboard: "leaderboard",
+    highscore: "highscore"
 };

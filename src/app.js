@@ -281,6 +281,9 @@ const app = new Vue({
 
             return out;
         },
+        printHighScores: function() {
+            return "HIGH SCORES";
+        },
         updateConsole: _.noop,
         writeToConsole: function() {
             this.$nextTick(() => {

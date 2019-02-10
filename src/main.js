@@ -3,7 +3,6 @@ import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import "../node_modules/three/examples/js/controls/TrackballControls.js";
 import "../node_modules/three/examples/js/objects/Fire.js";
 import "./MTLLoaderPhysical.js";
-import palette from "./palette.js";
 import app from "./app.js";
 import tweenCamera from "./tween-camera.js";
 import keyCodes from "./keycodes.js";
@@ -26,6 +25,8 @@ let computer;
 let fire;
 let firePlane;
 let allowFire = false;
+
+let leaders;
 
 let stats = new Stats();
 // document.body.appendChild(stats.dom);
@@ -295,6 +296,9 @@ const states = {
             // Turn off Fire
             turnDownFire();
 
+            // Get current leaders
+            leaders = fetchLeaders();
+
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 90;
 
@@ -330,6 +334,115 @@ const states = {
                 if (ev.keyCode === keyCodes.enter) {
                     app.onKeyPress = _.noop;
                     app.cmd = "";
+
+                    if (leaders.isEmpty || app.score > leaders.lowestHiScore) {
+                        app.toState(STATES.highscore);
+                    }
+                    else {
+                        app.toState(STATES.leaderboard);
+                    }
+                }
+            };
+        }
+    },
+    [STATES.highscore]: {
+        enter: async function() {
+            app.allowTyping = false;
+            app.showTitle = false;
+
+            // make font appropriate size
+            consoleCanvas.conf.FONT_SIZE = 4 * 90;
+
+            // Only tween if the camera is not close enough to screen
+            if (Math.floor(camera.position.z) !== 255) {
+                await tweenCamera(camera, {
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    position: {
+                        x: -4.336209717881005,
+                        y: 39.566049707444186,
+                        z: 255.4934617372831
+                    }
+                });
+            }
+
+            if (app.score > leaders.topHiScore) {
+                app.cmd = "Top Score!\n";
+                console.log("New top score!", app.score);
+            }
+            else {
+                app.cmd = "New High Score!\n";
+                console.log("New high score", app.score);
+            }
+
+            app.cmd += "\nEnter your name";
+
+            await sleep(app.typingTime(app.cmd));
+
+            app.allowTyping = true;
+            app.cmd += "\n";
+
+            app.onResult = async result => {
+                if (result.cmd.length > 0 && result.cmd !== '>') {
+                    app.onResult = _.noop();
+                    app.allowTyping = false;
+
+                    // Store score and name pair in localStorage
+                    console.log("leader name: ", result.cmd);
+                    let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
+                    leaders.push({name: result.cmd, score: app.score});
+                    localStorage.setItem("clhLeaders", JSON.stringify(leaders));
+
+                    app.cmd = "";
+
+                    await sleep(200);
+                    app.toState(STATES.leaderboard);
+                } else {
+                    app.cmd += "\nEnter your name\n";
+                }
+            };
+        }
+    },
+    [STATES.leaderboard]: {
+        enter: async function() {
+            app.allowTyping = false;
+            app.showTitle = false;
+
+            // make font appropriate size
+            consoleCanvas.conf.FONT_SIZE = 4 * 90;
+
+            // Only tween if the camera is not close enough to screen
+            if (Math.floor(camera.position.z) !== 255) {
+                await tweenCamera(camera, {
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    },
+                    position: {
+                        x: -4.336209717881005,
+                        y: 39.566049707444186,
+                        z: 255.4934617372831
+                    }
+                });
+            }
+
+            app.cmd = app.printHighScores();
+
+            app.cmd += `\nPress Enter to continue.`;
+
+            // when any key is pressed, go back to the title screen
+            app.onKeyPress = async ev => {
+                // don't let any other event handlers run
+                ev.preventDefault();
+                ev.stopPropagation();
+
+                if (ev.keyCode === keyCodes.enter) {
+                    app.onKeyPress = _.noop;
+                    app.cmd = "";
                     app.toState(STATES.title);
                 }
             };
@@ -339,6 +452,12 @@ const states = {
 window.states = states;
 
 async function start() {
+    // Init localStorage
+    if (localStorage.getItem("clhLeaders") === null) {
+        // Create new leaders object
+        localStorage.setItem("clhLeaders", JSON.stringify([]));
+    }
+
     // set up a state change listener so when the Vue app changes state, we
     // also run the 3D world state changes.
     app.onStateChange = change => {
@@ -363,17 +482,6 @@ async function init() {
     // scene
 
     scene = new THREE.Scene();
-    // const envMap = new THREE.CubeTextureLoader()
-    //     .setPath("assets/textures/")
-    //     .load([
-    //         "wall.png",
-    //         "wall.png",
-    //         "wall.png",
-    //         "wall.png",
-    //         "wall.png",
-    //         "wall.png"
-    //     ]);
-    // scene.background = envMap;
     scene.background = new THREE.Color(
         0.52164000272751 / 4.3,
         0.08910000324249 / 4.3,
@@ -412,12 +520,6 @@ async function init() {
     whiteSpot.penumbra = 0.5;
     whiteSpot.decay = 2;
     whiteSpot.distance = 4000;
-    // whiteSpot.castShadow = true;
-    // whiteSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
-    // whiteSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
-    // whiteSpot.shadow.camera.near = 10;
-    // whiteSpot.shadow.camera.far = 2000;
-    // whiteSpot.add(new THREE.SpotLightHelper(whiteSpot));
     scene.add(whiteSpot);
 
     const purpleSpot = new THREE.SpotLight(0xda8aff, 1.0);
@@ -431,7 +533,6 @@ async function init() {
     purpleSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
     purpleSpot.shadow.camera.near = 200;
     purpleSpot.shadow.camera.far = 1000;
-    // purpleSpot.add(new THREE.SpotLightHelper(purpleSpot));
     scene.add(purpleSpot);
 
     // models
@@ -446,8 +547,6 @@ async function init() {
     // make the screen reflect a crisp image
     comp.materials.materials.screen.roughness = 0.08;
     comp.materials.materials.purple.roughness = 0.7;
-    // comp.materials.materials.purple
-    // comp.materials.materials.red
     comp.object.position.y = -300;
     comp.object.position.x = 0;
 
@@ -559,9 +658,36 @@ async function init() {
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
-    //
-
     window.addEventListener("resize", onWindowResize, false);
+}
+
+function fetchLeaders() {
+    // First get the current scores from localStorage
+    let leaders = JSON.parse(localStorage.getItem('clhLeaders'));
+
+    const hiScores = _(leaders)
+        .sortBy('score')
+        .reverse()
+        .uniqBy('name')
+        .take(10)
+        .map('score')
+        .value();
+
+    const lowestHiScore = _.min(hiScores);
+    const topHiScore = _.max(hiScores);
+
+    let isEmpty = true;
+    if (!Array.isArray(leaders) || !leaders.length) {
+        isEmpty = true;
+    }
+
+    return {
+        leaders: leaders,
+        hiScores: hiScores,
+        topHiScore: topHiScore,
+        lowestHiScore: lowestHiScore,
+        isEmpty: isEmpty,
+    };
 }
 
 function turnUpFire() {
