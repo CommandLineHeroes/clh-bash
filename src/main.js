@@ -610,6 +610,11 @@ async function init() {
     const consolePlane = new THREE.Mesh(consolePlaneGeo, screen.material);
     consolePlane.position.set(-5.5, 42.8, 26);
     consolePlane.rotation.x = -0.16;
+
+    // Fixes bug where slight sliver was hollow at bottom of console
+    consolePlane.scale.x = 1.012;
+    consolePlane.scale.y = 1.012;
+
     screen.visible = false;
     window.consolePlane = consolePlane;
 
@@ -617,8 +622,8 @@ async function init() {
 
     // Fire
     firePlane = new THREE.PlaneBufferGeometry(
-        screenSize.width * 1.2,
-        screenSize.height * 1.2
+        screenSize.width * 3.7,
+        screenSize.height * 3.7
     );
     fire = new THREE.Fire(firePlane, {
         textureWidth: 512,
@@ -626,15 +631,15 @@ async function init() {
         debug: false
     });
     let texture = new THREE.TextureLoader().load(
-        "assets/images/monitor_bezel_outline.png"
+        "assets/images/monitor_fire_inner.png"
     );
     texture.needsUpdate = true;
     fire.clearSources();
     fire.setSourceMap(texture);
-    fire.color1.set(0x00bdf7);
-    fire.color2.set(0x1b3fb6);
-    fire.color3.set(0x18171b);
-    fire.position.set(-5.5, 42.8, 26.5);
+    fire.color1.set(0xF7CF78);
+    fire.color2.set(0xEF702B);
+    fire.color3.set(0xF7A060);
+    fire.position.set(-5.5, 42.8, 25.5);
     fire.rotation.x = -0.16;
     fire.userData.on = false;
     window.fire = fire;
