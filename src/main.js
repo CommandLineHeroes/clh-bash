@@ -180,7 +180,7 @@ const states = {
 
                 // Reset fire delay timer
                 allowFire = false;
-                setTimeout(() => (allowFire = true), config.DELAY_BEFORE_FIRE);
+                setTimeout(() => (allowFire = true), config.FIRE_DELAY_BEFORE);
 
                 await sleep(1000);
 
@@ -217,6 +217,7 @@ const states = {
                         // Valid command increment counters
                         app.count.totalValidCommands++;
                         app.count.totalValidCharacters += result.cmd.length;
+                        app.count.recentValidCharacters += result.cmd.length;
                     } else {
                         if (
                             result.valid &&
@@ -244,25 +245,6 @@ const states = {
                 const iid = setInterval(() => {
                     app.timer -= 1;
 
-                    // See if we need to turn up the FIRE!
-                    let elapsedTime = config.GAME_DURATION / 1000 - app.timer;
-                    let cps = 0;
-                    if (elapsedTime > 0)
-                        cps = app.count.totalValidCharacters / elapsedTime;
-                    console.log(
-                        elapsedTime,
-                        app.count.totalValidCharacters,
-                        cps
-                    );
-                    if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
-                        turnUpFire();
-                    } else if (
-                        fire.userData.on === true &&
-                        cps < config.FIRE_CPS_THRESHOLD
-                    ) {
-                        turnDownFire();
-                    }
-
                     // play a sound for the last few seconds of the timer
                     if (app.timer <= 10 && app.timer >= 3) {
                         sfx.timerRelaxed.play();
@@ -273,6 +255,31 @@ const states = {
                         clearInterval(iid);
                     }
                 }, 1000);
+
+                const fireInterval = setInterval(() => {
+                    // See if we need to turn up the FIRE!
+                    let cps = app.count.recentValidCharacters / (config.FIRE_CHECK_INTERVAL / 1000);
+                    console.log("CPS:", cps, "Recent Valid:", app.count.recentValidCharacters);
+                    let stage;
+
+                    if (allowFire && cps >= config.FIRE_CPS_THRESHOLD) {
+                        stage = fire.userData.stage + 1;
+                        setFireStage(stage); // go up a stage
+                    } else if (cps < config.FIRE_CPS_THRESHOLD) {
+                        stage = fire.userData.stage - 1;
+                        setFireStage(stage); // go down a stage
+                    }
+
+                    console.log("Set fire stage:", stage);
+
+                    app.count.recentValidCharacters = 0;
+
+                    if (app.timer <= 0) {
+                        clearInterval(fireInterval);
+                        setFireStage(config.FIRE_STAGE_ZERO);
+                    }
+
+                }, config.FIRE_CHECK_INTERVAL);
 
                 console.log("starting game timer");
                 await sleep(app.gameDuration);
@@ -292,8 +299,8 @@ const states = {
         enter: async function() {
             app.allowTyping = false;
 
-            // Turn off Fire
-            turnDownFire();
+            // Make sure fire is off
+            setFireStage(config.FIRE_STAGE_ZERO);
 
             // Get current leaders
             leaders = fetchLeaders();
@@ -641,7 +648,8 @@ async function init() {
     fire.color3.set(0xF7A060);
     fire.position.set(-5.5, 42.8, 25.5);
     fire.rotation.x = -0.16;
-    fire.userData.on = false;
+    setFireStage(config.FIRE_STAGE_ZERO);
+    scene.add(fire);
     window.fire = fire;
 
     // load cyc wall
@@ -721,7 +729,50 @@ function fetchLeaders() {
     };
 }
 
-function turnUpFire() {
+function getFireScaleByStage(stage) {
+    let scale = {};
+    switch (stage) {
+        case config.FIRE_STAGE_ZERO:
+            scale.x = 0.1;
+            scale.y = 0.1;
+            break;
+        case config.FIRE_STAGE_ONE:
+            scale.x = 0.5;
+            scale.y = 0.5;
+            break;
+        case config.FIRE_STAGE_TWO:
+            scale.x = 0.7;
+            scale.y = 0.7;
+            break;
+        case config.FIRE_STAGE_THREE:
+            scale.x = 1;
+            scale.y = 1;
+            break;
+        default:
+            scale.x = 0.1;
+            scale.y = 0.1;
+    }
+
+    if (stage > config.FIRE_STAGE_THREE) {
+        scale.x = 1;
+        scale.y = 1;
+    }
+
+    return scale;
+}
+
+function setFireStage(stage) {
+    if (stage > config.FIRE_STAGE_THREE)
+        stage = config.FIRE_STAGE_THREE;
+    else if (stage < 0)
+        stage = 0;
+
+    if (fire.userData.stage === stage)
+        return;  // already on this stage
+
+    if (fire.userData.stage === undefined)
+        fire.userData.stage = 0;
+
     fire.windVector.y = -0.25;
     fire.colorBias = 0.25;
     fire.burnRate = 2.6;
@@ -732,22 +783,24 @@ function turnUpFire() {
     fire.drag = 0.0;
     fire.airSpeed = 40.0;
     fire.speed = 500.0;
-    fire.userData.on = true;
-    scene.add(fire);
-}
-window.turnUpFire = turnUpFire;
 
-function turnDownFire() {
-    new TWEEN.Tween(fire)
-        .to({ airSpeed: 50, burnRate: 10, speed: 1000, expansion: -0.6 }, 2000)
-        .easing(TWEEN.Easing.Linear.None) // Use an easing function to make the animation smooth.
-        .onComplete(() => {
-            fire.userData.on = false;
-            scene.remove(fire);
-        })
+    if (stage === config.FIRE_STAGE_ZERO)
+        fire.userData.on = false;
+
+    const stageScale = getFireScaleByStage(stage);
+    let steps = Math.abs(fire.userData.stage - stage);
+    console.log('stageScale:', stageScale);
+    console.log('steps:', steps);
+
+
+    new TWEEN.Tween(fire.scale)
+        .to({ x: stageScale.x, y: stageScale.y}, steps * config.FIRE_STAGE_TWEEN_TIME)
+        .easing(TWEEN.Easing.Quartic.InOut) // Use an easing function to make the animation smooth.
         .start();
+
+    fire.userData.stage = stage;
 }
-window.turnDownFire = turnDownFire;
+window.setFireStage = setFireStage;
 
 function onWindowResize() {
     windowHalfX = window.innerWidth / 2;

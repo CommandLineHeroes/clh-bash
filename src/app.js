@@ -67,8 +67,9 @@ const app = new Vue({
             bash: 0,
             html: 0,
             py: 0,
+            recentValidCharacters: 0,
             totalValidCharacters: 0,
-            totalValidCommands: 0
+            totalValidCommands: 0,
         }
     },
     watch: {
@@ -364,6 +365,7 @@ const app = new Vue({
             this.count.bash = 0;
             this.count.html = 0;
             this.count.py = 0;
+            this.count.recentValidCharacters = 0;
             this.count.totalValidCharacters = 0;
             this.count.totalValidCommands = 0;
         }
