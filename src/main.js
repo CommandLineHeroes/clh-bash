@@ -126,9 +126,8 @@ const states = {
                 }
             });
 
-            app.cmd = `You have ${
-                (config.GAME_DURATION / 1000)
-                } seconds to enter ANY commands\n\n`;
+            app.cmd = `You have ${config.GAME_DURATION /
+                1000} seconds to enter ANY commands\n\n`;
             app.cmd += app.printGoldenCommands();
             app.cmd += `\nCommands listed are worth ${
                 config.SCORE_GOLDEN_COMMAND_MULTIPLIER
@@ -337,8 +336,7 @@ const states = {
 
                     if (leaders.isEmpty || app.score > leaders.lowestHiScore) {
                         app.toState(STATES.highscore);
-                    }
-                    else {
+                    } else {
                         app.toState(STATES.leaderboard);
                     }
                 }
@@ -372,8 +370,7 @@ const states = {
             if (app.score > leaders.topHiScore) {
                 app.cmd = "Top Score!\n";
                 console.log("New top score!", app.score);
-            }
-            else {
+            } else {
                 app.cmd = "New High Score!\n";
                 console.log("New high score", app.score);
             }
@@ -386,7 +383,7 @@ const states = {
             app.cmd += "\n";
 
             app.onResult = async result => {
-                if (result.cmd.length > 0 && result.cmd !== '>') {
+                if (result.cmd.length > 0 && result.cmd !== ">") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     let name = result.cmd;
@@ -397,13 +394,14 @@ const states = {
 
                     // Store score and name pair in localStorage
                     console.log("leader name: ", result.cmd);
-                    let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
-                    leaders.push(
-                        {
-                            name: name,
-                            score: app.score,
-                            tribe: tribe,
-                        });
+                    let leaders = JSON.parse(
+                        localStorage.getItem("clhLeaders")
+                    );
+                    leaders.push({
+                        name: name,
+                        score: app.score,
+                        tribe: tribe
+                    });
                     localStorage.setItem("clhLeaders", JSON.stringify(leaders));
 
                     app.cmd = "";
@@ -677,28 +675,28 @@ async function init() {
 
 function diriveTribe() {
     let cmdCounts = [
-        {tribe: "bash", count: app.count.bash},
-        {tribe: "Python", count: app.count.py},
-        {tribe: "JavaScript", count: app.count.js},
-        {tribe: "HTML", count: app.count.html},
+        { tribe: "bash", count: app.count.bash },
+        { tribe: "Python", count: app.count.py },
+        { tribe: "JavaScript", count: app.count.js },
+        { tribe: "HTML", count: app.count.html }
     ];
 
-    const tribesSorted = _.reverse(_.sortBy(cmdCounts, 'count'));
+    const tribesSorted = _.reverse(_.sortBy(cmdCounts, "count"));
 
     return tribesSorted[0].tribe;
 }
 
 function fetchLeaders() {
     // First get the current scores from localStorage
-    let leaders = JSON.parse(localStorage.getItem('clhLeaders'));
-    leaders = _.reverse(_.sortBy(leaders, 'score'));
+    let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
+    leaders = _.reverse(_.sortBy(leaders, "score"));
 
     const hiScores = _(leaders)
-        .sortBy('score')
+        .sortBy("score")
         .reverse()
-        .uniqBy('name')
+        .uniqBy("name")
         .take(10)
-        .map('score')
+        .map("score")
         .value();
 
     const lowestHiScore = _.min(hiScores);
@@ -714,7 +712,7 @@ function fetchLeaders() {
         hiScores: hiScores,
         topHiScore: topHiScore,
         lowestHiScore: lowestHiScore,
-        isEmpty: isEmpty,
+        isEmpty: isEmpty
     };
 }
 
@@ -787,30 +785,29 @@ function setInstuctionsDisplay(display) {
     let tagline = document.getElementById("tagline");
     let listen = document.getElementById("listen");
 
-
     instructions.style.display = display;
     langs.style.display = display;
     tagline.style.display = display;
     listen.style.display = display;
 }
-window.setInstuctionsDisplay=setInstuctionsDisplay;
+window.setInstuctionsDisplay = setInstuctionsDisplay;
 
 function setCreditsDisplay(display) {
     let credits = document.getElementById("credits");
     credits.style.display = display;
 }
-window.setCreditsDisplay=setCreditsDisplay;
+window.setCreditsDisplay = setCreditsDisplay;
 
 function showCredits() {
-    setInstuctionsDisplay('none');
-    setCreditsDisplay('block');
+    setInstuctionsDisplay("none");
+    setCreditsDisplay("block");
 }
-window.showCredits=showCredits;
+window.showCredits = showCredits;
 
 function showInstructions() {
-    setInstuctionsDisplay('block');
-    setCreditsDisplay('none');
+    setInstuctionsDisplay("block");
+    setCreditsDisplay("none");
 }
-window.showInstructions=showInstructions;
+window.showInstructions = showInstructions;
 
 start();
