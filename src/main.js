@@ -143,7 +143,7 @@ of the following:
  - HTML5 tags\n\n`;
                 app.cmd += `\nThese commands are worth ${
                     config.SCORE_GOLDEN_COMMAND_MULTIPLIER
-                }x BONUS points.\n\n`;
+                }x BONUS points:\n\n`;
                 app.cmd += app.printGoldenCommands();
                 app.cmd += "\nPress Enter to begin.";
 
