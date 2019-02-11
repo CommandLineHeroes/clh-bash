@@ -308,7 +308,7 @@ const app = new Vue({
                 score = score.padEnd(longestScoreLength);
                 name = name.padEnd(longestNickLength);
 
-                out += score + "  " + name + "  " + leader.tribe + "\n";
+                out += name + "  " + score + "  " + leader.tribe + "\n";
             });
 
             return out;
