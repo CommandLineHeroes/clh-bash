@@ -118,7 +118,7 @@ if (isMobile.any) {
 
                     if (ev.keyCode === keyCodes.enter) {
                         app.onKeyPress = _.noop;
-                        startPlaying();
+                        showGolden();
                     }
                 };
 
@@ -152,12 +152,29 @@ of the following:
  - bash shell commands & built-ins
  - JavaScript keywords, objects, functions
  - Python keywords, objects, functions
- - HTML5 tags\n\n`;
-                app.cmd += `\nThese commands are worth ${
-                    config.SCORE_GOLDEN_COMMAND_MULTIPLIER
-                }x BONUS points:\n\n`;
-                app.cmd += app.printGoldenCommands();
-                app.cmd += "\nPress Enter to begin.";
+ - HTML5 tags
+
+Press Enter to continue.`;
+
+                async function showGolden() {
+                    // wait for Enter to be pressed and then start the countdown
+                    app.onKeyPress = async ev => {
+                        // don't let any other event handlers run
+                        ev.preventDefault();
+                        ev.stopPropagation();
+
+                        if (ev.keyCode === keyCodes.enter) {
+                            app.onKeyPress = _.noop;
+                            startPlaying();
+                        }
+                    };
+
+                    app.cmd = `\nThese commands are worth ${
+                        config.SCORE_GOLDEN_COMMAND_MULTIPLIER
+                    }x BONUS points:\n\n`;
+                    app.cmd += app.printGoldenCommands();
+                    app.cmd += "\nPress Enter to begin.";
+                }
 
                 async function startPlaying() {
                     app.cmd = "\nGet ready to enter commands... ";
