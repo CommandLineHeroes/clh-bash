@@ -11,12 +11,12 @@ const sfx = {
     boot: new Howl({ src: ["assets/sfx/boot.mp3"] }),
     menuMusic: new Howl({
         src: ["assets/sfx/menu-music.mp3"],
-        volume: 0.3,
+        volume: 0.2,
         loop: true
     }),
     play: new Howl({
         src: ["assets/sfx/play.mp3"],
-        volume: 0.4,
+        volume: 0.2,
         sprite: {
             golden: [0, 29648, true],
             playing: [29649, 60000 + 39456]
