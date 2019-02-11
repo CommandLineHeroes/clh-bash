@@ -355,7 +355,7 @@ of the following:
                 app.cmd += `JAVASCRIPT  ${app.count.js}\n`;
                 app.cmd += `HTML5       ${app.count.html}\n`;
 
-                app.cmd += `Press Enter to continue.`;
+                app.cmd += `\nPress Enter to continue.`;
 
                 // when any key is pressed, go back to the title screen
                 app.onKeyPress = async ev => {
