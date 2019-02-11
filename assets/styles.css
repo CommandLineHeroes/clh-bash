@@ -191,7 +191,7 @@ textarea#cmd {
   padding-left: 30px;
 }
 #intro .cursor {
-  animation: blink 999ms steps(2, start) infinite;
+  animation: blink 666ms steps(2, start) infinite;
 }
 #intro.show {
   opacity: 1;
