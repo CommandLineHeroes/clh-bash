@@ -110,6 +110,18 @@ if (isMobile.any) {
                 consoleCanvas.conf.FONT_SIZE = 4 * 48;
                 controls.enabled = true;
 
+                // wait for Enter to be pressed and then start the countdown
+                app.onKeyPress = async ev => {
+                    // don't let any other event handlers run
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    if (ev.keyCode === keyCodes.enter) {
+                        app.onKeyPress = _.noop;
+                        startPlaying();
+                    }
+                };
+
                 // Keep a record of entered valid commands
                 let enteredValidCmds = [];
 
@@ -147,20 +159,8 @@ of the following:
                 app.cmd += app.printGoldenCommands();
                 app.cmd += "\nPress Enter to begin.";
 
-                // wait for Enter to be pressed and then start the countdown
-                app.onKeyPress = async ev => {
-                    // don't let any other event handlers run
-                    ev.preventDefault();
-                    ev.stopPropagation();
-
-                    if (ev.keyCode === keyCodes.enter) {
-                        app.onKeyPress = _.noop;
-                        startPlaying();
-                    }
-                };
-
                 async function startPlaying() {
-                    app.cmd += "\nGet ready to enter commands... ";
+                    app.cmd = "\nGet ready to enter commands... ";
                     await sleep(1000);
                     let countdown = 5;
                     while (countdown--) {
