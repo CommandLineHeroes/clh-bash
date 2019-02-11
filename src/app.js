@@ -288,7 +288,7 @@ const app = new Vue({
 
             // inject headings
             let leaderContent = _.concat(
-                { name: "NAME", score: "SCORE", tribe: "LANG" },
+                { name: "NAME", score: "SCORE", tribe: "TRIBE" },
                 { name: "----", score: "-----", tribe: "----" },
                 leaders
             );
