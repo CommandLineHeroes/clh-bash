@@ -342,12 +342,12 @@ if (isMobile.any) {
                 });
 
                 await sleep(500);
-                app.cmd = "GAME OVER\n";
-                app.cmd += `score: ${app.score}\n`;
-                app.cmd += `Bash: ${app.count.bash}\n`;
-                app.cmd += `Python: ${app.count.py}\n`;
-                app.cmd += `JavaScript: ${app.count.js}\n`;
-                app.cmd += `HTML: ${app.count.html}\n`;
+                app.cmd = "THANKS FOR PLAYING!\n\n";
+                app.cmd += `SCORE       ${app.score}\n`;
+                app.cmd += `BASH        ${app.count.bash}\n`;
+                app.cmd += `PYTHON      ${app.count.py}\n`;
+                app.cmd += `JAVASCRIPT  ${app.count.js}\n`;
+                app.cmd += `HTML5       ${app.count.html}\n`;
 
                 app.cmd += `Press Enter to continue.`;
 
