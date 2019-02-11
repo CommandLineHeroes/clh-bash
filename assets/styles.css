@@ -160,3 +160,40 @@ textarea#cmd {
   font-size: 0.7em;
   color: var(--clh-white);
 }
+
+#progress {
+  opacity: 0;
+  transition: opacity linear 300ms;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--clh-black);
+  color: var(--clh-white);
+  font-size: 4rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#progress .cursor {
+  animation: blink 999ms steps(2, start) infinite;
+}
+#progress.show {
+  opacity: 1;
+}
+#progress .logo {
+  display: block;
+  clear: both;
+  max-width: 100%;
+  width: 40vw;
+  margin: 60px;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}

@@ -10,6 +10,9 @@
         <canvas id="game-canvas"></canvas>
         <img id="test-pattern" src="assets/textures/clh_test_pattern.jpg">
         <div id="game">
+            <div id="progress" v-bind:class="{ show: state == 'loading' }">
+                <img class="logo" src="./assets/clh-logo-white.svg">
+                <span>DOWNLOADING<span class="cursor">█</span></span></div>
             <div v-bind:class="{ show: showTitle }" id="title-screen">
                 <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
                 <p v-bind:class="{ show: showTitle }" id="instructions">
