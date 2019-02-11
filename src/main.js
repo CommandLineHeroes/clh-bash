@@ -283,9 +283,7 @@ Press Enter to continue.`;
                         app.timer -= 1;
 
                         // play a sound for the last few seconds of the timer
-                        if (app.timer <= 10 && app.timer >= 3) {
-                            sfx.timerRelaxed.play();
-                        } else if (app.timer < 3) {
+                        if (app.timer <= 10) {
                             sfx.timerUrgent.play();
                         }
                         if (app.timer <= 0) {
