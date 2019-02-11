@@ -287,15 +287,20 @@ const app = new Vue({
             let out = "";
             let longestScoreLength = leaders[0].score.toString().length;
             let longestNickLength = 0;
+            let leaderContent = _.concat(
+                { name: "NAME", score: "SCORE", tribe: "TOP LANG" },
+                { name: "----", score: "-----", tribe: "--------" },
+                leaders
+            );
 
             // Find the nick with longest string length
-            leaders.forEach(leader => {
+            leaderContent.forEach(leader => {
                 if (leader.name.length > longestNickLength) {
                     longestNickLength = leader.name.length;
                 }
             });
 
-            leaders.forEach(leader => {
+            leaderContent.forEach(leader => {
                 let score = leader.score.toString();
                 let name = leader.name;
 
