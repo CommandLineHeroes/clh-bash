@@ -134,11 +134,17 @@ if (isMobile.any) {
                 });
 
                 app.cmd = `You have ${config.GAME_DURATION /
-                    1000} seconds to enter ANY commands\n\n`;
-                app.cmd += app.printGoldenCommands();
-                app.cmd += `\nCommands listed are worth ${
+                    1000} seconds to enter ANY
+of the following:
+
+ - bash shell commands & built-ins
+ - JavaScript keywords, objects, functions
+ - Python keywords, objects, functions
+ - HTML5 tags\n\n`;
+                app.cmd += `\nThese commands are worth ${
                     config.SCORE_GOLDEN_COMMAND_MULTIPLIER
-                }x BONUS points.\n`;
+                }x BONUS points.\n\n`;
+                app.cmd += app.printGoldenCommands();
                 app.cmd += "\nPress Enter to begin.";
 
                 // wait for Enter to be pressed and then start the countdown
