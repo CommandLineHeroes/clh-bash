@@ -285,30 +285,25 @@ const app = new Vue({
         },
         printHighScores: function(leaders) {
             let out = "";
-            let longestScoreLength = leaders[0].score.toString().length;
-            let longestNickLength = 0;
+
+            // inject headings
             let leaderContent = _.concat(
-                { name: "NAME", score: "SCORE", tribe: "TOP LANG" },
-                { name: "----", score: "-----", tribe: "--------" },
+                { name: "NAME", score: "SCORE", tribe: "LANG" },
+                { name: "----", score: "-----", tribe: "----" },
                 leaders
             );
 
-            // Find the nick with longest string length
-            leaderContent.forEach(leader => {
-                if (leader.name.length > longestNickLength) {
-                    longestNickLength = leader.name.length;
-                }
-            });
+            let longestScoreLength = leaders[0].score.toString().length;
+            let longestTribeLength = _(leaderContent)
+                .map("tribe")
+                .maxBy(n => n.length).length;
 
             leaderContent.forEach(leader => {
-                let score = leader.score.toString();
-                let name = leader.name;
-
                 // pad for column formatting
-                score = score.padEnd(longestScoreLength);
-                name = name.padEnd(longestNickLength);
+                let score = leader.score.toString().padEnd(longestScoreLength);
+                let tribe = leader.tribe.padEnd(longestTribeLength);
 
-                out += name + "  " + score + "  " + leader.tribe + "\n";
+                out += `${score}  ${tribe}  ${leader.name}\n`;
             });
 
             return out;
