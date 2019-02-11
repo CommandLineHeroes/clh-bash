@@ -145,6 +145,15 @@ textarea#cmd {
 #title-screen > *:nth-child(7) {
   transition-delay: calc(6 * var(--title-reveal-interval));
 }
+#title-screen > *:nth-child(8) {
+  transition-delay: calc(6 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(9) {
+  transition-delay: calc(6 * var(--title-reveal-interval));
+}
+#title-screen > *:nth-child(10) {
+  transition-delay: calc(6 * var(--title-reveal-interval));
+}
 
 /* individual elements of the title screen */
 #langs {
@@ -161,7 +170,7 @@ textarea#cmd {
   color: var(--clh-white);
 }
 
-#progress {
+#intro {
   opacity: 0;
   transition: opacity linear 300ms;
   position: absolute;
@@ -171,25 +180,28 @@ textarea#cmd {
   left: 0;
   background: var(--clh-black);
   color: var(--clh-white);
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  padding-right: 30px;
+  padding-left: 30px;
 }
-#progress .cursor {
+#intro .cursor {
   animation: blink 999ms steps(2, start) infinite;
 }
-#progress.show {
+#intro.show {
   opacity: 1;
 }
-#progress .logo {
+#intro .logo {
   display: block;
   clear: both;
   max-width: 100%;
-  width: 40vw;
-  margin: 60px;
+  width: 600px;
+  margin-bottom: 10vh;
 }
 
 @keyframes blink {

@@ -21,6 +21,7 @@
     "dependencies": {
         "@tweenjs/tween.js": "^17.2.0",
         "howler": "^2.1.1",
+        "ismobilejs": "^0.5.1",
         "lodash": "^4.17.11",
         "three": "^0.100.0",
         "vue": "^2.5.22",

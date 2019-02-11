@@ -10,9 +10,14 @@
         <canvas id="game-canvas"></canvas>
         <img id="test-pattern" src="assets/textures/clh_test_pattern.jpg">
         <div id="game">
-            <div id="progress" v-bind:class="{ show: state == 'loading' }">
+            <div id="intro" v-bind:class="{ show: state == 'loading' }">
                 <img class="logo" src="./assets/clh-logo-white.svg">
-                <span>DOWNLOADING<span class="cursor">█</span></span></div>
+                <span>
+                    <span v-if="isMobile">Apologies, mobile not yet supported. <a href="https://github.com/CommandLineHeroes/clh-bash">PRs are welcome</a>! </span>
+                    <span v-else>DOWNLOADING</span>
+                    <span v-if="!isMobile" class="cursor">█</span>
+                </span>
+            </div>
             <div v-bind:class="{ show: showTitle }" id="title-screen">
                 <img v-bind:class="{ show: showTitle }" id="clh-logo" src="./assets/clh-logo-white.svg">
                 <p v-bind:class="{ show: showTitle }" id="instructions">
@@ -27,17 +32,16 @@
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="listen">
                     Listen to the podcast at <a target=_blank href="https://www.redhat.com/en/command-line-heroes">redhat.com/commandlineheroes</a>.<br><br>
-                    <a href="#credits" onclick="showCredits()">Credits</a> &middot; <a target="_blank" href="https://github.com/CommandLineHeroes/clh-bash">Github</a>
+                    <a href="#credits" onclick="showCredits()">Credits</a> &middot; <a target="_blank" href="https://github.com/CommandLineHeroes/clh-bash">GitHub</a>
                 </p>
                 <p v-bind:class="{ show: showTitle }" id="credits">
-                    Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team and community.<br><br>
-                    Song <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a> used by permission<br><br>
+                    Created by <a href="https://clayto.com">Michael Clayton</a>, <a href="http://jaredsprague.com/">Jared Sprague</a>, and the <a href="https://www.redhat.com/en/command-line-heroes/">Command Line Heroes</a> team and community.<br><br>
+                    Soundtrack: <a href="https://waveshaper1.bandcamp.com/track/66-mhz">"66 MHZ"</a> by <a href="https://waveshaper1.bandcamp.com/">Waveshaper</a>.<br><br>
 
-                    Special thanks to:
-                    Dan Courcy &middot; Eric Kramer &middot; Open-source contributors &middot; Command Line Heroes discord community<br><br>
+                    Special thanks: Dan Courcy &middot; Eric Kramer &middot; Open-source contributors &middot; <a href="https://discord.gg/DYEGmFc">Command Line Heroes Discord</a> community<br><br>
 
 
-                    <a href="#instructions" onclick="showInstructions()">Back to instructions</a>
+                    <a href="#instructions" onclick="showInstructions()">Back</a>
                 </p>
             </div>
             <textarea
@@ -52,6 +56,7 @@
                 id="cmd"></textarea>
         </div>
         <script src="node_modules/howler/dist/howler.min.js"></script>
+        <script src="node_modules/ismobilejs/dist/isMobile.min.js"></script>
         <script src="node_modules/three/build/three.min.js"></script>
         <script src="node_modules/three/examples/js/libs/stats.min.js"></script>
         <script src="node_modules/vue/dist/vue.min.js"></script>

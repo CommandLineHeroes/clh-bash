@@ -51,6 +51,7 @@ const app = new Vue({
     el: "#game",
     data: {
         state: STATES.loading,
+        isMobile: isMobile.any,
         showTitle: false,
         showScore: false,
         cmd: "",
@@ -69,7 +70,7 @@ const app = new Vue({
             py: 0,
             recentValidCharacters: 0,
             totalValidCharacters: 0,
-            totalValidCommands: 0,
+            totalValidCommands: 0
         }
     },
     watch: {
