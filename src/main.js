@@ -180,24 +180,6 @@ if (isMobile.any) {
                         _.constant("\n")
                     ).join("");
                     app.cmd = `${blankChars}TYPE!${blankLines}`;
-                    app.allowTyping = true;
-
-                    // play gameplay music command music
-                    // sfx.play.fade(1, 0, 600, "golden");
-                    sfx.play.stop();
-                    sfx.play.play("playing");
-
-                    // Reset fire delay timer
-                    allowFire = false;
-                    setTimeout(
-                        () => (allowFire = true),
-                        config.FIRE_DELAY_BEFORE
-                    );
-
-                    await sleep(1000);
-
-                    app.showScore = true;
-
                     app.onResult = async result => {
                         if (
                             result.valid &&
@@ -254,6 +236,24 @@ if (isMobile.any) {
                             }`
                         );
                     };
+
+                    app.allowTyping = true;
+
+                    // play gameplay music command music
+                    // sfx.play.fade(1, 0, 600, "golden");
+                    sfx.play.stop();
+                    sfx.play.play("playing");
+
+                    // Reset fire delay timer
+                    allowFire = false;
+                    setTimeout(
+                        () => (allowFire = true),
+                        config.FIRE_DELAY_BEFORE
+                    );
+
+                    await sleep(1000);
+
+                    app.showScore = true;
 
                     app.timer = config.GAME_DURATION / 1000;
                     const iid = setInterval(() => {
