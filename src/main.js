@@ -35,9 +35,8 @@ let t, previousTime;
 let slowCount = 0;
 let maxSlowFrames = config.MAX_SLOW_FRAMES;
 let isLowFPS = false;
-window.isLowFPS=isLowFPS;
+window.isLowFPS = isLowFPS;
 t = previousTime = performance.now();
-
 
 const states = {
     [STATES.title]: {
@@ -88,7 +87,6 @@ const states = {
 
             //await sleep(app.typingTime(app.cmd));
 
-            app.allowTyping = true;
             app.cmd += "\n";
 
             app.onResult = async result => {
@@ -105,6 +103,8 @@ const states = {
                     app.cmd += "\nType PLAY\n";
                 }
             };
+
+            app.allowTyping = true;
         }
     },
     [STATES.play]: {
