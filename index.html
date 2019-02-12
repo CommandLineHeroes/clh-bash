@@ -13,7 +13,7 @@
             <div id="intro" v-bind:class="{ show: state == 'loading' }">
                 <img class="logo" src="./assets/clh-logo-white.svg">
                 <span>
-                    <span v-if="isMobile">Apologies, mobile not yet supported. <a href="https://github.com/CommandLineHeroes/clh-bash">PRs are welcome</a>! </span>
+                    <span v-if="isMobile">Apologies, mobile is not yet supported, but <a href="https://github.com/CommandLineHeroes/clh-bash">PRs are welcome</a>! </span>
                     <span v-else>DOWNLOADING</span>
                     <span v-if="!isMobile" class="cursor">█</span>
                 </span>
