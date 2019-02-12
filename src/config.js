@@ -48,5 +48,8 @@ export default {
     FIRE_LOW_FPS_SPEED: 200.0,
     FIRE_LOW_FPS_STAGE_ONE_SCALE: { x: 0.8, y: 0.8, z: 1 },
     FIRE_LOW_FPS_STAGE_TWO_SCALE: { x: 1.1, y: 1.1, z: 1 },
-    FIRE_LOW_FPS_STAGE_THREE_SCALE: { x: 1.4, y: 1.3, z: 1 }
+    FIRE_LOW_FPS_STAGE_THREE_SCALE: { x: 1.4, y: 1.3, z: 1 },
+
+    MAX_FRAME_TIME: 1000 / 30, // 30 FPS
+    MAX_SLOW_FRAMES: 1200,
 };

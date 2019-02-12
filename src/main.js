@@ -30,12 +30,14 @@ let leaders;
 
 // FPS tracking
 let stats = new Stats();
-document.body.appendChild(stats.dom);
+// document.body.appendChild(stats.dom);
 let t, previousTime;
 let slowCount = 0;
-let maxSlowFrames = 300; // About 5-10 of slow frames
+let maxSlowFrames = config.MAX_SLOW_FRAMES;
 let isLowFPS = false;
+window.isLowFPS=isLowFPS;
 t = previousTime = performance.now();
+
 
 const states = {
     [STATES.title]: {
@@ -46,6 +48,8 @@ const states = {
             app.cmd = "";
 
             controls.enabled = false;
+
+            slowCount = 0;
 
             // make font big enough to see from a distance
             consoleCanvas.conf.FONT_SIZE = 4 * 114;
@@ -873,7 +877,7 @@ function onDocumentMouseMove(event) {
 
 function animate(time) {
     // FPS tracking
-    let maximumFrameTime = 1000 / 40; // 40 FPS
+    let maximumFrameTime = config.MAX_FRAME_TIME;
     t = performance.now();
     let elapsed = t - previousTime;
     previousTime = t;
