@@ -7,6 +7,10 @@ export default {
     SCORE_OVERALL_MULTIPLIER: 100,
     SCORE_GOLDEN_COMMAND_MULTIPLIER: 10,
     GAME_DURATION: 60000,
+    CHAR_APPEAR_DELAY: 60, // ms between characters appearing on screen
+    MAX_LEADER_NAME_LENGTH: 20, // max length of names on leaderboard
+
+    // General Fire settings
     FIRE_DELAY_BEFORE: 5000, // Minimum time the game has be be running before fire can display,
     FIRE_CHECK_INTERVAL: 5000, // how often to check if fire should be turned up
     FIRE_CPS_THRESHOLD: 1.75, // Number of valid characters per-second a player must average to get fire
@@ -15,6 +19,34 @@ export default {
     FIRE_STAGE_TWO: 2,
     FIRE_STAGE_THREE: 3,
     FIRE_STAGE_TWEEN_TIME: 2000, // how long to tween between fire stages
-    CHAR_APPEAR_DELAY: 60, // ms between characters appearing on screen
-    MAX_LEADER_NAME_LENGTH: 20 // max length of names on leaderboard
+
+    // Default Fire properties for medium to high
+    FIRE_WIND_VECTOR_Y: 0.1,
+    FIRE_COLOR_BIAS: 0.1,
+    FIRE_BURN_RATE: 6,
+    FIRE_DIFFUSE: 2.0,
+    FIRE_VISCOSITY: 0.5,
+    FIRE_EXPANSION: 0.75,
+    FIRE_SWIRL: 5.0,
+    FIRE_DRAG: 0.0,
+    FIRE_AIR_SPEED: 40.0,
+    FIRE_SPEED: 300.0,
+    FIRE_STAGE_ONE_SCALE: { x: 0.5, y: 0.4, z: 1 },
+    FIRE_STAGE_TWO_SCALE: { x: 0.9, y: 0.8, z: 1 },
+    FIRE_STAGE_THREE_SCALE: { x: 1.2, y: 0.9, z: 1 },
+
+    // Fire Settings low FPS clients
+    FIRE_LOW_FPS_WIND_VECTOR_Y: 0.4,
+    FIRE_LOW_FPS_COLOR_BIAS: 0.1,
+    FIRE_LOW_FPS_BURN_RATE: 5,
+    FIRE_LOW_FPS_DIFFUSE: 5.0,
+    FIRE_LOW_FPS_VISCOSITY: 0.5,
+    FIRE_LOW_FPS_EXPANSION: 0.75,
+    FIRE_LOW_FPS_SWIRL: 30.0,
+    FIRE_LOW_FPS_DRAG: 0.0,
+    FIRE_LOW_FPS_AIR_SPEED: 20.0,
+    FIRE_LOW_FPS_SPEED: 200.0,
+    FIRE_LOW_FPS_STAGE_ONE_SCALE: { x: 0.8, y: 0.8, z: 1 },
+    FIRE_LOW_FPS_STAGE_TWO_SCALE: { x: 1.1, y: 1.1, z: 1 },
+    FIRE_LOW_FPS_STAGE_THREE_SCALE: { x: 1.4, y: 1.3, z: 1 }
 };

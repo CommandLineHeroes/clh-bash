@@ -28,8 +28,14 @@ let allowFire = false;
 
 let leaders;
 
+// FPS tracking
 let stats = new Stats();
-// document.body.appendChild(stats.dom);
+document.body.appendChild(stats.dom);
+let t, previousTime;
+let slowCount = 0;
+let maxSlowFrames = 300; // About 5-10 of slow frames
+let isLowFPS = false;
+t = previousTime = performance.now();
 
 const states = {
     [STATES.title]: {
@@ -759,22 +765,32 @@ function fetchLeaders() {
 
 function getFireScaleByStage(stage) {
     let scale = {};
+    let one = config.FIRE_STAGE_ONE_SCALE;
+    let two = config.FIRE_STAGE_TWO_SCALE;
+    let three = config.FIRE_STAGE_THREE_SCALE;
+
+    if (isLowFPS) {
+        one = config.FIRE_LOW_FPS_STAGE_ONE_SCALE;
+        two = config.FIRE_LOW_FPS_STAGE_TWO_SCALE;
+        three = config.FIRE_LOW_FPS_STAGE_THREE_SCALE;
+    }
+
     switch (stage) {
         case config.FIRE_STAGE_ZERO:
             scale.x = 0.1;
             scale.y = 0.1;
             break;
         case config.FIRE_STAGE_ONE:
-            scale.x = 0.8;
-            scale.y = 0.8;
+            scale.x = one.x;
+            scale.y = one.y;
             break;
         case config.FIRE_STAGE_TWO:
-            scale.x = 1.1;
-            scale.y = 1.1;
+            scale.x = two.x;
+            scale.y = two.y;
             break;
         case config.FIRE_STAGE_THREE:
-            scale.x = 1.4;
-            scale.y = 1.3;
+            scale.x = three.x;
+            scale.y = three.y;
             break;
         default:
             scale.x = 0.1;
@@ -797,16 +813,29 @@ function setFireStage(stage) {
 
     if (fire.userData.stage === undefined) fire.userData.stage = 0;
 
-    fire.windVector.y = 0.4;
-    fire.colorBias = 0.1;
-    fire.burnRate = 5;
-    fire.diffuse = 5.0;
-    fire.viscosity = 0.5;
-    fire.expansion = 0.75;
-    fire.swirl = 30.0;
-    fire.drag = 0.0;
-    fire.airSpeed = 20.0;
-    fire.speed = 200.0;
+    fire.windVector.y = config.FIRE_WIND_VECTOR_Y;
+    fire.colorBias = config.FIRE_COLOR_BIAS;
+    fire.burnRate = config.FIRE_BURN_RATE;
+    fire.diffuse = config.FIRE_DIFFUSE;
+    fire.viscosity = config.FIRE_VISCOSITY;
+    fire.expansion = config.FIRE_EXPANSION;
+    fire.swirl = config.FIRE_SWIRL;
+    fire.drag = config.FIRE_DRAG;
+    fire.airSpeed = config.FIRE_AIR_SPEED;
+    fire.speed = config.FIRE_SPEED;
+
+    if (isLowFPS) {
+        fire.windVector.y = config.FIRE_LOW_FPS_WIND_VECTOR_Y;
+        fire.colorBias = config.FIRE_LOW_FPS_COLOR_BIAS;
+        fire.burnRate = config.FIRE_LOW_FPS_BURN_RATE;
+        fire.diffuse = config.FIRE_LOW_FPS_DIFFUSE;
+        fire.viscosity = config.FIRE_LOW_FPS_VISCOSITY;
+        fire.expansion = config.FIRE_LOW_FPS_EXPANSION;
+        fire.swirl = config.FIRE_LOW_FPS_SWIRL;
+        fire.drag = config.FIRE_LOW_FPS_DRAG;
+        fire.airSpeed = config.FIRE_LOW_FPS_AIR_SPEED;
+        fire.speed = config.FIRE_LOW_FPS_SPEED;
+    }
 
     if (stage === config.FIRE_STAGE_ZERO) fire.userData.on = false;
 
@@ -843,6 +872,22 @@ function onDocumentMouseMove(event) {
 }
 
 function animate(time) {
+    // FPS tracking
+    let maximumFrameTime = 1000 / 40; // 40 FPS
+    t = performance.now();
+    let elapsed = t - previousTime;
+    previousTime = t;
+
+    if (elapsed > maximumFrameTime) {
+        slowCount++;
+    }
+
+    if (slowCount > maxSlowFrames && !isLowFPS) {
+        // This client has slow FPS currently
+        console.log("Low FPS detected: ", 1000 / elapsed, "FPS");
+        isLowFPS = true;
+    }
+
     requestAnimationFrame(animate);
     render(time);
 }
