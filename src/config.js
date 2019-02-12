@@ -8,7 +8,7 @@ export default {
     SCORE_GOLDEN_COMMAND_MULTIPLIER: 10,
     GAME_DURATION: 60000,
     FIRE_DELAY_BEFORE: 5000, // Minimum time the game has be be running before fire can display,
-    FIRE_CHECK_INTERVAL: 5000,  // how often to check if fire should be turned up
+    FIRE_CHECK_INTERVAL: 5000, // how often to check if fire should be turned up
     FIRE_CPS_THRESHOLD: 1.5, // Number of valid characters per-second a player must average to get fire
     FIRE_STAGE_ZERO: 0,
     FIRE_STAGE_ONE: 1,
