@@ -672,7 +672,7 @@ async function init() {
     fire.setSourceMap(texture);
     fire.color1.set(0xf7cf78);
     fire.color2.set(0xef702b);
-    fire.color3.set(0xf7a060);
+    fire.color3.set(0x420059);
     fire.position.set(-5.5, 42.8, 25.5);
     fire.rotation.x = -0.16;
     setFireStage(config.FIRE_STAGE_ZERO);
@@ -765,16 +765,16 @@ function getFireScaleByStage(stage) {
             scale.y = 0.1;
             break;
         case config.FIRE_STAGE_ONE:
-            scale.x = 0.5;
-            scale.y = 0.5;
+            scale.x = 0.8;
+            scale.y = 0.8;
             break;
         case config.FIRE_STAGE_TWO:
-            scale.x = 0.7;
-            scale.y = 0.7;
+            scale.x = 1.1;
+            scale.y = 1.1;
             break;
         case config.FIRE_STAGE_THREE:
-            scale.x = 1;
-            scale.y = 1;
+            scale.x = 1.4;
+            scale.y = 1.3;
             break;
         default:
             scale.x = 0.1;
@@ -797,16 +797,16 @@ function setFireStage(stage) {
 
     if (fire.userData.stage === undefined) fire.userData.stage = 0;
 
-    fire.windVector.y = -0.25;
-    fire.colorBias = 0.25;
-    fire.burnRate = 2.6;
+    fire.windVector.y = 0.4;
+    fire.colorBias = 0.1;
+    fire.burnRate = 5;
     fire.diffuse = 5.0;
     fire.viscosity = 0.5;
     fire.expansion = 0.75;
     fire.swirl = 30.0;
     fire.drag = 0.0;
-    fire.airSpeed = 40.0;
-    fire.speed = 500.0;
+    fire.airSpeed = 20.0;
+    fire.speed = 200.0;
 
     if (stage === config.FIRE_STAGE_ZERO) fire.userData.on = false;
 
