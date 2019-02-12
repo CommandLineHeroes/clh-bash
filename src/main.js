@@ -697,9 +697,6 @@ async function init() {
     texture.needsUpdate = true;
     fire.clearSources();
     fire.setSourceMap(texture);
-    fire.color1.set(0xf7cf78);
-    fire.color2.set(0xef702b);
-    fire.color3.set(0x420059);
     fire.position.set(-5.5, 42.8, 25.5);
     fire.rotation.x = -0.16;
     setFireStage(config.FIRE_STAGE_ZERO);
@@ -834,18 +831,25 @@ function setFireStage(stage) {
 
     if (fire.userData.stage === undefined) fire.userData.stage = 0;
 
-    fire.windVector.y = config.FIRE_WIND_VECTOR_Y;
-    fire.colorBias = config.FIRE_COLOR_BIAS;
-    fire.burnRate = config.FIRE_BURN_RATE;
-    fire.diffuse = config.FIRE_DIFFUSE;
-    fire.viscosity = config.FIRE_VISCOSITY;
-    fire.expansion = config.FIRE_EXPANSION;
-    fire.swirl = config.FIRE_SWIRL;
-    fire.drag = config.FIRE_DRAG;
-    fire.airSpeed = config.FIRE_AIR_SPEED;
-    fire.speed = config.FIRE_SPEED;
-
-    if (isLowFPS) {
+    if (!isLowFPS) {
+        fire.color1.set(config.FIRE_COLOR_1);
+        fire.color2.set(config.FIRE_COLOR_2);
+        fire.color3.set(config.FIRE_COLOR_3);
+        fire.windVector.y = config.FIRE_WIND_VECTOR_Y;
+        fire.colorBias = config.FIRE_COLOR_BIAS;
+        fire.burnRate = config.FIRE_BURN_RATE;
+        fire.diffuse = config.FIRE_DIFFUSE;
+        fire.viscosity = config.FIRE_VISCOSITY;
+        fire.expansion = config.FIRE_EXPANSION;
+        fire.swirl = config.FIRE_SWIRL;
+        fire.drag = config.FIRE_DRAG;
+        fire.airSpeed = config.FIRE_AIR_SPEED;
+        fire.speed = config.FIRE_SPEED;
+    }
+    else {
+        fire.color1.set(config.FIRE_LOW_FPS_COLOR_1);
+        fire.color2.set(config.FIRE_LOW_FPS_COLOR_2);
+        fire.color3.set(config.FIRE_LOW_FPS_COLOR_3);
         fire.windVector.y = config.FIRE_LOW_FPS_WIND_VECTOR_Y;
         fire.colorBias = config.FIRE_LOW_FPS_COLOR_BIAS;
         fire.burnRate = config.FIRE_LOW_FPS_BURN_RATE;
