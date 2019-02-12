@@ -111,7 +111,13 @@ const states = {
         enter: async function() {
             // make font appropriate size for when camera is zoomed in
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
-            controls.enabled = true;
+            controls.enabled = false;
+
+            // log play count
+            let playCount = localStorage.getItem("clhPlayCount");
+            playCount++;
+            localStorage.setItem("clhPlayCount", playCount);
+
 
             // wait for Enter to be pressed and then start the countdown
             app.onKeyPress = async ev => {
@@ -336,6 +342,8 @@ Press Enter to continue.`;
         enter: async function() {
             app.allowTyping = false;
 
+            controls.enabled = true;
+
             // Make sure fire is off
             setFireStage(config.FIRE_STAGE_ZERO);
 
@@ -391,6 +399,8 @@ Press Enter to continue.`;
         enter: async function() {
             app.allowTyping = false;
             app.showTitle = false;
+
+            controls.enabled = true;
 
             // make font appropriate size
             consoleCanvas.conf.FONT_SIZE = 4 * 90;
@@ -463,6 +473,8 @@ Press Enter to continue.`;
             app.allowTyping = false;
             app.showTitle = false;
 
+            controls.enabled = true;
+
             // Make smaller font size
             consoleCanvas.conf.FONT_SIZE = 4 * 48;
 
@@ -512,6 +524,11 @@ async function start() {
     if (localStorage.getItem("clhLeaders") === null) {
         // Create new leaders object
         localStorage.setItem("clhLeaders", JSON.stringify([]));
+    }
+
+    if (localStorage.getItem("clhPlayCount") === null) {
+        // Create new leaders object
+        localStorage.setItem("clhPlayCount", "0");
     }
 
     // set up a state change listener so when the Vue app changes state, we
