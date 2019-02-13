@@ -17,7 +17,7 @@ let ctrl_down = false;
  * determine whether left arrow is valid (left arrow can't cross over a
  * newline)
  */
-function validKeycode(ev, leftChars) {
+function validKeycode(ev, leftChars, state) {
     const kc = ev.keyCode;
 
     // if ctrl is held down, ignore everything
@@ -44,7 +44,10 @@ function validKeycode(ev, leftChars) {
     const valid_backspace =
         kc === keyCodes.backspace && !(on_newline || on_prompt);
 
-    return alphanumeric || valid_other || valid_backspace;
+    // Allow spaces when people enter their name on high score list
+    const valid_space = kc === keyCodes.space && state === STATES.highscore;
+
+    return alphanumeric || valid_other || valid_backspace || valid_space;
 }
 
 const app = new Vue({
@@ -148,7 +151,7 @@ const app = new Vue({
             }
 
             // if keycode is invalid, drop the event.
-            if (!validKeycode(ev, leftChars)) {
+            if (!validKeycode(ev, leftChars, this.state)) {
                 ev.preventDefault();
             }
         },
