@@ -286,6 +286,9 @@ const app = new Vue({
         printHighScores: function(leaders) {
             let out = "";
 
+            // Only display the top 10 leaders
+            leaders = leaders.slice(0, 10);
+
             // inject headings
             let leaderContent = _.concat(
                 { name: "NAME", score: "SCORE", tribe: "TRIBE" },
