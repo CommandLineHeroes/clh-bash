@@ -350,9 +350,6 @@ Press Enter to continue.`;
             // Get current leaders
             leaders = fetchLeaders();
 
-            // make font appropriate size for when camera is zoomed in
-            consoleCanvas.conf.FONT_SIZE = 4 * 90;
-
             await tweenCamera(camera, {
                 rotation: {
                     x: 0,
@@ -367,6 +364,9 @@ Press Enter to continue.`;
             });
 
             await sleep(500);
+
+            // make font appropriate size for when camera is zoomed in
+            consoleCanvas.conf.FONT_SIZE = 4 * 90;
             app.cmd = "THANKS FOR PLAYING!\n\n";
             app.cmd += `SCORE       ${app.score}\n`;
             app.cmd += `BASH        ${app.count.bash}\n`;
