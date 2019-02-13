@@ -118,7 +118,6 @@ const states = {
             playCount++;
             localStorage.setItem("clhPlayCount", playCount);
 
-
             // wait for Enter to be pressed and then start the countdown
             app.onKeyPress = async ev => {
                 // don't let any other event handlers run
@@ -191,12 +190,7 @@ Press Enter to continue.`;
                 let countdown = 3;
                 while (countdown--) {
                     app.cmd += `${1 + countdown} `;
-                    // play a sound for the last few seconds of the timer
-                    if (countdown > 0) {
-                        sfx.timerRelaxed.play();
-                    } else {
-                        sfx.timerUrgent.play();
-                    }
+                    sfx.timerRelaxed.play();
                     await sleep(1000);
                 }
                 sfx.timerUrgent.play();
@@ -285,7 +279,10 @@ Press Enter to continue.`;
                     app.timer -= 1;
 
                     // play a sound for the last few seconds of the timer
-                    if (app.timer <= 10) {
+
+                    if (app.timer <= 10 && app.timer >= 3) {
+                        sfx.timerRelaxed.play();
+                    } else if (app.timer < 3) {
                         sfx.timerUrgent.play();
                     }
                     if (app.timer <= 0) {
@@ -845,8 +842,7 @@ function setFireStage(stage) {
         fire.drag = config.FIRE_DRAG;
         fire.airSpeed = config.FIRE_AIR_SPEED;
         fire.speed = config.FIRE_SPEED;
-    }
-    else {
+    } else {
         fire.color1.set(config.FIRE_LOW_FPS_COLOR_1);
         fire.color2.set(config.FIRE_LOW_FPS_COLOR_2);
         fire.color3.set(config.FIRE_LOW_FPS_COLOR_3);
