@@ -188,7 +188,7 @@ Press Enter to continue.`;
             async function startPlaying() {
                 app.cmd = "\nGet ready to enter commands... ";
                 await sleep(1000);
-                let countdown = 5;
+                let countdown = 3;
                 while (countdown--) {
                     app.cmd += `${1 + countdown} `;
                     // play a sound for the last few seconds of the timer
