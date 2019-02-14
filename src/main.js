@@ -99,6 +99,15 @@ const states = {
                     sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
                     await sleep(200);
                     app.toState(STATES.play);
+                } else if (result.cmd.toLowerCase() == "leaderboard") {
+                    app.onResult = _.noop();
+                    app.allowTyping = false;
+                    app.showTitle = false;
+                    app.cmd = "";
+                    sfx.boot.fade(sfx.boot.originalVolume, 0, 600);
+                    sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
+                    await sleep(200);
+                    app.toState(STATES.leaderboard);
                 } else {
                     app.cmd += "\nType PLAY\n";
                 }
