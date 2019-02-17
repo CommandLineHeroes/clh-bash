@@ -34,6 +34,7 @@ class ConsoleCanvas {
         this.canvas.height = this.conf.HEIGHT;
         this.canvas.id = "console-canvas";
 
+
         // set up canvas drawing context
         this.ctx = this.canvas.getContext("2d");
 

@@ -973,3 +973,8 @@ if (isMobile.any) {
 } else {
     start();
 }
+
+
+// disables right click in game to prevent the context menu from inturrupting game play
+document.getElementById("game").addEventListener('contextmenu', event => event.preventDefault())
+document.getElementById("console-canvas").addEventListener('contextmenu', event => event.preventDefault())
