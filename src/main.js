@@ -975,4 +975,4 @@ if (isMobile.any) {
 }
 
 // disables right click in game to prevent the context menu from inturrupting game play
-window.addEventListener('contextmenu', event => event.preventDefault());
+window.addEventListener("contextmenu", event => event.preventDefault());
