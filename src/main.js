@@ -90,7 +90,7 @@ const states = {
             app.cmd += "\n";
 
             app.onResult = async result => {
-                if (result.cmd.toLowerCase() == "play") {
+                if (result.cmd.toLowerCase() === "play") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     app.showTitle = false;
@@ -99,7 +99,7 @@ const states = {
                     sfx.menuMusic.fade(sfx.menuMusic.originalVolume, 0, 600);
                     await sleep(200);
                     app.toState(STATES.play);
-                } else if (result.cmd.toLowerCase() == "leaderboard") {
+                } else if (result.cmd.toLowerCase() === "leaderboard") {
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     app.showTitle = false;
@@ -608,8 +608,8 @@ async function init() {
     purpleSpot.decay = 4;
     purpleSpot.distance = 2000;
     purpleSpot.castShadow = true;
-    purpleSpot.shadow.mapSize.width = 1 * SHADOW_MAP_WIDTH;
-    purpleSpot.shadow.mapSize.height = 1 * SHADOW_MAP_HEIGHT;
+    purpleSpot.shadow.mapSize.width = SHADOW_MAP_WIDTH;
+    purpleSpot.shadow.mapSize.height = SHADOW_MAP_HEIGHT;
     purpleSpot.shadow.camera.near = 200;
     purpleSpot.shadow.camera.far = 1000;
     scene.add(purpleSpot);
