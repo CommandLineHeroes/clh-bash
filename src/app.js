@@ -287,6 +287,10 @@ const app = new Vue({
             return out;
         },
         printHighScores: function(leaders) {
+            if (leaders.isEmpty) {
+                return "";
+            }
+
             let out = "";
 
             // Only display the top 10 leaders

@@ -12,6 +12,7 @@ import sleep from "./sleep.js";
 import consoleCanvas from "./console-canvas.js";
 import config from "./config.js";
 import sfx from "./sfx.js";
+import leaderboard from "./leaderboard.js";
 
 let container;
 let camera, scene, renderer, controls;
@@ -354,7 +355,7 @@ Press Enter to continue.`;
             setFireStage(config.FIRE_STAGE_ZERO);
 
             // Get current leaders
-            leaders = fetchLeaders();
+            leaders = await leaderboard.get();
 
             await tweenCamera(camera, {
                 rotation: {
@@ -447,22 +448,22 @@ Press Enter to continue.`;
                     app.onResult = _.noop();
                     app.allowTyping = false;
                     let name = result.cmd;
-                    let tribe = diriveTribe();
+                    let tribe = deriveTribe();
 
                     // truncate name to max size
                     name = name.substring(0, config.MAX_LEADER_NAME_LENGTH);
 
                     // Store score and name pair in localStorage
                     console.log("leader name: ", result.cmd);
-                    let leaders = JSON.parse(
-                        localStorage.getItem("clhLeaders")
-                    );
-                    leaders.push({
+
+                    // this is an async function but we don't `await` it
+                    // because it's totally fine for it to run in the
+                    // background
+                    leaderboard.record({
                         name: name,
                         score: app.score,
                         tribe: tribe
                     });
-                    localStorage.setItem("clhLeaders", JSON.stringify(leaders));
 
                     app.cmd = "";
 
@@ -501,10 +502,15 @@ Press Enter to continue.`;
             }
 
             // Fetch current leaders
-            leaders = fetchLeaders();
+            leaders = await leaderboard.get();
 
             app.cmd = "HIGH SCORES\n\n";
-            app.cmd += app.printHighScores(leaders.leaders);
+
+            if (leaders.isEmpty) {
+                app.cmd += "None found!";
+            } else {
+                app.cmd += app.printHighScores(leaders.leaders);
+            }
 
             app.cmd += `\nPress Enter to continue.`;
 
@@ -527,13 +533,9 @@ window.states = states;
 
 async function start() {
     // Init localStorage
-    if (localStorage.getItem("clhLeaders") === null) {
-        // Create new leaders object
-        localStorage.setItem("clhLeaders", JSON.stringify([]));
-    }
+    leaderboard.init();
 
     if (localStorage.getItem("clhPlayCount") === null) {
-        // Create new leaders object
         localStorage.setItem("clhPlayCount", "0");
     }
 
@@ -744,7 +746,7 @@ async function init() {
     console.log("init complete");
 }
 
-function diriveTribe() {
+function deriveTribe() {
     let cmdCounts = [
         { tribe: "bash", count: app.count.bash },
         { tribe: "Python", count: app.count.py },
@@ -755,36 +757,6 @@ function diriveTribe() {
     const tribesSorted = _.reverse(_.sortBy(cmdCounts, "count"));
 
     return tribesSorted[0].tribe;
-}
-
-function fetchLeaders() {
-    // First get the current scores from localStorage
-    let leaders = JSON.parse(localStorage.getItem("clhLeaders"));
-    leaders = _.reverse(_.sortBy(leaders, "score"));
-
-    const hiScores = _(leaders)
-        .sortBy("score")
-        .reverse()
-        .uniqBy("name")
-        .take(10)
-        .map("score")
-        .value();
-
-    const lowestHiScore = _.min(hiScores);
-    const topHiScore = _.max(hiScores);
-
-    let isEmpty = true;
-    if (!Array.isArray(leaders) || !leaders.length) {
-        isEmpty = true;
-    }
-
-    return {
-        leaders: leaders,
-        hiScores: hiScores,
-        topHiScore: topHiScore,
-        lowestHiScore: lowestHiScore,
-        isEmpty: isEmpty
-    };
 }
 
 function getFireScaleByStage(stage) {
