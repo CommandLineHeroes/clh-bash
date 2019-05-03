@@ -1,5 +1,6 @@
 export default {
-    PARSE_URL: "http://localhost:1234/",
+    PARSE_URL: "http://localhost:1337/parse",
+    PARSE_APPID: "CLH",
     LEADERBOARD_NAMESPACE_DEFAULT: "leaderboard",
 
     GOLDEN_CMDS_COMMON_PER_LANG: 2, // Number of very common commands to include
