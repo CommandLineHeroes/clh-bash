@@ -287,6 +287,10 @@ const app = new Vue({
             return out;
         },
         printHighScores: function(leaders) {
+            if (leaders.isEmpty) {
+                return "";
+            }
+
             let out = "";
 
             // Only display the top 10 leaders
@@ -306,8 +310,10 @@ const app = new Vue({
 
             leaderContent.forEach(leader => {
                 // pad for column formatting
-                let score = leader.score.toString().padEnd(longestScoreLength);
-                let tribe = leader.tribe.padEnd(longestTribeLength);
+                let score = leader.score
+                    .toString()
+                    .padEnd(longestScoreLength + 1);
+                let tribe = leader.tribe.padEnd(longestTribeLength + 1);
 
                 out += `${score}  ${tribe}  ${leader.name}\n`;
             });

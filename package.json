@@ -16,7 +16,7 @@
     "devDependencies": {
         "browser-sync": "^2.4.0",
         "compression": "^1.7.3",
-        "prettier": "^1.15.3"
+        "prettier": "^1.17.0"
     },
     "dependencies": {
         "@tweenjs/tween.js": "^17.2.0",
