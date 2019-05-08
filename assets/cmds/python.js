@@ -56,7 +56,7 @@ export default {
         "elif",
         "if",
         "or",
-        "yeild",
+        "yield",
         "assert",
         "else",
         "import",
