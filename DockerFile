@@ -1,0 +1,5 @@
+FROM node:latest
+WORKDIR /var/tmp
+COPY . /var/tmp
+RUN npm install && npm run extract
+ENTRYPOINT ["npm", "start"]
