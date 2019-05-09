@@ -20,6 +20,17 @@ If you need to make changes to MTL/OBJ files and want to preserve them, run this
 
     npm run compress
 
+### Docker
+
+```
+$ docker build -t clh-bash .
+$ docker run --name clh-bash -d -p 3000:3000 clh-bash
+```
+
+### Docker Compose
+
+`$ docker-compose up -d`
+
 ## Leaderboard selection
 
 Bash supports multiple options for leaderboard storage.  The default is in-browser `localStorage`.  A networked leaderboard is also supported, through sending leaderboard entries to a Parse server.
