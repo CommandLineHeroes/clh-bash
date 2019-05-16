@@ -12,7 +12,11 @@ Extract the compressed MTL and OBJ files.
 
     npm run extract
     
-NOTE: The above will not work on Windows or other OSs that don't have gunzip utility on the command line path.  To work around this please run "node src\unzip.js" on the commandline.
+
+
+Extract the compressed MTL and OBJ files for Windows OS.
+
+    npm run unzip
 
 Start the dev server.
 

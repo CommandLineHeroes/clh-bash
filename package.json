@@ -8,7 +8,8 @@
         "start": "node start.js",
         "extract": "gunzip -k assets/models/*.gz",
         "compress": "gzip -fk assets/models/*.{mtl,obj}",
-        "prettier": "node ./node_modules/.bin/prettier --write src/*.js assets/cmds/*.js"
+        "prettier": "node ./node_modules/.bin/prettier --write src/*.js assets/cmds/*.js",
+        "unzip": "node src/unzip.js"
     },
     "keywords": [],
     "author": "",
