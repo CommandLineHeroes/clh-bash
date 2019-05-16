@@ -11,6 +11,8 @@ Install dependencies.
 Extract the compressed MTL and OBJ files.
 
     npm run extract
+    
+NOTE: The above will not work on Windows or other OSs that don't have gunzip utility on the command line path.  To work around this manually extract the *.gz files in assets/models/ directory, using any unzipping utility that supports gzip.  The game will not work until these files are extracted.
 
 Start the dev server.
 
