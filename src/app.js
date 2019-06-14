@@ -257,7 +257,6 @@ const app = new Vue({
             // title of first and second langs
             out += cmds.bash().name.padEnd(halfScreen);
             out += cmds.js().name + "\n";
-            out += cmds.ansible().name + "\n";
 
             // interleave commands of first and second langs
             out += _.zip(
