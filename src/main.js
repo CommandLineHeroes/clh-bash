@@ -171,6 +171,7 @@ of the following:
 - JavaScript keywords, objects, functions
 - Python keywords, objects, functions
 - HTML5 tags
+- Git commands
 
 Press Enter to continue.`;
 
@@ -380,6 +381,8 @@ Press Enter to continue.`;
             app.cmd += `PYTHON      ${app.count.py}\n`;
             app.cmd += `JAVASCRIPT  ${app.count.js}\n`;
             app.cmd += `HTML5       ${app.count.html}\n`;
+            app.cmd += `GIT         ${app.count.git}\n`;
+
 
             app.cmd += `\nPress Enter to continue.`;
 
@@ -751,7 +754,8 @@ function deriveTribe() {
         { tribe: "bash", count: app.count.bash },
         { tribe: "Python", count: app.count.py },
         { tribe: "JavaScript", count: app.count.js },
-        { tribe: "HTML", count: app.count.html }
+        { tribe: "HTML", count: app.count.html },
+        { tribe: "GIT", count: app.count.git }
     ];
 
     const tribesSorted = _.reverse(_.sortBy(cmdCounts, "count"));

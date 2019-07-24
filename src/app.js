@@ -71,6 +71,7 @@ const app = new Vue({
             bash: 0,
             html: 0,
             py: 0,
+            git: 0,
             recentValidCharacters: 0,
             totalValidCharacters: 0,
             totalValidCommands: 0
@@ -216,6 +217,8 @@ const app = new Vue({
             let pyCommon = cmds.cmdsByLang.py.commonCmds;
             let htmlAll = filterCmds(cmds.cmdsByLang.html.cmds);
             let htmlCommon = filterCmds(cmds.cmdsByLang.html.commonCmds);
+            let gitAll = filterCmds(cmds.cmdsByLang.git.cmds);
+            let gitCommon = filterCmds(cmds.cmdsByLang.git.commonCmds);
 
             let cn = config.GOLDEN_CMDS_COMMON_PER_LANG;
             let rn = config.GOLDEN_CMDS_RANDOM_PER_LANG;
@@ -232,12 +235,16 @@ const app = new Vue({
                 ),
                 html: _.sampleSize(htmlCommon, cn).concat(
                     _.sampleSize(_.xor(htmlCommon, htmlAll), rn)
+                ),
+                git: _.sampleSize(gitCommon, cn).concat(
+                    _.sampleSize(_.xor(gitCommon, gitAll), rn)
                 )
             };
             goldenCommands.all = goldenCommands.bash.concat(
                 goldenCommands.js,
                 goldenCommands.py,
-                goldenCommands.html
+                goldenCommands.html,
+                goldenCommands.git
             );
 
             return goldenCommands;
@@ -283,6 +290,14 @@ const app = new Vue({
             )
                 .map(cs => cs.join(""))
                 .join("");
+
+            out += "\n";
+
+            // title of fifth language
+            out += cmds.git().name +"\n"
+
+            // commands for fifth language
+            out += goldCmds.git.map(c => ` - ${c}\n`).join("")
 
             return out;
         },
@@ -378,6 +393,7 @@ const app = new Vue({
             this.count.bash = 0;
             this.count.html = 0;
             this.count.py = 0;
+            this.count.git = 0;
             this.count.recentValidCharacters = 0;
             this.count.totalValidCharacters = 0;
             this.count.totalValidCommands = 0;

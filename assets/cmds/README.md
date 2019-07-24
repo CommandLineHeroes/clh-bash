@@ -27,3 +27,7 @@ A few types of JS code are accepted.
 - additional [built-in properties of the global object](https://tc39.github.io/ecma262/#sec-additional-properties-of-the-global-object)
 - `async` should be added. it won't appear in the above lists because it is not a proper keyword (it's only a keyword in certain contexts but can still be used as a variable name, etc).
 - `window`, `document`, `navigator` I can't find in any spec but should be included
+
+## Git
+
+Get all core git commands from `/usr/lib/git-core/`.
