@@ -2,6 +2,22 @@
 export default {
     name: "ansible",
     commonCmds: [
+        "name",
+        "role",
+        "tasks_from",
+        "vars_from",
+        "defaults_from",
+        "handlers_from",
+        "ignore_errors",
+        "loop",
+        "loop_control",
+        "loop_with",
+        "name",
+        "register",
+        "run_once",
+        "tags",
+        "vars",
+        "when"
     ],
     cmds: [
         "ansible",
