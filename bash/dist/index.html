@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>The Command Line Heroes BASH!</title>
+        <link rel="stylesheet" href="/styles.0ad61341.css">
+    <script src="/styles.0ad61341.js"></script></head>
+    <body>
+        <canvas id="game-canvas"></canvas>
+        <img id="test-pattern" src="/clh_test_pattern.452f8032.jpg">
+        <div id="game">
+            <div v-bind:class="{ show: showTitle }" id="title-screen">
+                <img v-bind:class="{ show: showTitle }" id="clh-logo" src="/clh-logo-white.b845281f.svg">
+                <p v-bind:class="{ show: showTitle }" id="instructions">
+                    Test your command line skills.<br>
+                    You have {{parseInt(gameDuration/1000)}} seconds to type commands from:
+                </p>
+                <p v-bind:class="{ show: showTitle }" id="langs">
+                    BASH &middot; JAVASCRIPT &middot; PYTHON &middot; HTML5
+                </p>
+                <p v-bind:class="{ show: showTitle }">
+                    Set the terminal on fire.
+                </p>
+                <p v-bind:class="{ show: showTitle }" id="credits">
+                    Created by Michael Clayton, Jared Sprague, and the Command Line Heroes team @ Red Hat.  Listen to the podcast at <a target="_blank" href="https://www.redhat.com/en/command-line-heroes">redhat.com/en/command-line-heroes</a>.
+                </p>
+            </div>
+            <textarea v-model="cmd" v-on:keydown="handleKeypress" v-on:keyup="handleKeyup" v-on:paste="handlePaste" ref="cmd" spellcheck="false" type="text" name="cmd" id="cmd"></textarea>
+        </div>
+        <script src="/howler.min.fde6adbf.js"></script>
+        <script src="/three.min.f79d715e.js"></script>
+        <script src="/stats.min.4164e570.js"></script>
+        <script src="/vue.min.ee463479.js"></script>
+        <script src="/lodash.min.5ff60c52.js"></script>
+        <script src="/Tween.3a56be0a.js"></script>
+        // <script src="/OBJLoader.c114b188.js"></script>
+        // <script src="/OrbitControls.f983a049.js"></script>
+        // <script src="/TrackballControls.961115d5.js"></script>
+        // <script src="/Fire.e9fb3604.js"></script>
+        // <script src="/MTLLoaderPhysical.7c20d60e.js"></script>
+
+        <script type="module" src="/main.1e43358e.js"></script>
+    </body>
+</html>
