@@ -1,7 +1,7 @@
 import "../node_modules/three/examples/js/loaders/OBJLoader.js";
 import "../node_modules/three/examples/js/controls/OrbitControls.js";
 import "../node_modules/three/examples/js/controls/TrackballControls.js";
-import "../node_modules/three/examples/js/objects/Fire.js";
+import "./Fire.js";
 import "./MTLLoaderPhysical.js";
 import app from "./app.js";
 import tweenCamera from "./tween-camera.js";
@@ -560,6 +560,17 @@ async function init() {
     container = document.createElement("div");
     document.body.appendChild(container);
 
+    // init renderer
+    renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector("#game-canvas"),
+        antialias: true
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    container.appendChild(renderer.domElement);
+
     // scene
 
     scene = new THREE.Scene();
@@ -582,7 +593,7 @@ async function init() {
     camera.position.y = 300;
     scene.add(camera);
 
-    controls = new THREE.OrbitControls(camera);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enabled = false;
     // controls = new THREE.TrackballControls(camera);
 
@@ -725,20 +736,6 @@ async function init() {
     cyc.materials.materials.purple.metalness = 0.7;
     cyc.materials.materials.purple.roughness = 1.0;
     scene.add(cyc.object);
-
-    // init renderer
-
-    renderer = new THREE.WebGLRenderer({
-        canvas: document.querySelector("#game-canvas"),
-        antialias: true
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
-
-    container.appendChild(renderer.domElement);
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
