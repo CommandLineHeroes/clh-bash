@@ -86,9 +86,9 @@ const states = {
 
             app.showTitle = true;
 
-            //await sleep(app.typingTime(app.cmd));
+            app.cmd += "\n> ";
 
-            app.cmd += "\n";
+            await sleep(app.typingTime(app.cmd));
 
             app.onResult = async result => {
                 if (result.cmd.toLowerCase() === "play") {
