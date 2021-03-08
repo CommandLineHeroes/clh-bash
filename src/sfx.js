@@ -1,7 +1,7 @@
 const sfx = {
-    cmdGood: new Howl({ src: ["assets/sfx/cmd-good.mp3"] }),
-    cmdGold: new Howl({ src: ["assets/sfx/cmd-gold.mp3"] }),
-    cmdBad: new Howl({ src: ["assets/sfx/cmd-bad.mp3"] }),
+    cmdGood: new Howl({ src: ["assets/sfx/cmd-good.mp3"], volume: 1 }),
+    cmdGold: new Howl({ src: ["assets/sfx/cmd-gold.mp3"], volume: 1 }),
+    cmdBad: new Howl({ src: ["assets/sfx/cmd-bad.mp3"], volume: 2 }),
     keypress: new Howl({ src: ["assets/sfx/keypress.mp3"] }),
     timerRelaxed: new Howl({
         src: ["assets/sfx/timer-relaxed.mp3"],
@@ -11,12 +11,12 @@ const sfx = {
     boot: new Howl({ src: ["assets/sfx/boot.mp3"] }),
     menuMusic: new Howl({
         src: ["assets/sfx/menu-music.mp3"],
-        volume: 1,
+        volume: 0.2,
         loop: true
     }),
     play: new Howl({
         src: ["assets/sfx/play.mp3"],
-        volume: 1,
+        volume: 0.2,
         sprite: {
             golden: [0, 29648, true],
             playing: [29649, 60000 + 39456]
