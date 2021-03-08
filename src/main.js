@@ -638,7 +638,7 @@ async function init() {
     );
     // make the screen reflect a crisp image
     comp.materials.materials.screen.roughness = 0.08;
-    comp.materials.materials.purple.roughness = 0.7;
+    comp.materials.materials.screen.roughness = 0.7;
     comp.object.position.y = -300;
     comp.object.position.x = 0;
 
@@ -733,9 +733,21 @@ async function init() {
     cyc.object.position.y = 50;
     cyc.object.children[0].castShadow = true;
     cyc.object.children[0].receiveShadow = true;
-    cyc.materials.materials.purple.metalness = 0.7;
-    cyc.materials.materials.purple.roughness = 1.0;
+    cyc.materials.materials.purple.metalness = 0.4;
+    cyc.materials.materials.purple.roughness = 0.5;
+    cyc.materials.materials.purple.color.setHex(0x621b9c);
     scene.add(cyc.object);
+
+    // tweak the red and purple computer colors
+    comp.materials.materials.red.color.setHex(0x881111);
+    comp.materials.materials.red.clearcoat = 0.5
+    comp.materials.materials.red.clearcoatRoughness = 0.3;
+
+    comp.materials.materials.purple.color.setHex(0x7d2cd0);
+    comp.materials.materials.purple.metalness = 0.4;
+    comp.materials.materials.purple.roughness = 0.5;
+    comp.materials.materials.purple.clearcoat = 0.5;
+    comp.materials.materials.purple.clearcoatRoughness = 0.3;
 
     document.addEventListener("mousemove", onDocumentMouseMove, false);
 
