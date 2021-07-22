@@ -26,6 +26,16 @@ If you need to make changes to MTL/OBJ files and want to preserve them, run this
 
     npm run compress
 
+## Docker
+
+If you don't have npm stuff installed but you want to play the game, you can run the project on a Docker container.
+
+Run in this directory:
+
+    docker-compose up
+
+You can then play the game at http://localhost:3000, and the Browsersync UI will be at http://localhost:3001.
+
 ## Leaderboard selection
 
 Bash supports multiple options for leaderboard storage.  The default is in-browser `localStorage`.  A networked leaderboard is also supported, through sending leaderboard entries to a Parse server.
